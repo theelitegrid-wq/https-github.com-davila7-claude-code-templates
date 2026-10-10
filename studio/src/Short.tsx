@@ -62,7 +62,7 @@ const SceneShell: React.FC<{scene: Scene; index: number}> = ({scene, index}) => 
   const frame = useCurrentFrame();
   const {width, height} = useVideoConfig();
   // Punch-in cut + flash: the fast-cut feel of big shorts channels.
-  const punch = interpolate(frame, [0, 8], [1.12, 1], {extrapolateRight: 'clamp'});
+  const punch = interpolate(frame, [0, 8], [1.05, 1], {extrapolateRight: 'clamp'});
   const flash = index === 0 ? 0 : interpolate(frame, [0, 5], [0.55, 0], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill>

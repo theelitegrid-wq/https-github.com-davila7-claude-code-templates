@@ -134,10 +134,10 @@ const Blob: React.FC<SceneProps> = ({color, accent, t, seed}) => {
     attr.needsUpdate = true;
     geo.computeVertexNormals();
   });
-  const z = ease(t, 0, 6, 6.6, 4.9);
+  const z = ease(t, 0, 6, 8.6, 7.4);
   return (
     <>
-      <Backdrop color={color} fog={[4, 14]} />
+      <Backdrop color={color} fog={[6, 18]} />
       <Rig pos={[Math.sin(t * 0.3) * 0.8, 0.25 + Math.sin(t * 0.5) * 0.15, z]} />
       <ambientLight intensity={0.25} />
       <directionalLight position={[3, 4, 5]} intensity={2.6} />
@@ -247,7 +247,7 @@ const Planet: React.FC<SceneProps> = ({color, accent, t, seed}) => {
     g.setAttribute('position', new THREE.BufferAttribute(p, 3));
     return g;
   }, [seed]);
-  const z = ease(t, 0, 6, 7.4, 4.6);
+  const z = ease(t, 0, 6, 9.5, 7.8);
   return (
     <>
       <color attach="background" args={['#020308']} />
@@ -281,7 +281,7 @@ const Shatter: React.FC<SceneProps> = ({color, accent, t, dur, seed}) => {
   const dt = Math.max(0, t - t0);
   const charge = Math.min(1, t / t0);
   const shake = t > t0 ? 0.12 * Math.exp(-dt * 4) : 0.01 * charge;
-  const z = 6.4 + dt * 0.6;
+  const z = 8.4 + dt * 0.6;
   return (
     <>
       <Backdrop color={color} fog={[5, 18]} />
@@ -366,10 +366,10 @@ const Virus: React.FC<SceneProps> = ({color, accent, t, seed}) => {
       })),
     [seed],
   );
-  const z = ease(t, 0, 6, 6.2, 4.6);
+  const z = ease(t, 0, 6, 8.4, 7.2);
   return (
     <>
-      <Backdrop color={color} fog={[3, 15]} />
+      <Backdrop color={color} fog={[5, 18]} />
       <Rig pos={[Math.sin(t * 0.4) * 0.6, 0.2, z]} />
       <ambientLight intensity={0.25} />
       <directionalLight position={[3, 4, 5]} intensity={2.4} />
@@ -425,7 +425,7 @@ const Body: React.FC<SceneProps> = ({color, accent, t, dur, focus, seed}) => {
   const beat = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * 1.2)), 8);
   const k = ease(t, 0, Math.max(2, dur), 0, 1);
   const angle = -0.6 + t * 0.22;
-  const radius = 4.6 - 1.4 * k;
+  const radius = 5.6 - 0.8 * k;
   const look: V3 = [f.p[0] * k * 0.6, 0.55 + (f.p[1] - 0.55) * k * 0.6, 0];
   const scanY = -1.25 + ((t * 0.7) % 1) * 3.2;
   return (
@@ -512,9 +512,9 @@ const ORGANS: Record<string, [string, V3, number]> = {
 
 // Camera framings relative to the character's face height (y) so any model is framed right.
 const SHOTS: Record<string, (face: number) => {pos: V3; look: V3}> = {
-  full: (y) => ({pos: [0, y * 0.62, 4.0], look: [0, y * 0.55, 0]}),
-  medium: (y) => ({pos: [0, y - 0.02, 1.9], look: [0, y - 0.2, 0]}),
-  close: (y) => ({pos: [0, y + 0.02, 0.8], look: [0, y, 0]}),
+  full: (y) => ({pos: [0, y * 0.6, 5.4], look: [0, y * 0.52, 0]}),
+  medium: (y) => ({pos: [0, y - 0.1, 3.2], look: [0, y - 0.38, 0]}),
+  close: (y) => ({pos: [0, y - 0.05, 1.8], look: [0, y - 0.15, 0]}),
 };
 
 const shadowTexture = (() => {
@@ -584,7 +584,7 @@ const Person: React.FC<PersonProps> = ({color, accent, t, dur, focus, pose = 'id
     return v.y + 0.08;
   }, [person]);
   const s = (SHOTS[shot] ?? SHOTS.medium)(faceY);
-  const push = ease(t, 0, Math.max(2, dur), 1, 0.88);
+  const push = ease(t, 0, Math.max(2, dur), 1, 0.95);
   const orbit = -0.25 + t * 0.06;
   const dist = Math.hypot(s.pos[0], s.pos[2]) * push;
   const beat = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * 1.2)), 8);
