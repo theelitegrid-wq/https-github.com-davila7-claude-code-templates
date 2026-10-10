@@ -1,0 +1,17 @@
+# One niche, done consistently, is what grows a channel. Change these to yours.
+niche: "Mind-blowing history facts most people never learned in school"
+audience: "curious 18-35 year olds who love surprising stories"
+language: en-US
+voice: en-US-JennyNeural-Female   # free Microsoft Edge TTS voice
+aspect: "9:16"                    # 9:16 = YouTube Shorts (fastest growth for new channels); 16:9 = long-form
+paragraphs: 2                     # ~40-55s short
+style_rules: >
+  Open with a hook in the first sentence that creates curiosity.
+  Use one surprising, verifiable fact as the core. No filler, no "in this video".
+  End with a question that invites comments.
+
+# private = uploaded but only you can see it (review, then publish).
+# public  = goes live immediately. Start private for the first week, then switch.
+privacy: private
+category_id: "27"   # 27 = Education. 24 = Entertainment, 28 = Science & Tech
+made_with_ai_disclosure: true
