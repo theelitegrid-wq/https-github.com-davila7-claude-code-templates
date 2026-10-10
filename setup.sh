@@ -32,4 +32,16 @@ if [[ "${SKIP_PYTHON:-0}" != 1 ]]; then
   (cd vendor/MoneyPrinterTurbo && uv sync --quiet)
   uv pip install --quiet --python vendor/MoneyPrinterTurbo/.venv google-api-python-client google-auth google-genai pyyaml requests
 fi
+if [[ "${SKIP_STUDIO:-0}" != 1 ]]; then
+  echo "==> Free 3D studio (Remotion + three.js) and Kokoro voice"
+  (cd studio && npm ci --no-audit --no-fund)
+  mkdir -p studio/models
+  KOKORO=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0
+  for f in kokoro-v1.0.int8.onnx voices-v1.0.bin; do
+    [[ -s studio/models/$f ]] || curl -sSLf -o studio/models/$f "$KOKORO/$f"
+  done
+  command -v uv >/dev/null || pip install --quiet uv
+  [[ -d studio/.venv ]] || uv venv -q studio/.venv --python 3.11
+  uv pip install --quiet --python studio/.venv kokoro-onnx==0.6.1 soundfile numpy
+fi
 echo "Done. Edit automation/channel.yaml, then: python automation/daily.py"

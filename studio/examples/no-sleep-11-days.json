@@ -1,0 +1,22 @@
+{
+  "title": "What 11 Days Without Sleep Does to Your Body 😵",
+  "description": "In 1964, 17-year-old Randy Gardner stayed awake for 11 days and 25 minutes. Here's what happened to his brain and body. #shorts #science #sleep #humanbody #facts",
+  "tags": ["sleep deprivation", "randy gardner", "what happens if", "human body", "brain", "science facts", "shorts"],
+  "audio": null,
+  "scenes": [
+    {"narration": "In 1964, a seventeen year old stayed awake for eleven days straight. Here's what happened to his body.",
+     "type": "body", "focus": "brain", "color": "#4cc9f0", "accent": "#ff3b5c", "callout": "11 DAYS"},
+    {"narration": "After just twenty four hours, your reactions are as impaired as someone over the legal drinking limit.",
+     "type": "tunnel", "color": "#7a0c1c", "accent": "#ff4d5e", "callout": "24 HOURS"},
+    {"narration": "Then your brain starts forcing microsleeps, switching off for seconds without you even noticing.",
+     "type": "blob", "color": "#7b2cbf", "accent": "#c77dff"},
+    {"narration": "Your immune system weakens, and germs you would normally crush start winning.",
+     "type": "virus", "color": "#2a9d8f", "accent": "#e9c46a"},
+    {"narration": "By day four, he was hallucinating. He thought a street sign was a person.",
+     "type": "shatter", "color": "#adb5bd", "accent": "#ff9f1c", "callout": "DAY 4"},
+    {"narration": "When he finally slept, he crashed for fourteen hours, and his brain recovered.",
+     "type": "body", "focus": "brain", "color": "#3a86ff", "accent": "#80ffdb"},
+    {"narration": "Guinness stopped tracking this record because it's too dangerous. Would you last three days?",
+     "type": "planet", "color": "#1d6fa3", "accent": "#3fbf6f"}
+  ]
+}

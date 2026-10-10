@@ -1,8 +1,9 @@
 """Daily pipeline: pick a fresh topic -> write script -> make visuals -> render with MoneyPrinterTurbo -> upload.
 
 Writer: Claude (CLAUDE_CODE_OAUTH_TOKEN, your Claude subscription) or Gemini free tier (GEMINI_API_KEY).
-Visuals: "veo" = 3D-animated scenes from Google Veo (paid), "stock" = Pexels footage (PEXELS_API_KEY, free).
-Voice: Edge TTS (free). Upload: YouTube Data API (free).
+Visuals: "studio" = free 3D animation rendered by studio/ (Remotion + three.js, Kokoro voice),
+         "veo" = AI-generated scenes from Google Veo (paid), "stock" = Pexels footage (free).
+Upload: YouTube Data API (free).
 """
 import json
 import os
@@ -19,6 +20,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 HERE = ROOT / "automation"
 ENGINE = ROOT / "vendor" / "MoneyPrinterTurbo"
+STUDIO = ROOT / "studio"
 HISTORY = HERE / "history.json"
 
 PROMPT = """You run a fast-growing YouTube channel.
@@ -41,6 +43,20 @@ Return ONLY a JSON object with these keys:
      Each "visual" is a self-contained shot description for an AI video model: subject, action,
      camera move, setting. Show, don't tell: cutaways, cross-sections, macro close-ups, dramatic
      "what happens if" moments. Never ask for on-screen text. Keep the same characters/objects consistent.
+     Each scene also has:
+       "type": the 3D scene that best fits, one of
+          "body"    x-ray human with one glowing organ (anything happening inside the body),
+          "tunnel"  flying through a blood vessel / throat / gut / cave / pipe,
+          "blob"    a glossy pulsing organic object (organ, brain, cell, creature, food),
+          "planet"  a planet in space (Earth, space, climate, global scale),
+          "shatter" something exploding into pieces (shock, collapse, impact, a twist),
+          "virus"   spiky germs floating (infection, bacteria, disease, immune system);
+          vary the types, never the same type twice in a row,
+       "focus": for "body" only, one of brain, head, eyes, heart, lungs, chest, stomach, liver, gut,
+          kidneys, bones, legs, skin, blood,
+       "color" and "accent": hex colors that fit the subject (accent is the glow/highlight),
+       "callout": optional big on-screen number or time stamp (max 12 chars, e.g. "72 HOURS", "DAY 4");
+          use it on 2-3 scenes only.
   "search_terms": list of 6-8 short English stock-footage search phrases that match the script visually
 """
 
@@ -115,6 +131,26 @@ def render(cfg, plan, clips=None):
     return video if video.is_absolute() else ENGINE / video
 
 
+def render_studio(cfg, plan):
+    """Free 3D animation: Kokoro voice + Remotion/three.js scenes, all on CPU."""
+    out = STUDIO / "out"
+    out.mkdir(exist_ok=True)
+    plan_in = out / "plan_in.json"
+    plan_in.write_text(json.dumps({**plan, "audio": None}, ensure_ascii=False), encoding="utf-8")
+    subprocess.run(
+        [str(STUDIO / ".venv" / "bin" / "python"), "voice.py", str(plan_in),
+         "--voice", cfg.get("studio_voice", "am_michael"), "--speed", str(cfg.get("studio_speed", 1.1))],
+        cwd=STUDIO, check=True,
+    )
+    video = out / "final.mp4"
+    cmd = ["npx", "remotion", "render", "src/index.ts", "Short", str(video),
+           "--props=public/plan.json", "--concurrency=" + str(os.cpu_count() or 2), "--log=error"]
+    if os.environ.get("REMOTION_BROWSER"):
+        cmd.append("--browser-executable=" + os.environ["REMOTION_BROWSER"])
+    subprocess.run(cmd, cwd=STUDIO, check=True)
+    return video
+
+
 def main():
     cfg = yaml.safe_load((HERE / "channel.yaml").read_text(encoding="utf-8"))
     history = json.loads(HISTORY.read_text()) if HISTORY.exists() else []
@@ -124,6 +160,10 @@ def main():
         **{k: cfg[k] for k in ("niche", "audience", "language", "style_rules", "scenes")},
     ))
     print(f"Topic: {plan['topic']}\nTitle: {plan['title']}", flush=True)
+
+    if cfg.get("visuals", "studio") == "studio":
+        video = render_studio(cfg, plan)
+        return publish(cfg, plan, video, history)
 
     clips = None
     if cfg.get("visuals") == "veo":
@@ -135,8 +175,11 @@ def main():
         )
     write_engine_config()
     video = render(cfg, plan, clips)
-    print(f"Rendered: {video}", flush=True)
+    publish(cfg, plan, video, history)
 
+
+def publish(cfg, plan, video, history):
+    print(f"Rendered: {video}", flush=True)
     entry = {"date": date.today().isoformat(), "title": plan["title"], "topic": plan["topic"]}
     if os.environ.get("DRY_RUN") == "1":
         print("DRY_RUN=1: skipping upload")

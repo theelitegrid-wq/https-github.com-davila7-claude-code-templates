@@ -1,15 +1,24 @@
 # AI YouTube Channel Autopilot
 
-Picks a fresh topic in your niche every day, writes a scene-by-scene script, generates
-3D-animated scenes with Google Veo (the model behind Google Flow), adds voiceover, captions and
-music, uploads to YouTube, and remembers what it posted so it never repeats.
+Picks a fresh topic in your niche every day, writes a scene-by-scene script, renders a
+3D-animated short with voiceover and word-by-word captions, uploads it to YouTube, and
+remembers what it posted so it never repeats. **Everything in the default setup is free.**
 
-Default style: fast, 3D-animated "what happens if..." shorts. Set `visuals: stock` in
-`automation/channel.yaml` for a fully free version with Pexels stock footage instead.
+Default style: fast-cut, 3D-animated "what happens if..." shorts, rendered by `studio/`
+(Remotion + three.js on CPU, no GPU or paid API) with the open-source Kokoro voice.
+Example: `studio/examples/no-sleep-11-days.json`.
+
+| `visuals:` in `automation/channel.yaml` | Look | Cost |
+|---|---|---|
+| `studio` (default) | 3D animated scenes: x-ray body, blood-vessel fly-through, organs, planets, explosions, viruses | free |
+| `stock` | Pexels stock footage | free |
+| `veo` | AI-generated cinematic scenes from Google Veo | paid per second |
 
 | Part | Source | Cost |
 |---|---|---|
-| 3D-animated scenes | Google Veo 3.1 via Gemini API (`automation/veo.py`) | **paid per second**, no free API tier |
+| Free 3D animation | `studio/` (Remotion + three.js, this repo) | free |
+| Voice for studio | [Kokoro](https://github.com/thewh1teagle/kokoro-onnx) (open source, runs offline) | free |
+| Optional AI scenes | Google Veo 3.1 via Gemini API (`automation/veo.py`) | **paid per second**, no free API tier |
 | Daily video engine | [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) (MIT) | free |
 | Premium/custom videos in Claude Code | [digitalsamba/claude-code-video-toolkit](https://github.com/digitalsamba/claude-code-video-toolkit) (MIT) | free core, AI clips ~cents |
 | Claude skills: Remotion (12), ffmpeg, frontend-design | [remotion-dev/skills](https://github.com/remotion-dev/skills) (official) + toolkit | free |
@@ -20,7 +29,7 @@ Default style: fast, 3D-animated "what happens if..." shorts. Set `visuals: stoc
 
 ## Setup (about 20 minutes, once)
 
-1. **Pexels key** (only needed for `visuals: stock`) – https://www.pexels.com/api/ → copy the key.
+1. **Pexels key** – only for `visuals: stock`; skip it otherwise. https://www.pexels.com/api/
 2. **Script writer**, pick one:
    - Claude subscription: on your computer run `claude setup-token` and copy the token, or
    - Gemini (free): https://aistudio.google.com/app/apikey
@@ -48,7 +57,14 @@ Default style: fast, 3D-animated "what happens if..." shorts. Set `visuals: stoc
 bash setup.sh                       # installs skills into .claude/skills and engines into vendor/
 export PEXELS_API_KEY=... GEMINI_API_KEY=...   # plus YT_* to upload
 DRY_RUN=1 vendor/MoneyPrinterTurbo/.venv/bin/python automation/daily.py
+
+# render a hand-written plan (no API keys at all)
+cd studio && .venv/bin/python voice.py examples/no-sleep-11-days.json \
+  && npx remotion render src/index.ts Short out/test.mp4 --props=public/plan.json
 ```
+
+Preview and tweak the 3D scenes live with `cd studio && npm run studio`. Scene types live in
+`studio/src/scenes.tsx`; add your own and list them in the prompt in `automation/daily.py`.
 
 For flagship long-form videos, open Claude Code in this repo and use `/remotion-create` (or open
 `vendor/claude-code-video-toolkit` and use `/video`).

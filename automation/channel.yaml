@@ -2,19 +2,22 @@
 niche: "3D animated 'what happens if' shorts about the human body, survival and weird science"
 audience: "curious 13-35 year olds who love jaw-dropping, slightly gross, satisfying explainers"
 language: en-US
-voice: en-US-JennyNeural-Female   # free Microsoft Edge TTS voice
+voice: en-US-JennyNeural-Female   # Edge TTS voice, used by visuals: veo / stock
+studio_voice: am_michael          # Kokoro voice for visuals: studio (am_adam, am_onyx, af_heart, bm_george, ...)
+studio_speed: 1.1
 aspect: "9:16"                    # 9:16 = YouTube Shorts (fastest growth for new channels); 16:9 = long-form
-scenes: 6                         # 6 scenes x 8s ~= 45s short
+scenes: 7                         # ~5-6s per scene ~= 40s short
 style_rules: >
   First sentence is a hook that creates instant curiosity ("This is what happens if you...").
   Escalate step by step, each scene a more surprising consequence. One idea, no filler,
   never say "in this video". Facts must be scientifically accurate.
   Last line is a twist or a question that invites comments.
 
-# visuals: veo   = 3D-animated scenes from Google Veo (the model behind Google Flow). Paid per second
+# visuals: studio = FREE 3D animation rendered on CPU (Remotion + three.js + Kokoro voice). Default.
+# visuals: veo   = AI-generated scenes from Google Veo (the model behind Google Flow). Paid per second
 #                  of video: needs GEMINI_API_KEY on a Google Cloud project with billing enabled.
 # visuals: stock = free Pexels stock footage (PEXELS_API_KEY).
-visuals: veo
+visuals: studio
 veo_model: veo-3.1-fast-generate-preview   # cheaper/faster; falls back to veo-3.1-generate-preview
 veo_seconds: 8
 veo_style: >
