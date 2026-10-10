@@ -30,6 +30,6 @@ if [[ "${SKIP_PYTHON:-0}" != 1 ]]; then
   echo "==> Python deps for MoneyPrinterTurbo (needs uv + ffmpeg)"
   command -v uv >/dev/null || pip install --quiet uv
   (cd vendor/MoneyPrinterTurbo && uv sync --quiet)
-  uv pip install --quiet --python vendor/MoneyPrinterTurbo/.venv google-api-python-client google-auth pyyaml requests
+  uv pip install --quiet --python vendor/MoneyPrinterTurbo/.venv google-api-python-client google-auth google-genai pyyaml requests
 fi
 echo "Done. Edit automation/channel.yaml, then: python automation/daily.py"

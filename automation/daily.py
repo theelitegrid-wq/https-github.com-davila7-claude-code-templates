@@ -1,7 +1,8 @@
-"""Daily pipeline: pick a fresh topic -> write script -> render with MoneyPrinterTurbo -> upload to YouTube.
+"""Daily pipeline: pick a fresh topic -> write script -> make visuals -> render with MoneyPrinterTurbo -> upload.
 
 Writer: Claude (CLAUDE_CODE_OAUTH_TOKEN, your Claude subscription) or Gemini free tier (GEMINI_API_KEY).
-Footage: Pexels (PEXELS_API_KEY, free). Voice: Edge TTS (free). Upload: YouTube Data API (free).
+Visuals: "veo" = 3D-animated scenes from Google Veo (paid), "stock" = Pexels footage (PEXELS_API_KEY, free).
+Voice: Edge TTS (free). Upload: YouTube Data API (free).
 """
 import json
 import os
@@ -35,7 +36,11 @@ Return ONLY a JSON object with these keys:
   "title": YouTube title under 70 chars, curiosity-driven, no clickbait lies, may include 1 emoji,
   "description": 2-3 sentence description followed by 3-5 relevant hashtags including #shorts if vertical,
   "tags": list of 10-15 search tags,
-  "script": the voiceover, {paragraphs} short paragraphs, spoken style, facts must be accurate,
+  "scenes": list of {scenes} objects, each {{"narration": one or two spoken sentences, "visual": one shot}}.
+     Narration across scenes forms the whole voiceover; the first scene is the hook. Facts must be accurate.
+     Each "visual" is a self-contained shot description for an AI video model: subject, action,
+     camera move, setting. Show, don't tell: cutaways, cross-sections, macro close-ups, dramatic
+     "what happens if" moments. Never ask for on-screen text. Keep the same characters/objects consistent.
   "search_terms": list of 6-8 short English stock-footage search phrases that match the script visually
 """
 
@@ -66,24 +71,37 @@ def ask_llm(prompt):
 
 
 def write_engine_config():
-    """MoneyPrinterTurbo only needs footage keys here: the script comes from us."""
+    """MoneyPrinterTurbo only needs footage keys here: the script and Veo clips come from us."""
     text = (ENGINE / "config.example.toml").read_text(encoding="utf-8")
-    keys = json.dumps([k.strip() for k in os.environ["PEXELS_API_KEY"].split(",")])
+    keys = json.dumps([k.strip() for k in os.environ.get("PEXELS_API_KEY", "").split(",") if k.strip()])
     text = re.sub(r"(?m)^pexels_api_keys\s*=.*$", f"pexels_api_keys = {keys}", text, count=1)
     (ENGINE / "config.toml").write_text(text, encoding="utf-8")
 
 
-def render(cfg, plan):
+def render(cfg, plan, clips=None):
+    script = " ".join(scene["narration"] for scene in plan["scenes"])
+    if clips:
+        visuals = [
+            "--video-source", "local",
+            "--video-materials", ",".join(str(c) for c in clips),
+            "--video-concat-mode", "sequential",
+            "--video-clip-duration", str(cfg.get("veo_seconds", 8)),
+            "--video-transition-mode", "none",
+        ]
+    else:
+        visuals = [
+            "--video-source", "pexels",
+            "--video-terms", ",".join(plan["search_terms"]),
+            "--video-concat-mode", "random",
+            "--video-transition-mode", "fade-in",
+        ]
     cmd = [
         sys.executable, "cli.py",
-        "--video-script", plan["script"],
-        "--video-terms", ",".join(plan["search_terms"]),
+        "--video-script", script,
         "--video-language", cfg["language"],
         "--video-aspect", cfg["aspect"],
         "--voice-name", cfg["voice"],
-        "--video-source", "pexels",
-        "--video-concat-mode", "random",
-        "--video-transition-mode", "fade-in",
+        *visuals,
         "--subtitle-enabled",
         "--subtitle-position", "two_thirds_bottom",
         "--video-count", "1",
@@ -103,12 +121,20 @@ def main():
 
     plan = ask_llm(PROMPT.format(
         past="\n".join(f"- {h['title']}" for h in history[-200:]) or "(none yet)",
-        **{k: cfg[k] for k in ("niche", "audience", "language", "style_rules", "paragraphs")},
+        **{k: cfg[k] for k in ("niche", "audience", "language", "style_rules", "scenes")},
     ))
     print(f"Topic: {plan['topic']}\nTitle: {plan['title']}", flush=True)
 
+    clips = None
+    if cfg.get("visuals") == "veo":
+        from veo import scene_clips
+        clips = scene_clips(
+            plan["scenes"], cfg["veo_style"], ENGINE / "storage" / "veo" / date.today().isoformat(),
+            aspect=cfg["aspect"], seconds=cfg.get("veo_seconds", 8),
+            model=cfg.get("veo_model"), negative=cfg.get("veo_negative", ""),
+        )
     write_engine_config()
-    video = render(cfg, plan)
+    video = render(cfg, plan, clips)
     print(f"Rendered: {video}", flush=True)
 
     entry = {"date": date.today().isoformat(), "title": plan["title"], "topic": plan["topic"]}

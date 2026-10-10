@@ -1,14 +1,27 @@
 # One niche, done consistently, is what grows a channel. Change these to yours.
-niche: "Mind-blowing history facts most people never learned in school"
-audience: "curious 18-35 year olds who love surprising stories"
+niche: "3D animated 'what happens if' shorts about the human body, survival and weird science"
+audience: "curious 13-35 year olds who love jaw-dropping, slightly gross, satisfying explainers"
 language: en-US
 voice: en-US-JennyNeural-Female   # free Microsoft Edge TTS voice
 aspect: "9:16"                    # 9:16 = YouTube Shorts (fastest growth for new channels); 16:9 = long-form
-paragraphs: 2                     # ~40-55s short
+scenes: 6                         # 6 scenes x 8s ~= 45s short
 style_rules: >
-  Open with a hook in the first sentence that creates curiosity.
-  Use one surprising, verifiable fact as the core. No filler, no "in this video".
-  End with a question that invites comments.
+  First sentence is a hook that creates instant curiosity ("This is what happens if you...").
+  Escalate step by step, each scene a more surprising consequence. One idea, no filler,
+  never say "in this video". Facts must be scientifically accurate.
+  Last line is a twist or a question that invites comments.
+
+# visuals: veo   = 3D-animated scenes from Google Veo (the model behind Google Flow). Paid per second
+#                  of video: needs GEMINI_API_KEY on a Google Cloud project with billing enabled.
+# visuals: stock = free Pexels stock footage (PEXELS_API_KEY).
+visuals: veo
+veo_model: veo-3.1-fast-generate-preview   # cheaper/faster; falls back to veo-3.1-generate-preview
+veo_seconds: 8
+veo_style: >
+  Hyper-detailed 3D CGI animation, polished stylized realism like premium animated explainer shorts,
+  cinematic lighting, shallow depth of field, smooth dynamic camera move, vivid colors,
+  clean uncluttered background, vertical 9:16 framing, no text, no subtitles, no watermark
+veo_negative: "text, captions, subtitles, watermark, logo, blurry, low quality, distorted anatomy"
 
 # private = uploaded but only you can see it (review, then publish).
 # public  = goes live immediately. Start private for the first week, then switch.
