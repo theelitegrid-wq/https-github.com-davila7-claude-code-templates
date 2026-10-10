@@ -10,7 +10,7 @@ Example: `studio/examples/no-sleep-11-days.json`.
 
 | `visuals:` in `automation/channel.yaml` | Look | Cost |
 |---|---|---|
-| `studio` (default) | 3D animated scenes: x-ray body, blood-vessel fly-through, organs, planets, explosions, viruses | free |
+| `studio` (default) | 3D animated: a realistic person reacting, plus x-ray body, blood-vessel fly-through, organs, planets, explosions, viruses | free |
 | `stock` | Pexels stock footage | free |
 | `veo` | AI-generated cinematic scenes from Google Veo | paid per second |
 
@@ -62,6 +62,18 @@ DRY_RUN=1 vendor/MoneyPrinterTurbo/.venv/bin/python automation/daily.py
 cd studio && .venv/bin/python voice.py examples/no-sleep-11-days.json \
   && npx remotion render src/index.ts Short out/test.mp4 --props=public/plan.json
 ```
+
+### Change the person
+
+The default character is Michelle (a Mixamo character from the three.js examples). To use any
+other person, e.g. a regular guy in a hoodie:
+
+1. Sign in free at https://www.mixamo.com → Characters → pick one → Download → FBX, "T-pose".
+2. Convert to glb: `npx fbx2gltf -i character.fbx -o person.glb` (or Blender: import FBX, export glTF).
+3. Save it as `studio/public/models/person.glb`. Animations are retargeted automatically
+   (`studio/src/retarget.ts`), so any Mixamo character works.
+
+Mixamo characters and animations are free for commercial videos; just don't share the raw model files.
 
 Preview and tweak the 3D scenes live with `cd studio && npm run studio`. Scene types live in
 `studio/src/scenes.tsx`; add your own and list them in the prompt in `automation/daily.py`.

@@ -35,25 +35,32 @@ Titles already published (never repeat or closely rephrase these topics):
 Pick ONE new topic with high click potential that big channels in this niche would make, then write it.
 Return ONLY a JSON object with these keys:
   "topic": short topic name,
-  "title": YouTube title under 70 chars, curiosity-driven, no clickbait lies, may include 1 emoji,
+  "title": YouTube title under 70 chars, phrased as the same "What if..." question as the hook, may include 1 emoji,
   "description": 2-3 sentence description followed by 3-5 relevant hashtags including #shorts if vertical,
   "tags": list of 10-15 search tags,
-  "scenes": list of {scenes} objects, each {{"narration": one or two spoken sentences, "visual": one shot}}.
-     Narration across scenes forms the whole voiceover; the first scene is the hook. Facts must be accurate.
+  "scenes": list of {scenes} objects, each {{"narration": one short spoken sentence, "visual": one shot}}.
+     Narration across scenes forms the whole voiceover. Facts must be accurate.
+     HOOK: scene 1 narration is ONLY a short "What if you...?" question, max 10 words
+     (e.g. "What if you don't sleep for 11 days?"). Scene 2 answers immediately; no intro, no filler.
+     Keep every narration short: one sentence, max 16 words.
      Each "visual" is a self-contained shot description for an AI video model: subject, action,
      camera move, setting. Show, don't tell: cutaways, cross-sections, macro close-ups, dramatic
      "what happens if" moments. Never ask for on-screen text. Keep the same characters/objects consistent.
      Each scene also has:
        "type": the 3D scene that best fits, one of
-          "body"    x-ray human with one glowing organ (anything happening inside the body),
+          "person"  a realistic everyday person reacting (use for the hook, the human moments and
+                    the ending; about half the scenes), optionally with a glowing organ (focus),
+          "body"    x-ray human with one glowing organ (inside-the-body cutaways),
           "tunnel"  flying through a blood vessel / throat / gut / cave / pipe,
           "blob"    a glossy pulsing organic object (organ, brain, cell, creature, food),
           "planet"  a planet in space (Earth, space, climate, global scale),
           "shatter" something exploding into pieces (shock, collapse, impact, a twist),
           "virus"   spiky germs floating (infection, bacteria, disease, immune system);
           vary the types, never the same type twice in a row,
-       "focus": for "body" only, one of brain, head, eyes, heart, lungs, chest, stomach, liver, gut,
-          kidneys, bones, legs, skin, blood,
+       "focus": for "person" or "body", one of brain, head, eyes, heart, lungs, chest, stomach, liver,
+          gut, kidneys, bones, legs, skin, blood (omit when nothing glows),
+       "pose", "shot", "face": for "person" only. pose: idle, tired, sad, no, yes, sneak, walk, run.
+          shot: full, medium, close. face: neutral, smile, shocked, scared. Vary shots between scenes.
        "color" and "accent": hex colors that fit the subject (accent is the glow/highlight),
        "callout": optional big on-screen number or time stamp (max 12 chars, e.g. "72 HOURS", "DAY 4");
           use it on 2-3 scenes only.

@@ -7,6 +7,7 @@ cd "$(dirname "$0")"
 REMOTION_SKILLS_SHA=32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5      # remotion-dev/skills (official)
 VIDEO_TOOLKIT_SHA=4e7b296625e1ec3c4dc8bfac6bc0bdcbaef60962        # digitalsamba/claude-code-video-toolkit (MIT)
 MONEYPRINTER_SHA=4204d0f39afa8ada6f3edc31604141f959fe254e         # harry0703/MoneyPrinterTurbo (MIT)
+THREEJS_SHA=11738a9d55e502fb484cefffcea3a66dc44e9fe9               # mrdoob/three.js: Mixamo character + motions
 
 fetch() { # repo sha dest
   rm -rf "$3"; mkdir -p "$3"
@@ -41,6 +42,15 @@ if [[ "${SKIP_STUDIO:-0}" != 1 ]]; then
     [[ -s studio/models/$f ]] || curl -sSLf -o studio/models/$f "$KOKORO/$f"
   done
   command -v uv >/dev/null || pip install --quiet uv
+  if [[ ! -s studio/public/models/person.glb || ! -s studio/public/models/Xbot.glb ]]; then
+    git init -q "$TMP/three"
+    git -C "$TMP/three" sparse-checkout set --no-cone examples/models/gltf/Michelle.glb examples/models/gltf/Xbot.glb
+    git -C "$TMP/three" fetch -q --depth 1 --filter=blob:none https://github.com/mrdoob/three.js "$THREEJS_SHA"
+    git -C "$TMP/three" checkout -q FETCH_HEAD
+    mkdir -p studio/public/models
+    [[ -s studio/public/models/person.glb ]] || cp "$TMP/three/examples/models/gltf/Michelle.glb" studio/public/models/person.glb
+    cp "$TMP/three/examples/models/gltf/Xbot.glb" studio/public/models/Xbot.glb
+  fi
   [[ -d studio/.venv ]] || uv venv -q studio/.venv --python 3.11
   uv pip install --quiet --python studio/.venv kokoro-onnx==0.6.1 soundfile numpy
 fi

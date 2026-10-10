@@ -3,14 +3,17 @@
 import * as THREE from 'three';
 import {useLayoutEffect, useMemo, useRef} from 'react';
 import {useThree} from '@react-three/fiber';
-import {interpolate, random, useCurrentFrame, useVideoConfig, Easing} from 'remotion';
+import {useGLTF} from '@react-three/drei';
+import {interpolate, random, staticFile, useCurrentFrame, useVideoConfig, Easing} from 'remotion';
 import {mergeVertices} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import {clone as cloneSkinned} from 'three/examples/jsm/utils/SkeletonUtils.js';
+import {retarget} from './retarget';
 import type {Scene} from './Short';
 
 type V3 = [number, number, number];
 type SceneProps = {color: string; accent: string; t: number; dur: number; seed: string; focus?: string};
 
-export const SCENE_TYPES = ['body', 'tunnel', 'blob', 'planet', 'shatter', 'virus'] as const;
+export const SCENE_TYPES = ['person', 'body', 'tunnel', 'blob', 'planet', 'shatter', 'virus'] as const;
 
 const ease = (t: number, a: number, b: number, from: number, to: number) =>
   interpolate(t, [a, b], [from, to], {
@@ -462,7 +465,173 @@ const Body: React.FC<SceneProps> = ({color, accent, t, dur, focus, seed}) => {
   );
 };
 
-const COMPONENTS: Record<string, React.FC<SceneProps>> = {
+// ---------- person: a realistic everyday person (Mixamo character + Mixamo motion) ----------
+// Models are downloaded by setup.sh into public/models (not committed: third-party assets).
+// Default person.glb is Michelle from the three.js examples (a Mixamo character).
+// Any Mixamo character works (download from mixamo.com as FBX, convert to .glb, save as person.glb).
+const PERSON_URL = staticFile('models/person.glb');
+const MOTION_URL = staticFile('models/Xbot.glb');
+
+// pose -> [looping base clip, optional additive pose layered on top]
+const POSES: Record<string, [string, string?]> = {
+  idle: ['idle'],
+  tired: ['idle', 'sad_pose'],
+  sad: ['idle', 'sad_pose'],
+  no: ['idle', 'headShake'],
+  yes: ['idle', 'agree'],
+  sneak: ['idle', 'sneak_pose'],
+  walk: ['walk'],
+  run: ['run'],
+};
+
+const FACES: Record<string, {mouthOpen: number; mouthSmile: number}> = {
+  neutral: {mouthOpen: 0, mouthSmile: 0},
+  smile: {mouthOpen: 0.05, mouthSmile: 0.7},
+  shocked: {mouthOpen: 0.75, mouthSmile: 0},
+  scared: {mouthOpen: 0.45, mouthSmile: 0},
+};
+
+// Where to put the inner glow for each organ: [bone, offset in metres].
+// Offsets are in the bone's local space (Mixamo bones are in centimetres).
+const ORGANS: Record<string, [string, V3, number]> = {
+  brain: ['mixamorigHead', [0, 17, -2], 0.05],
+  head: ['mixamorigHead', [0, 10, -1], 0.07],
+  eyes: ['mixamorigHead', [0, 8, 9], 0.025],
+  heart: ['mixamorigSpine2', [3, 2, 6], 0.045],
+  lungs: ['mixamorigSpine2', [0, 2, 3], 0.1],
+  chest: ['mixamorigSpine2', [0, 2, 5], 0.09],
+  blood: ['mixamorigSpine2', [3, 2, 6], 0.06],
+  stomach: ['mixamorigSpine', [3, 0, 9], 0.05],
+  liver: ['mixamorigSpine1', [-6, 4, 5], 0.055],
+  gut: ['mixamorigSpine', [0, -3, 6], 0.07],
+  kidneys: ['mixamorigSpine', [0, 4, -4], 0.05],
+  bones: ['mixamorigLeftLeg', [0, 15, 0], 0.06],
+  legs: ['mixamorigLeftUpLeg', [0, 20, 0], 0.07],
+  skin: ['mixamorigSpine1', [0, 0, 10], 0.12],
+};
+
+// Camera framings relative to the character's face height (y) so any model is framed right.
+const SHOTS: Record<string, (face: number) => {pos: V3; look: V3}> = {
+  full: (y) => ({pos: [0, y * 0.62, 4.0], look: [0, y * 0.55, 0]}),
+  medium: (y) => ({pos: [0, y - 0.02, 1.9], look: [0, y - 0.2, 0]}),
+  close: (y) => ({pos: [0, y + 0.02, 0.8], look: [0, y, 0]}),
+};
+
+const shadowTexture = (() => {
+  if (typeof document === 'undefined') return null;
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const g = c.getContext('2d')!;
+  const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grad.addColorStop(0, 'rgba(0,0,0,0.55)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 128, 128);
+  return new THREE.CanvasTexture(c);
+})();
+
+type PersonProps = SceneProps & {pose?: string; shot?: string; face?: string};
+
+const Person: React.FC<PersonProps> = ({color, accent, t, dur, focus, pose = 'idle', shot = 'medium', face = 'neutral'}) => {
+  const person = useGLTF(PERSON_URL);
+  const motion = useGLTF(MOTION_URL);
+  const model = useMemo(() => cloneSkinned(person.scene), [person]);
+  const clips = useMemo(() => {
+    const out: Record<string, THREE.AnimationClip> = {};
+    for (const clip of motion.animations) out[clip.name] = retarget(person.scene, motion.scene, clip);
+    return out;
+  }, [person, motion]);
+  const mixer = useMemo(() => new THREE.AnimationMixer(model), [model]);
+  const [baseName, layerName] = POSES[pose] ?? POSES.idle;
+  useLayoutEffect(() => {
+    mixer.stopAllAction();
+    mixer.uncacheRoot(model);
+    mixer.clipAction(clips[baseName] ?? clips.idle).play();
+    if (layerName && clips[layerName]) {
+      const layer = THREE.AnimationUtils.makeClipAdditive(clips[layerName].clone());
+      const action = mixer.clipAction(layer);
+      action.blendMode = THREE.AdditiveAnimationBlendMode;
+      action.play();
+    }
+  }, [mixer, model, clips, baseName, layerName]);
+
+  const organ = focus ? ORGANS[focus.toLowerCase()] : undefined;
+  const glow = useRef<THREE.Group>(null);
+  useLayoutEffect(() => {
+    mixer.setTime(t);
+    model.updateMatrixWorld(true);
+    const expr = FACES[face] ?? FACES.neutral;
+    model.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (mesh.morphTargetDictionary && mesh.morphTargetInfluences) {
+        for (const [k, v] of Object.entries(expr)) {
+          const idx = mesh.morphTargetDictionary[k];
+          if (idx !== undefined) mesh.morphTargetInfluences[idx] = v;
+        }
+      }
+    });
+    if (organ && glow.current) {
+      const bone = model.getObjectByName(organ[0]);
+      if (bone) glow.current.position.copy(bone.localToWorld(new THREE.Vector3(...organ[1])));
+    }
+  });
+
+  const faceY = useMemo(() => {
+    const rest = cloneSkinned(person.scene);
+    rest.updateMatrixWorld(true);
+    const v = new THREE.Vector3();
+    rest.getObjectByName('mixamorigHead')?.getWorldPosition(v);
+    return v.y + 0.08;
+  }, [person]);
+  const s = (SHOTS[shot] ?? SHOTS.medium)(faceY);
+  const push = ease(t, 0, Math.max(2, dur), 1, 0.88);
+  const orbit = -0.25 + t * 0.06;
+  const dist = Math.hypot(s.pos[0], s.pos[2]) * push;
+  const beat = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2 * 1.2)), 8);
+  const wall = useMemo(() => new THREE.Color(color).multiplyScalar(0.35), [color]);
+  return (
+    <>
+      <color attach="background" args={[wall]} />
+      <fog attach="fog" args={[wall, 6, 16]} />
+      <Rig pos={[Math.sin(orbit) * dist, s.pos[1], Math.cos(orbit) * dist]} look={s.look} fov={32} />
+      <hemisphereLight args={['#fff4e6', '#3a2f28', 1.4]} />
+      <directionalLight position={[2.5, 4, 3]} intensity={2.4} color="#fff1dc" />
+      <directionalLight position={[-3, 2.5, -2]} intensity={2.2} color={accent} />
+      <directionalLight position={[0, 2, 4]} intensity={0.6} />
+      <primitive object={model} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.002, 0]}>
+        <planeGeometry args={[1.3, 1.3]} />
+        <meshBasicMaterial map={shadowTexture} transparent depthWrite={false} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[30, 30]} />
+        <meshStandardMaterial color="#8a7a6a" roughness={0.85} />
+      </mesh>
+      <mesh position={[0, 3, -3]}>
+        <planeGeometry args={[30, 8]} />
+        <meshStandardMaterial color={color} roughness={0.95} />
+      </mesh>
+      {organ ? (
+        <group ref={glow}>
+          <mesh scale={1 + 0.2 * beat}>
+            <sphereGeometry args={[organ[2], 24, 16]} />
+            <meshBasicMaterial color={accent} transparent opacity={0.7} blending={THREE.AdditiveBlending} depthTest={false} depthWrite={false} />
+          </mesh>
+          <mesh scale={1.9 + 0.5 * beat} renderOrder={2}>
+            <sphereGeometry args={[organ[2], 24, 16]} />
+            <meshBasicMaterial color={accent} transparent opacity={0.15} blending={THREE.AdditiveBlending} depthTest={false} depthWrite={false} />
+          </mesh>
+        </group>
+      ) : null}
+    </>
+  );
+};
+
+useGLTF.preload(PERSON_URL);
+useGLTF.preload(MOTION_URL);
+
+const COMPONENTS: Record<string, React.FC<PersonProps>> = {
+  person: Person,
   body: Body,
   tunnel: Tunnel,
   blob: Blob,
@@ -482,6 +651,9 @@ export const SceneView: React.FC<{scene: Scene; index: number}> = ({scene, index
       t={frame / fps}
       dur={scene.duration}
       focus={scene.focus}
+      pose={scene.pose}
+      shot={scene.shot}
+      face={scene.face}
       seed={`s${index}`}
     />
   );

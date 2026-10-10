@@ -1,9 +1,9 @@
 import {AbsoluteFill, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import type {Scene, Word} from './Short';
 
-const GROUP = 3;
+const GROUP = 2;
 
-// Word-by-word captions in groups of three, current word highlighted: the standard viral-shorts style.
+// Word-by-word captions in pairs, current word highlighted: the standard viral-shorts style.
 export const Captions: React.FC<{scenes: Scene[]}> = ({scenes}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -18,13 +18,13 @@ export const Captions: React.FC<{scenes: Scene[]}> = ({scenes}) => {
 
   const enter = spring({frame: frame - Math.round(group[0].s * fps), fps, config: {damping: 12, stiffness: 220}});
   return (
-    <AbsoluteFill style={{justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 560}}>
+    <AbsoluteFill style={{justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 380}}>
       <div
         style={{
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          gap: '0 38px',
+          gap: '0 24px',
           padding: '0 70px',
           transform: `scale(${0.85 + 0.15 * enter})`,
         }}
@@ -36,14 +36,14 @@ export const Captions: React.FC<{scenes: Scene[]}> = ({scenes}) => {
               key={i}
               style={{
                 fontFamily: 'Caption',
-                fontSize: 104,
+                fontSize: 76,
                 lineHeight: 1.15,
                 textTransform: 'uppercase',
                 color: active ? '#ffd60a' : '#ffffff',
-                WebkitTextStroke: '14px #000',
+                WebkitTextStroke: '10px #000',
                 paintOrder: 'stroke fill',
                 textShadow: '0 8px 24px rgba(0,0,0,.55)',
-                transform: active ? 'scale(1.04)' : 'none',
+                
                 display: 'inline-block',
               }}
             >

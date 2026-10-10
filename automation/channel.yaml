@@ -8,7 +8,7 @@ studio_speed: 1.1
 aspect: "9:16"                    # 9:16 = YouTube Shorts (fastest growth for new channels); 16:9 = long-form
 scenes: 7                         # ~5-6s per scene ~= 40s short
 style_rules: >
-  First sentence is a hook that creates instant curiosity ("This is what happens if you...").
+  Open with a "What if you...?" question hook, e.g. "What if you don't sleep for 11 days?".
   Escalate step by step, each scene a more surprising consequence. One idea, no filler,
   never say "in this video". Facts must be scientifically accurate.
   Last line is a twist or a question that invites comments.

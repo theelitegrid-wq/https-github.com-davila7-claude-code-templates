@@ -20,6 +20,9 @@ export type Scene = {
   accent?: string;
   callout?: string;
   focus?: string;
+  pose?: string;
+  shot?: string;
+  face?: string;
   start: number;
   duration: number;
   words: Word[];
@@ -32,16 +35,17 @@ const Callout: React.FC<{text: string}> = ({text}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const pop = spring({frame: frame - 4, fps, config: {damping: 9, stiffness: 160}});
+  const fade = interpolate(frame, [fps * 1.4, fps * 1.8], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
   return (
-    <AbsoluteFill style={{alignItems: 'center', top: 250}}>
+    <AbsoluteFill style={{alignItems: 'center', top: 260, opacity: fade}}>
       <div
         style={{
           fontFamily: 'Caption',
-          fontSize: 150,
+          fontSize: 112,
           color: '#ffd60a',
           letterSpacing: -2,
           transform: `scale(${pop}) rotate(${interpolate(pop, [0, 1], [-8, -3])}deg)`,
-          WebkitTextStroke: '10px #000',
+          WebkitTextStroke: '8px #000',
           paintOrder: 'stroke fill',
           textShadow: '0 12px 40px rgba(0,0,0,.6)',
           textAlign: 'center',
