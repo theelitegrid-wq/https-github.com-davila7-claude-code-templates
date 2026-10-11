@@ -416,10 +416,10 @@ const Shatter: React.FC<SceneProps> = ({color, accent, t, dur, seed}) => {
         geometry={shard}
         place={(i) => {
           const d = dirs[i];
-          const speed = 2.2 + random(`${seed}v${i}`) * 3;
+          const speed = 0.7 + random(`${seed}v${i}`) * 1.1;  // slow enough to stay in frame for ~5 s
           const tremble = t < t0 ? 1 + 0.02 * Math.sin(t * 50 + i) * charge : 1;
           const k = 1.15 * tremble + dt * speed;
-          const fall = dt * dt * 0.35;
+          const fall = dt * dt * 0.08;
           const spin = dt * (2 + random(`${seed}s${i}`) * 5);
           const s = 0.8 + random(`${seed}k${i}`) * 0.7;
           return {

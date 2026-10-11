@@ -300,10 +300,10 @@ function render() {
     .sort((a, b) => (b[key] || 0) - (a[key] || 0) || (b.likes || 0) - (a.likes || 0));
   document.getElementById('count').textContent = rows.length + ' shorts';
   document.getElementById('rows').innerHTML = rows.map(v => `<tr>
-    <td style="min-width:14rem"><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.title)}</a><br><span class="muted">${esc(v.channel)}</span></td>
+    <td style="min-width:13rem"><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.title)}</a><br><span class="muted">${esc(v.channel)}</span></td>
     <td>${esc(v.niche)}</td><td class="n">${fmt(v.views)}</td><td class="n">${fmt(v.likes)}</td>
     <td>${esc(v.hook)}</td><td class="n">${v.length ? Math.round(v.length) + ' s' : '—'}</td>
-    <td class="n">${v.shot ? v.shot.toFixed(1) + ' s' : '—'}</td><td style="min-width:16rem">${esc(v.why)}</td></tr>`).join('');
+    <td class="n">${v.shot ? v.shot.toFixed(1) + ' s' : '—'}</td><td style="min-width:22rem">${esc(v.why)}</td></tr>`).join('');
 }
 render();
 

@@ -39,6 +39,14 @@ IDEAS = [
 ]
 
 
+LABELS = {
+    "3d-what-happens-if": "Zack D. Films clips", "kurzgesagt what-if": "Kurzgesagt what-ifs",
+    "3d physics / animation": "3D animation", "human body": "Human body", "space and scale": "Space & scale",
+    "scary facts": "Scary facts", "survival": "Survival", "animal facts": "Animals",
+    "how it works": "How it works", "psychology": "Psychology", "money stories": "Money stories",
+}
+
+
 def num(x):
     try:
         return float(x)
@@ -101,7 +109,7 @@ def main():
             title = title or f"{a.get('topic') or 'Untitled'}"
         videos.append({
             "url": url, "title": title or url, "channel": v.get("channel") or "",
-            "niche": r["niche"].split(" (")[0], "views": v.get("views_n") or 0, "likes": v.get("likes_n") or 0,
+            "niche": LABELS.get(r["niche"].split(" (")[0], r["niche"].split(" (")[0]), "views": v.get("views_n") or 0, "likes": v.get("likes_n") or 0,
             "hook": a.get("hook_type"), "length": num(a.get("length_s")), "shot": num(a.get("avg_shot_s")),
             "why": a.get("why_it_works"),
         })
