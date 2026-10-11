@@ -13,7 +13,9 @@ You do not "learn" by watching; the result of a study is a written spec in
 
 - Uploaded files: copy them into `references/` (git-ignored).
 - URLs: download with `yt-dlp -f "bv*[height<=1080]+ba/b" -o "references/%(id)s.%(ext)s" URL`.
-  If downloads fail (blocked network in a cloud session), ask the user to upload the files.
+  If downloads fail (blocked network in a cloud session) and a `GEMINI_API_KEY` is configured
+  for the watch skill, YouTube URLs can still be studied through Gemini (step 3b); otherwise ask
+  the user to upload the files.
 - Use 3-10 videos from the same channel/format; one video is an anecdote.
 
 ## 2. Measure
@@ -41,6 +43,22 @@ transcript. Then Read every `*_shots.jpg` and `*_hook.jpg`. Note, with timestamp
 - **Transitions**: hard cuts, whips, zooms, morphs; is it one consistent language?
 - **Voice and sound**: speaking pace (words per minute from the transcript), music, SFX.
 - **Structure**: hook, escalation beats, payoff, ending line/question; total length.
+
+### 3b. Gemini-only study (no local files)
+
+`metrics.py` needs local files. For YouTube URLs you cannot download, ask Gemini for the same
+measurements, one video at a time:
+
+```bash
+python3 .claude/skills/watch/scripts/watch.py "<YouTube URL>" --engine gemini --question \
+"List every cut as a timestamp (MM:SS.s). Then: exact spoken hook and when it ends; for each shot
+classify camera distance (wide/medium/close) and subject (person/body-inside/object/other);
+character realism, age, clothing, setting; on-screen text (per-word captions? size, position,
+color, % of runtime with text); transitions; music and SFX; spoken words per minute; total length."
+```
+
+Compute shot lengths and cuts per minute from the returned timestamps yourself, and say in the
+spec that these numbers came from Gemini's observation, not frame measurement.
 
 ## 4. Write the spec
 
