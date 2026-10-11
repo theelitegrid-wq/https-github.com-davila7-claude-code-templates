@@ -4,7 +4,7 @@ audience: "curious 13-35 year olds who love jaw-dropping, slightly gross, satisf
 language: en-US
 voice: en-US-JennyNeural-Female   # Edge TTS voice, used by visuals: veo / stock
 studio_voice: am_michael          # Kokoro voice for visuals: studio (am_adam, am_onyx, af_heart, bm_george, ...)
-studio_speed: 1.1
+studio_speed: 0.95
 aspect: "9:16"                    # 9:16 = YouTube Shorts (fastest growth for new channels); 16:9 = long-form
 scenes: 10                        # ~10 one-sentence scenes at ~150 wpm ~= 45-60s (measured sweet spot)
 style_rules: >

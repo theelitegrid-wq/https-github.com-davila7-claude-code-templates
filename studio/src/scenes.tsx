@@ -1,7 +1,7 @@
 // Procedural 3D scene library. Everything is driven by the Remotion frame, so renders are
 // deterministic and need no GPU, assets or network.
 import * as THREE from 'three';
-import {useLayoutEffect, useMemo, useRef} from 'react';
+import {createContext, useContext, useLayoutEffect, useMemo, useRef} from 'react';
 import {useThree} from '@react-three/fiber';
 import {useGLTF} from '@react-three/drei';
 import {interpolate, random, staticFile, useCurrentFrame, useVideoConfig, Easing} from 'remotion';
@@ -30,14 +30,33 @@ const fibonacciSphere = (n: number): V3[] =>
     return [Math.cos(phi) * r, y, Math.sin(phi) * r];
   });
 
-const Rig: React.FC<{pos: V3; look?: V3; fov?: number}> = ({pos, look = [0, 0, 0], fov = 40}) => {
+// Second camera angle within a scene: orbit around the subject (or widen the lens in tunnels).
+const AngleContext = createContext(0);
+
+const Rig: React.FC<{pos: V3; look?: V3; fov?: number; orbit?: boolean}> = ({
+  pos,
+  look = [0, 0, 0],
+  fov = 40,
+  orbit = true,
+}) => {
   const {camera} = useThree();
+  const variant = useContext(AngleContext);
   useLayoutEffect(() => {
     const cam = camera as THREE.PerspectiveCamera;
-    cam.fov = fov;
+    cam.fov = variant && !orbit ? fov + 14 : fov;
     cam.near = 0.05;
     cam.far = 200;
-    cam.position.set(...pos);
+    if (variant && orbit) {
+      const dx = pos[0] - look[0], dz = pos[2] - look[2];
+      const a = 0.7, k = 1.08;
+      cam.position.set(
+        look[0] + (dx * Math.cos(a) + dz * Math.sin(a)) * k,
+        pos[1],
+        look[2] + (-dx * Math.sin(a) + dz * Math.cos(a)) * k,
+      );
+    } else {
+      cam.position.set(...pos);
+    }
     cam.lookAt(...look);
     cam.updateProjectionMatrix();
   });
@@ -184,7 +203,7 @@ const Tunnel: React.FC<SceneProps> = ({color, accent, t, seed}) => {
   return (
     <>
       <Backdrop color={color} fog={[1.5, 20]} />
-      <Rig pos={[Math.sin(t * 0.9) * 0.35, Math.cos(t * 0.7) * 0.3, camZ]} look={[0, 0, camZ - 10]} fov={55} />
+      <Rig pos={[Math.sin(t * 0.9) * 0.35, Math.cos(t * 0.7) * 0.3, camZ]} look={[0, 0, camZ - 10]} fov={55} orbit={false} />
       <ambientLight intensity={0.15} />
       <pointLight position={[0, 0.6, camZ - 1]} color="#ffd9c7" intensity={35} distance={18} />
       <pointLight position={[0, 0, camZ - 12]} color={accent} intensity={80} distance={26} />
@@ -532,7 +551,10 @@ const shadowTexture = (() => {
 
 type PersonProps = SceneProps & {pose?: string; shot?: string; face?: string};
 
-const Person: React.FC<PersonProps> = ({color, accent, t, dur, focus, pose = 'idle', shot = 'medium', face = 'neutral'}) => {
+const SHOT_SWAP: Record<string, string> = {full: 'medium', medium: 'full', close: 'medium'};
+
+const Person: React.FC<PersonProps> = ({color, accent, t, dur, focus, pose = 'idle', shot: baseShot = 'medium', face = 'neutral'}) => {
+  const shot = useContext(AngleContext) ? SHOT_SWAP[baseShot] ?? baseShot : baseShot;
   const person = useGLTF(PERSON_URL);
   const motion = useGLTF(MOTION_URL);
   const model = useMemo(() => cloneSkinned(person.scene), [person]);
@@ -640,15 +662,21 @@ const COMPONENTS: Record<string, React.FC<PersonProps>> = {
   virus: Virus,
 };
 
-export const SceneView: React.FC<{scene: Scene; index: number}> = ({scene, index}) => {
+export const SceneView: React.FC<{scene: Scene; index: number; variant?: number; offset?: number}> = ({
+  scene,
+  index,
+  variant = 0,
+  offset = 0,
+}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const Component = COMPONENTS[scene.type] ?? Blob;
   return (
+    <AngleContext.Provider value={variant}>
     <Component
       color={scene.color || '#4cc9f0'}
       accent={scene.accent || '#ff3b5c'}
-      t={frame / fps}
+      t={frame / fps + offset}
       dur={scene.duration}
       focus={scene.focus}
       pose={scene.pose}
@@ -656,5 +684,6 @@ export const SceneView: React.FC<{scene: Scene; index: number}> = ({scene, index
       face={scene.face}
       seed={`s${index}`}
     />
+    </AngleContext.Provider>
   );
 };

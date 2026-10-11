@@ -3,4 +3,5 @@ node_modules/
 models/
 out/
 public/voice.wav
+public/voice.norm.wav
 public/plan.json

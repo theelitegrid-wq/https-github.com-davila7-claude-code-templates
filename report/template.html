@@ -1,0 +1,318 @@
+<title>What-If Shorts Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one reading column (~70ch) with full-width data tables; sections in decision order:
+   verdict -> test video -> evidence -> niches -> money timeline -> what's built -> next steps */
+:root {
+  --bg: #f3f6f8; --surface: #ffffff; --ink: #0d1b2a; --muted: #4f6273; --line: #d5dee6;
+  --accent: #0a6fa8; --accent-soft: #e2f0f8; --signal: #b8560f; --good: #1d7a4f; --warn: #a2620b; --bad: #b3261e;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0a121c; --surface: #111c29; --ink: #e4ecf3; --muted: #9db0c1; --line: #22344a;
+  --accent: #56c4f2; --accent-soft: #12314a; --signal: #ffb35c; --good: #5fd39a; --warn: #f2bd5a; --bad: #ff8a80; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0a121c; --surface: #111c29; --ink: #e4ecf3; --muted: #9db0c1; --line: #22344a;
+  --accent: #56c4f2; --accent-soft: #12314a; --signal: #ffb35c; --good: #5fd39a; --warn: #f2bd5a; --bad: #ff8a80; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 64px; display: grid; gap: 56px; }
+.col { max-width: 70ch; }
+h1, h2, h3 { font-family: var(--display); font-stretch: 112%; line-height: 1.12; text-wrap: balance; margin: 0; }
+h1 { font-weight: 800; font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -0.01em; }
+h2 { font-weight: 800; font-size: clamp(1.4rem, 3.4vw, 1.9rem); }
+h3 { font-weight: 600; font-size: 1.1rem; }
+p { margin: 0; }
+section { display: grid; gap: 18px; min-width: 0; }
+.eyebrow { font: 600 .74rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.lede { font-size: 1.15rem; color: var(--muted); max-width: 62ch; }
+.depth { font: 500 .8rem/1 var(--mono); color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+.depth span { border: 1px solid var(--line); padding: 6px 9px; border-radius: 4px; background: var(--surface); }
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.vcard { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.vcard b { font: 800 1.25rem/1.2 var(--display); font-stretch: 112%; }
+.vcard small { color: var(--muted); }
+.video-row { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 720px) { .video-row { grid-template-columns: 1fr; } }
+video { width: 100%; max-width: 300px; aspect-ratio: 9 / 16; border-radius: 10px; background: #000; display: block; }
+.specs { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.spec { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.spec span:nth-child(2), .spec span:nth-child(3) { font: 500 .9rem var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.spec span:nth-child(3) { color: var(--muted); }
+.ok { color: var(--good); } .meh { color: var(--warn); }
+.bars { display: grid; gap: 8px; }
+.bar { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 2.6rem; gap: 10px; align-items: center; font-size: .92rem; }
+.bar i { display: block; height: 12px; background: var(--accent); border-radius: 2px; min-width: 2px; }
+.bar em { font: normal 500 .85rem var(--mono); text-align: right; color: var(--muted); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+.grid2 > * { min-width: 0; display: grid; gap: 12px; align-content: start; }
+.tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 .72rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--surface); position: sticky; top: 0; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+th.n { text-align: right; }
+tr:last-child td { border-bottom: 0; }
+td a { color: var(--accent); }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { font: 500 .8rem var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 11px; border-radius: 999px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.chip:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+select { font: inherit; font-size: .9rem; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.rank { display: grid; gap: 10px; counter-reset: r; }
+.niche { display: grid; grid-template-columns: 2.2rem minmax(0, 1fr) auto; gap: 14px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; align-items: start; }
+.niche .no { font: 800 1.4rem/1 var(--display); color: var(--accent); }
+.niche p { color: var(--muted); font-size: .93rem; }
+.pill { font: 600 .72rem/1 var(--mono); letter-spacing: .04em; padding: 5px 8px; border-radius: 4px; white-space: nowrap; border: 1px solid currentColor; }
+.pill.strong { color: var(--good); } .pill.medium { color: var(--warn); } .pill.weak { color: var(--bad); }
+.pick { border: 2px solid var(--accent); }
+ol.formula { margin: 0; padding-left: 1.3rem; display: grid; gap: 8px; }
+ol.formula li::marker { font-family: var(--mono); color: var(--accent); }
+.timeline { display: grid; gap: 12px; }
+.tl { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+@media (max-width: 560px) { .tl { grid-template-columns: 1fr; } .bar { grid-template-columns: 7rem minmax(0, 1fr) 2.4rem; } }
+.tl b { font-family: var(--display); font-stretch: 112%; }
+.tl .when { font: 500 .95rem var(--mono); color: var(--signal); }
+.callout { border-left: 3px solid var(--signal); padding: 4px 0 4px 14px; color: var(--ink); }
+.muted { color: var(--muted); }
+.list2 { columns: 2 260px; column-gap: 28px; margin: 0; padding-left: 1.1rem; }
+.list2 li { break-inside: avoid; margin-bottom: 6px; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; }
+details summary { cursor: pointer; font-weight: 600; }
+details[open] summary { margin-bottom: 10px; }
+code { font-family: var(--mono); font-size: .85em; background: var(--accent-soft); padding: 1px 5px; border-radius: 3px; }
+.checklist { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.checklist li { display: grid; grid-template-columns: 1.4rem minmax(0, 1fr); gap: 8px; }
+.checklist li::before { content: "☐"; color: var(--accent); font-size: 1.1rem; line-height: 1.4; }
+.checklist li.done::before { content: "☑"; color: var(--good); }
+footer { color: var(--muted); font-size: .85rem; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+<header style="display:grid;gap:16px">
+  <div class="eyebrow">Channel plan · October 2026</div>
+  <h1>What-If Shorts Playbook</h1>
+  <p class="lede">Everything we researched, measured and built for a faceless 3D "What if" Shorts channel: which niche to pick, how the videos must be made, what the test video looks like, and how long monetization will realistically take.</p>
+  <div class="depth"><span id="stat-videos">65 shorts analyzed</span><span>60 channels profiled</span><span>16 niches compared</span><span>1 test short rendered</span></div>
+</header>
+
+<section>
+  <div class="eyebrow">The decision</div>
+  <h2>Pick "What if" hypotheticals about your body, survival and space</h2>
+  <div class="verdict">
+    <div class="vcard"><small>Niche</small><b>3D "What if you…?" shorts</b><small>Body, survival and space hypotheticals in the Zack D. Films / Kurzgesagt mold. Every top performer we measured was one hypothetical with escalating consequences.</small></div>
+    <div class="vcard"><small>Format</small><b>45–60 s, a shot every 2–3 s</b><small>Question hook in 2 s, ~150 words a minute, escalating beats, a true twist, an abrupt loop ending.</small></div>
+    <div class="vcard"><small>Monetization estimate</small><b>~4–8 months if the videos are good</b><small>Best case 2–3 months with an early breakout. Without a breakout short, most channels never qualify.</small></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Test video</div>
+  <h2>"What if you fell into the Mariana Trench?"</h2>
+  <div class="video-row">
+    <video controls playsinline preload="metadata" src="mariana-trench.mp4" poster="mariana-poster.jpg"></video>
+    <div style="display:grid;gap:14px;min-width:0">
+      <p class="muted">Made entirely with the free pipeline: script written and fact-checked by Claude, 3D scenes rendered on CPU with Remotion + three.js, open-source Kokoro voice, generated whooshes and music bed. Measured against the 65-short study:</p>
+      <div class="specs" id="specs"></div>
+      <p class="callout">Known gap: the character is a free stylized model (Michelle). For a regular-looking American person, download any free Mixamo character; animations retarget automatically.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Evidence · 65 shorts</div>
+  <h2>What viral shorts have in common</h2>
+  <p class="col muted">Gemini watched each short and recorded its hook, cuts, camera, captions, voice, ending and emotion. Views were then re-read one page at a time.</p>
+  <div class="grid2">
+    <div><h3>Hook type</h3><div class="bars" id="bars-hook"></div></div>
+    <div><h3>Main emotion</h3><div class="bars" id="bars-emotion"></div></div>
+    <div><h3>Ending</h3><div class="bars" id="bars-ending"></div></div>
+    <div><h3>Caption style</h3><div class="bars" id="bars-captions"></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Evidence · every video</div>
+  <h2>Which video got how many views</h2>
+  <div class="controls" id="niche-filter" role="group" aria-label="Filter by niche"></div>
+  <div class="controls"><label for="sort">Sort by</label>
+    <select id="sort"><option value="views">Views</option><option value="likes">Likes</option><option value="length">Length</option><option value="shot">Shot length</option></select>
+    <span class="muted" id="count"></span></div>
+  <div class="tablebox"><table>
+    <thead><tr><th>Short</th><th>Niche</th><th class="n">Views</th><th class="n">Likes</th><th>Hook</th><th class="n">Length</th><th class="n">Shot</th><th>Why it works</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <p class="muted" style="font-size:.88rem">"—" means YouTube didn't show the number on the page Gemini read (Shorts pages often show likes only). Like counts are a rough popularity signal: a short typically gets 1 like per 20–50 views.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Niches</div>
+  <h2>Top 10 niches, ranked for this channel</h2>
+  <p class="col muted">Ranked on viral potential, US audience, ad value, fit with our free 3D pipeline, and risk under YouTube's "mass-produced content" rules. Plain explainers underperformed in the study; the same topics work framed as a "What if" with stakes for the viewer.</p>
+  <div class="rank" id="niches"></div>
+  <p class="col"><b>Avoid:</b> Reddit stories over gameplay (reused-content risk), ambient/satisfying loops (repetitive content), movie recaps (copyright claims), low-effort scary-fact lists.</p>
+</section>
+
+<section class="grid2">
+  <div>
+    <div class="eyebrow">Script formula</div>
+    <h2>How every short is written</h2>
+    <ol class="formula">
+      <li><b>Hook, 0–2 s:</b> "What if you…?" in 10 words or fewer. Voice on frame 1.</li>
+      <li><b>Answer, 2–5 s:</b> the first consequence, no intro.</li>
+      <li><b>Escalate:</b> 4–6 beats, each more extreme, one fact per line.</li>
+      <li><b>Twist:</b> one surprising true detail near the end.</li>
+      <li><b>Abrupt end:</b> a punchline or question that loops back to the hook.</li>
+    </ol>
+  </div>
+  <div>
+    <div class="eyebrow">Editing & look</div>
+    <h2>How every short is edited</h2>
+    <ol class="formula">
+      <li>New shot every 2–3 s; mostly medium framing; one cut style.</li>
+      <li>Same recognizable character every video; glowing x-ray cutaways.</li>
+      <li>Word-by-word captions, current word highlighted, small and low.</li>
+      <li>2–3 big number pop-ups per video, gone in ~1.5 s.</li>
+      <li>Whoosh on cuts, quiet music bed, loudness about −14 LUFS.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Content plan</div>
+  <h2>Top 10 shorts to make first</h2>
+  <div class="tablebox"><table>
+    <thead><tr><th class="n">#</th><th>Title / hook</th><th>Niche</th><th>Status</th></tr></thead>
+    <tbody id="ideas"></tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="eyebrow">Monetization</div>
+  <h2>How long until the channel earns</h2>
+  <div class="tablebox"><table>
+    <thead><tr><th>Tier</th><th>Shorts requirement</th><th>Unlocks</th></tr></thead>
+    <tbody>
+      <tr><td>Early access</td><td>500 subscribers, 3 uploads in 90 days, <b>3M Shorts views in 90 days</b></td><td>Memberships, Super Thanks, Shopping. No ad money.</td></tr>
+      <tr><td>Full YPP, apply before Feb 1, 2027</td><td>1,000 subscribers + <b>10M engaged Shorts views in 90 days</b> (~110,000/day)</td><td>Shorts ad revenue share</td></tr>
+      <tr><td>Full YPP, apply from Feb 1, 2027</td><td>1,000 subscribers + <b>20M engaged Shorts views in 90 days</b> (~220,000/day)</td><td>Shorts ad revenue share</td></tr>
+    </tbody>
+  </table></div>
+  <p class="col muted">Only engaged views count; replays don't. New channels' shorts usually get hundreds to a few thousand views each, so the target is reached through breakout shorts of 1M+ views, not upload volume alone.</p>
+  <div class="timeline">
+    <div class="tl"><div><b>Best case</b><div class="when">~2–3 months</div></div><p>A 5M+ breakout in the first 6–8 weeks. Early access in 1–2 months; full monetization under the 10M rule if you apply before Feb 1, 2027.</p></div>
+    <div class="tl"><div><b>Realistic</b><div class="when">~4–8 months</div></div><p>Daily good shorts produce several 500K–2M hits by month 3–4. Early access in 2–4 months; full monetization likely under the 20M rule.</p></div>
+    <div class="tl"><div><b>Common outcome</b><div class="when">never</div></div><p>No breakout and views stay in the thousands. Fix the first 3 seconds using the retention graph, change topics, and keep iterating.</p></div>
+  </div>
+  <p class="col">Pay once monetized: about <b>$50–500 per million Shorts views</b>, so 10M views is roughly $500–5,000, depending on audience country and niche.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Research</div>
+  <h2>The 60 channels we profiled</h2>
+  <div class="grid2">
+    <details><summary>30 big creator-led channels</summary><ul class="list2" id="creators"></ul></details>
+    <details><summary>30 big faceless channels</summary><ul class="list2" id="faceless"></ul></details>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">What's built</div>
+  <h2>The automated pipeline (all free)</h2>
+  <div class="tablebox"><table>
+    <thead><tr><th>Part</th><th>What it does</th><th>Where</th></tr></thead>
+    <tbody>
+      <tr><td>Daily writer</td><td>Picks a new topic, writes a 10-scene "What if" script following the style guide; Claude subscription or free Gemini</td><td><code>automation/daily.py</code></td></tr>
+      <tr><td>Style guide</td><td>Owner feedback + measured rules; the writer reads it every run</td><td><code>automation/style.md</code></td></tr>
+      <tr><td>3D studio</td><td>7 scene types (person, x-ray body, vessel tunnel, organ, planet, explosion, virus), captions, callouts, two camera angles per line</td><td><code>studio/</code></td></tr>
+      <tr><td>Voice & sound</td><td>Kokoro voice at ~150 wpm, whoosh on cuts, music bed, −14 LUFS</td><td><code>studio/voice.py</code></td></tr>
+      <tr><td>Upload</td><td>YouTube Data API with AI disclosure, private until you switch</td><td><code>automation/youtube_upload.py</code></td></tr>
+      <tr><td>Schedule</td><td>GitHub Actions runs daily; dry-run button keeps the video as a download</td><td><code>.github/workflows/daily-video.yml</code></td></tr>
+      <tr><td>Learning skills</td><td><code>/watch</code> pulls frames and transcripts; <code>/style-study</code> measures reference videos and updates the style guide</td><td><code>.claude/skills/</code></td></tr>
+      <tr><td>Study tools</td><td>Viral shorts study and per-video view recheck with Gemini</td><td><code>research/</code></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="eyebrow">Next steps</div>
+  <h2>What's left, in order</h2>
+  <ul class="checklist">
+    <li class="done">Research channels, study 65 viral shorts, pick the niche</li>
+    <li class="done">Build the free 3D pipeline and render a test short</li>
+    <li>Replace the Gemini key that was pasted in chat (aistudio.google.com/apikey)</li>
+    <li>Swap in a regular-looking person from Mixamo (free account) as <code>studio/public/models/person.glb</code></li>
+    <li>Add GitHub secrets: <code>GEMINI_API_KEY</code> (or <code>CLAUDE_CODE_OAUTH_TOKEN</code>), <code>YT_CLIENT_ID</code>, <code>YT_CLIENT_SECRET</code>, <code>YT_REFRESH_TOKEN</code></li>
+    <li>Merge the <code>youtube-autopilot</code> branch into <code>main</code> so the daily schedule runs</li>
+    <li>Run the workflow once with "dry run", watch the result, then let it post daily (private for the first week)</li>
+    <li>Review analytics weekly: fix hooks where viewers drop in the first 3 seconds; double down on topics that beat the channel average</li>
+  </ul>
+</section>
+
+<section>
+  <div class="eyebrow">Method and limits</div>
+  <div class="col" style="display:grid;gap:10px">
+    <p>YouTube itself is blocked from the cloud session that did this work, so shorts were found by web search, not by YouTube's own most-viewed rankings; some come from small channels. Gemini watched each short through Google's API. A first attempt to read views for 8 pages at once mixed pages up, so views and likes were re-read one page at a time; numbers YouTube didn't show are marked "—".</p>
+    <p>Monetization rules come from YouTube's announcements as reported in October 2026; time estimates are judgments, not guarantees. Sources: AIR Media-Tech YPP guide 2026, Tubefilter (Aug 10, 2026), YouTube blog on qualified views, gofaceless.ai for RPM ranges.</p>
+  </div>
+</section>
+
+<footer>Built from the files in the <code>youtube-autopilot</code> branch: <code>research/viral-shorts/</code>, <code>research/niche-report.md</code>, <code>research/channels.md</code>.</footer>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const fmt = n => !n ? '—' : n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'K' : String(n);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+
+document.getElementById('stat-videos').textContent = D.videos.length + ' shorts analyzed';
+
+document.getElementById('specs').innerHTML = D.specs.map(s =>
+  `<div class="spec"><span>${esc(s.label)}</span><span class="${s.ok ? 'ok' : 'meh'}">${esc(s.ours)}</span><span>target ${esc(s.target)}</span></div>`).join('');
+
+function bars(id, counts) {
+  const max = Math.max(...counts.map(c => c[1]));
+  document.getElementById(id).innerHTML = counts.map(([k, v]) =>
+    `<div class="bar"><span>${esc(k)}</span><i style="width:${(v / max * 100).toFixed(1)}%"></i><em>${v}</em></div>`).join('');
+}
+bars('bars-hook', D.counts.hook); bars('bars-emotion', D.counts.emotion);
+bars('bars-ending', D.counts.ending); bars('bars-captions', D.counts.captions);
+
+const niches = ['All', ...new Set(D.videos.map(v => v.niche))];
+let active = 'All';
+const filter = document.getElementById('niche-filter');
+filter.innerHTML = niches.map(n => `<button class="chip" aria-pressed="${n === 'All'}" data-n="${esc(n)}">${esc(n)}</button>`).join('');
+filter.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  active = b.dataset.n;
+  filter.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  render();
+});
+document.getElementById('sort').addEventListener('change', render);
+function render() {
+  const key = document.getElementById('sort').value;
+  const rows = D.videos.filter(v => active === 'All' || v.niche === active)
+    .sort((a, b) => (b[key] || 0) - (a[key] || 0) || (b.likes || 0) - (a.likes || 0));
+  document.getElementById('count').textContent = rows.length + ' shorts';
+  document.getElementById('rows').innerHTML = rows.map(v => `<tr>
+    <td style="min-width:14rem"><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.title)}</a><br><span class="muted">${esc(v.channel)}</span></td>
+    <td>${esc(v.niche)}</td><td class="n">${fmt(v.views)}</td><td class="n">${fmt(v.likes)}</td>
+    <td>${esc(v.hook)}</td><td class="n">${v.length ? Math.round(v.length) + ' s' : '—'}</td>
+    <td class="n">${v.shot ? v.shot.toFixed(1) + ' s' : '—'}</td><td style="min-width:16rem">${esc(v.why)}</td></tr>`).join('');
+}
+render();
+
+document.getElementById('niches').innerHTML = D.niches.map((n, i) => `<div class="niche${i === 0 ? ' pick' : ''}">
+  <div class="no">${i + 1}</div><div style="display:grid;gap:4px;min-width:0"><h3>${esc(n.name)}</h3><p>${esc(n.why)}</p></div>
+  <span class="pill ${n.fit.toLowerCase()}">${esc(n.fit)} fit</span></div>`).join('');
+
+document.getElementById('ideas').innerHTML = D.ideas.map((x, i) =>
+  `<tr><td class="n">${i + 1}</td><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td></tr>`).join('');
+document.getElementById('creators').innerHTML = D.creators.map(c => `<li>${esc(c)}</li>`).join('');
+document.getElementById('faceless').innerHTML = D.faceless.map(c => `<li>${esc(c)}</li>`).join('');
+</script>

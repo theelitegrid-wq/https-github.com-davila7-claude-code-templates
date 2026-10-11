@@ -23,6 +23,7 @@ export type Scene = {
   pose?: string;
   shot?: string;
   face?: string;
+  cuts?: number[];
   start: number;
   duration: number;
   words: Word[];
@@ -58,23 +59,28 @@ const Callout: React.FC<{text: string}> = ({text}) => {
   );
 };
 
-const SceneShell: React.FC<{scene: Scene; index: number}> = ({scene, index}) => {
+const SceneShell: React.FC<{scene: Scene; index: number; variant: number; offset: number}> = ({
+  scene,
+  index,
+  variant,
+  offset,
+}) => {
   const frame = useCurrentFrame();
   const {width, height} = useVideoConfig();
-  // Punch-in cut + flash: the fast-cut feel of big shorts channels.
-  const punch = interpolate(frame, [0, 8], [1.05, 1], {extrapolateRight: 'clamp'});
-  const flash = index === 0 ? 0 : interpolate(frame, [0, 5], [0.55, 0], {extrapolateRight: 'clamp'});
+  // New scene: soft punch-in + light flash. Mid-scene angle change: punch only.
+  const punch = interpolate(frame, [0, 8], [variant ? 1.03 : 1.05, 1], {extrapolateRight: 'clamp'});
+  const flash = index === 0 || variant ? 0 : interpolate(frame, [0, 5], [0.35, 0], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill>
       <AbsoluteFill style={{transform: `scale(${punch})`}}>
         <ThreeCanvas width={width} height={height} gl={{antialias: true, preserveDrawingBuffer: true}}>
-          <SceneView scene={scene} index={index} />
+          <SceneView scene={scene} index={index} variant={variant} offset={offset} />
         </ThreeCanvas>
       </AbsoluteFill>
       <AbsoluteFill
         style={{background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,.75) 100%)'}}
       />
-      {scene.callout ? <Callout text={scene.callout} /> : null}
+      {scene.callout && variant === 0 ? <Callout text={scene.callout} /> : null}
       <AbsoluteFill style={{background: '#fff', opacity: flash}} />
     </AbsoluteFill>
   );
@@ -89,11 +95,13 @@ export const Short: React.FC<Plan> = (plan) => {
         const from = Math.round(scene.start * fps);
         const next = plan.scenes[i + 1];
         const end = next ? Math.round(next.start * fps) : Math.ceil((scene.start + scene.duration + 0.6) * fps);
-        return (
-          <Sequence key={i} from={from} durationInFrames={Math.max(1, end - from)}>
-            <SceneShell scene={scene} index={i} />
+        // Split long scenes into two camera angles (a new shot every ~2-3 s).
+        const bounds = [0, ...(scene.cuts ?? []).map((c) => Math.round(c * fps)), end - from];
+        return bounds.slice(0, -1).map((b, j) => (
+          <Sequence key={`${i}-${j}`} from={from + b} durationInFrames={Math.max(1, bounds[j + 1] - b)}>
+            <SceneShell scene={scene} index={i} variant={j} offset={b / fps} />
           </Sequence>
-        );
+        ));
       })}
       <Captions scenes={plan.scenes} />
       {plan.audio ? <Audio src={staticFile(plan.audio)} /> : null}
