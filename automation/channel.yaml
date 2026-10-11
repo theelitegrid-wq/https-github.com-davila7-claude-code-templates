@@ -6,7 +6,7 @@ voice: en-US-JennyNeural-Female   # Edge TTS voice, used by visuals: veo / stock
 studio_voice: am_michael          # Kokoro voice for visuals: studio (am_adam, am_onyx, af_heart, bm_george, ...)
 studio_speed: 1.1
 aspect: "9:16"                    # 9:16 = YouTube Shorts (fastest growth for new channels); 16:9 = long-form
-scenes: 7                         # ~5-6s per scene ~= 40s short
+scenes: 10                        # ~10 one-sentence scenes at ~150 wpm ~= 45-60s (measured sweet spot)
 style_rules: >
   Open with a "What if you...?" question hook, e.g. "What if you don't sleep for 11 days?".
   Escalate step by step, each scene a more surprising consequence. One idea, no filler,
