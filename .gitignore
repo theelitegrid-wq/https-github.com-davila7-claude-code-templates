@@ -4,3 +4,4 @@ vendor/
 __pycache__/
 references/*
 !references/README.md
+research/**/*.log
