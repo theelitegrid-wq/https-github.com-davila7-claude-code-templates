@@ -1,6 +1,8 @@
 """Study ~100 viral YouTube Shorts across niches with Gemini (free tier).
 
-1. candidates: Gemini proposes famous viral shorts per niche (plus seed URLs from web search)
+1. candidates: real search results with view counts via yt-dlp ("ytsearch"), needs youtube.com
+               network access; fallback --source gemini lets Gemini propose videos (it often
+               invents IDs, so most get dropped at verification)
 2. verify:     Gemini URL-context reads each video page -> real title, channel, view count
 3. select:     most-viewed verified videos per niche
 4. analyze:    Gemini watches each video and returns a structured breakdown
@@ -12,6 +14,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 import urllib.error
@@ -149,6 +152,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--per-niche", type=int, default=7)
     ap.add_argument("--out", default="research/viral")
+    ap.add_argument("--source", choices=["ytdlp", "gemini"], default="ytdlp")
+    ap.add_argument("--search", type=int, default=40, help="search results per niche (ytdlp)")
     args = ap.parse_args()
     KEY = key()
     out = Path(args.out)
@@ -156,24 +161,43 @@ def main():
 
     # 1. candidates
     cand_path = out / "candidates.json"
+    ver_path = out / "verified.json"
     cands = load(cand_path, {})
+    verified = load(ver_path, {})
     for niche, desc in NICHES.items():
         if niche in cands:
             continue
-        text = ask([{"text": (
-            f"List 16 real, very viral YouTube Shorts (millions of views) in this niche: {desc}. "
-            "Prefer the biggest faceless channels in the niche. Only include videos you are confident exist, "
-            'with their real 11-character IDs. Return JSON: [{"url": "https://www.youtube.com/shorts/ID", '
-            '"channel": "...", "title": "..."}]')}], json_out=True)
-        items = parse_json(text) or []
-        urls = [i.get("url", "") for i in items if isinstance(i, dict)] + SEEDS.get(niche, [])
-        cands[niche] = sorted({f"https://www.youtube.com/watch?v={vid(u)}" for u in urls if vid(u)})
+        if args.source == "ytdlp":
+            # Real search results with real view counts; no verification step needed.
+            query = f"ytsearch{args.search}:{desc} #shorts"
+            proc = subprocess.run(["yt-dlp", "--flat-playlist", "--dump-json", "--no-warnings", query],
+                                  capture_output=True, text=True)
+            rows = [json.loads(l) for l in proc.stdout.splitlines() if l.strip()]
+            cands[niche] = []
+            for r in rows:
+                if not r.get("id") or (r.get("duration") or 0) > 180:
+                    continue
+                u = f"https://www.youtube.com/watch?v={r['id']}"
+                cands[niche].append(u)
+                verified[u] = {"exists": True, "title": r.get("title"), "channel": r.get("channel"),
+                               "views": r.get("view_count"), "views_n": r.get("view_count") or 0,
+                               "uploaded": r.get("upload_date"), "niche": niche}
+            ver_path.write_text(json.dumps(verified, indent=1))
+            if not rows:
+                sys.exit("yt-dlp search returned nothing (is youtube.com reachable?); try --source gemini")
+        else:
+            text = ask([{"text": (
+                f"List 16 real, very viral YouTube Shorts (millions of views) in this niche: {desc}. "
+                "Prefer the biggest faceless channels in the niche. Only include videos you are confident exist, "
+                'with their real 11-character IDs. Return JSON: [{"url": "https://www.youtube.com/shorts/ID", '
+                '"channel": "...", "title": "..."}]')}], json_out=True)
+            items = parse_json(text) or []
+            urls = [i.get("url", "") for i in items if isinstance(i, dict)] + SEEDS.get(niche, [])
+            cands[niche] = sorted({f"https://www.youtube.com/watch?v={vid(u)}" for u in urls if vid(u)})
         cand_path.write_text(json.dumps(cands, indent=1))
         print(f"[candidates] {niche}: {len(cands[niche])}", flush=True)
 
-    # 2. verify (8 pages per request)
-    ver_path = out / "verified.json"
-    verified = load(ver_path, {})
+    # 2. verify (8 pages per request; ytdlp candidates are already verified)
     todo = [(n, u) for n, us in cands.items() for u in us if u not in verified]
     for i in range(0, len(todo), 8):
         batch = todo[i:i + 8]
