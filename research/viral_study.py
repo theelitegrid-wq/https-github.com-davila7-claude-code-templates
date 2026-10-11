@@ -21,7 +21,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-MODELS = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash"]
+MODELS = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash"]  # override with --models
 
 NICHES = {
     "3d-what-happens-if": "3D animated 'what happens if' shorts about the body, injuries, survival (Zack D. Films style)",
@@ -152,10 +152,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--per-niche", type=int, default=7)
     ap.add_argument("--out", default="research/viral")
-    ap.add_argument("--source", choices=["ytdlp", "gemini"], default="ytdlp")
+    ap.add_argument("--source", choices=["ytdlp", "gemini", "file"], default="ytdlp")
+    ap.add_argument("--urls", help="for --source file: JSON {niche: [video ids or urls]}")
+    ap.add_argument("--models", help="comma-separated Gemini models to rotate through")
     ap.add_argument("--search", type=int, default=40, help="search results per niche (ytdlp)")
     args = ap.parse_args()
     KEY = key()
+    if args.models:
+        MODELS[:] = args.models.split(",")
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -166,6 +170,8 @@ def main():
     verified = load(ver_path, {})
     for niche, desc in NICHES.items():
         if niche in cands:
+            continue
+        if args.source == "file":
             continue
         if args.source == "ytdlp":
             # Real search results with real view counts; no verification step needed.
@@ -197,6 +203,11 @@ def main():
         cand_path.write_text(json.dumps(cands, indent=1))
         print(f"[candidates] {niche}: {len(cands[niche])}", flush=True)
 
+    if args.source == "file":
+        for niche, ids in json.loads(Path(args.urls).read_text()).items():
+            cands.setdefault(niche, [f"https://www.youtube.com/watch?v={vid(i) or i}" for i in ids])
+        cand_path.write_text(json.dumps(cands, indent=1))
+
     # 2. verify (8 pages per request; ytdlp candidates are already verified)
     todo = [(n, u) for n, us in cands.items() for u in us if u not in verified]
     for i in range(0, len(todo), 8):
@@ -206,7 +217,8 @@ def main():
             text = ask([{"text": (
                 "Read each of these YouTube pages and report ONLY what is literally on each page. Return a JSON "
                 'array, one object per URL: {"url": ..., "exists": true/false, "title": ..., "channel": ..., '
-                '"views": "e.g. 12M views or not shown", "uploaded": "..."}\n' + listing)}],
+                '"views": "e.g. 12M views or not shown", "likes": "e.g. 371K or not shown", '
+                '"uploaded": "..."}\n' + listing)}],
                 tools=[{"url_context": {}}])
             rows = parse_json(text) or []
         except RuntimeError as e:
@@ -217,6 +229,7 @@ def main():
             r = by_id.get(vid(u)) or {"exists": False}
             r["niche"] = niche
             r["views_n"] = views_num(r.get("views"))
+            r["likes_n"] = views_num(r.get("likes"))
             verified[u] = r
         ver_path.write_text(json.dumps(verified, indent=1))
         ok = sum(1 for _, u in batch if verified[u].get("exists") and verified[u].get("title"))
@@ -224,10 +237,10 @@ def main():
 
     # 3. select
     picks = []
-    for niche in NICHES:
+    for niche in cands:
         rows = [(u, r) for u, r in verified.items()
                 if r.get("niche") == niche and r.get("exists") and r.get("title")]
-        rows.sort(key=lambda x: x[1].get("views_n", 0), reverse=True)
+        rows.sort(key=lambda x: (x[1].get("views_n", 0), x[1].get("likes_n", 0)), reverse=True)
         picks += [(niche, u, r) for u, r in rows[:args.per_niche]]
     print(f"[select] {len(picks)} videos", flush=True)
 
@@ -246,7 +259,8 @@ def main():
         if not a:
             continue
         results[u] = {"niche": niche, "title": r.get("title"), "channel": r.get("channel"),
-                      "views": r.get("views"), "views_n": r.get("views_n"), "uploaded": r.get("uploaded"),
+                      "views": r.get("views"), "views_n": r.get("views_n"), "likes": r.get("likes"),
+                      "likes_n": r.get("likes_n"), "uploaded": r.get("uploaded"),
                       "analysis": a}
         res_path.write_text(json.dumps(results, indent=1, ensure_ascii=False))
         print(f"[analyze] {n}/{len(picks)} {niche}: {str(r.get('title'))[:60]}", flush=True)
