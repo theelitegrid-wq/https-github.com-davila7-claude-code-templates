@@ -29,6 +29,20 @@ feedback; the newest feedback wins.
   stylized avatar.
 - Reference style: Zack D. Films-type 3D "what happens if" explainers.
 
+## Reference study (Oct 2026, 65 shorts; research/niche-report.md)
+
+Measured medians across 65 analyzed shorts (Zack D. Films clips, Kurzgesagt, space, survival,
+animals, body and more). Owner feedback above wins where they conflict.
+
+- Length 45-60 s (median 60 s). Shots change every 2-3 s (median 2.7 s), mostly medium framing.
+- Narration about 150 words per minute; voice starts on frame 1.
+- Hook: a question (most common) or a shocking claim, within 2 s. Emotion: curiosity.
+- Structure: one hypothetical, consequences that escalate, a true twist, then an abrupt
+  ending on a punchline or question that loops back to the hook.
+- Captions: word-by-word with the current word highlighted (sample mostly mid-screen; we keep
+  them small and lower per owner feedback).
+- Frame plain explainers as "what if" with stakes for the viewer; plain explainers did poorly.
+
 ## Motion rules
 
 - Every move eases in and out; no linear, robotic motion, no abrupt stops.
