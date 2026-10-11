@@ -1,3 +1,5 @@
 vendor/
 .claude/skills/
 __pycache__/
+references/*
+!references/README.md

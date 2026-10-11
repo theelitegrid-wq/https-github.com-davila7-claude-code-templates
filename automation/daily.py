@@ -22,6 +22,7 @@ HERE = ROOT / "automation"
 ENGINE = ROOT / "vendor" / "MoneyPrinterTurbo"
 STUDIO = ROOT / "studio"
 HISTORY = HERE / "history.json"
+STYLE = HERE / "style.md"
 
 PROMPT = """You run a fast-growing YouTube channel.
 Niche: {niche}
@@ -31,6 +32,9 @@ Style rules: {style_rules}
 
 Titles already published (never repeat or closely rephrase these topics):
 {past}
+
+Channel style guide (follow it; owner feedback in it overrides anything below):
+{style}
 
 Pick ONE new topic with high click potential that big channels in this niche would make, then write it.
 Return ONLY a JSON object with these keys:
@@ -164,6 +168,7 @@ def main():
 
     plan = ask_llm(PROMPT.format(
         past="\n".join(f"- {h['title']}" for h in history[-200:]) or "(none yet)",
+        style=STYLE.read_text(encoding="utf-8") if STYLE.exists() else "(none)",
         **{k: cfg[k] for k in ("niche", "audience", "language", "style_rules", "scenes")},
     ))
     print(f"Topic: {plan['topic']}\nTitle: {plan['title']}", flush=True)
