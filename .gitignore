@@ -1,5 +1,6 @@
 vendor/
-.claude/skills/
+.claude/skills/*
+!.claude/skills/style-study/
 __pycache__/
 references/*
 !references/README.md

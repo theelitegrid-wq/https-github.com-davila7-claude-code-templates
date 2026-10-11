@@ -81,6 +81,16 @@ Preview and tweak the 3D scenes live with `cd studio && npm run studio`. Scene t
 For flagship long-form videos, open Claude Code in this repo and use `/remotion-create` (or open
 `vendor/claude-code-video-toolkit` and use `/video`).
 
+## Learn a style from reference videos
+
+- `/watch <file or URL>`: the [watch skill](https://github.com/bradautomates/claude-video) (MIT)
+  pulls scene frames and the transcript so Claude can see a video.
+- `/style-study`: measures reference videos (cuts, shot length, hook timing, color, loudness,
+  contact sheets) with `.claude/skills/style-study/scripts/metrics.py`, then writes the rules
+  into `automation/style.md` and adjusts the renderer.
+- `research/channels.md`: 30 big creator-led channels and 30 faceless channels, with how
+  each makes its videos.
+
 ## Google Flow
 
 Flow (labs.google/flow) has no API, so it cannot be automated; automating its website would break

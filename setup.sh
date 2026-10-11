@@ -8,6 +8,7 @@ REMOTION_SKILLS_SHA=32b241b97f4e0e4ab61fe9a41b05e6e64503f8c5      # remotion-dev
 VIDEO_TOOLKIT_SHA=4e7b296625e1ec3c4dc8bfac6bc0bdcbaef60962        # digitalsamba/claude-code-video-toolkit (MIT)
 MONEYPRINTER_SHA=4204d0f39afa8ada6f3edc31604141f959fe254e         # harry0703/MoneyPrinterTurbo (MIT)
 THREEJS_SHA=11738a9d55e502fb484cefffcea3a66dc44e9fe9               # mrdoob/three.js: Mixamo character + motions
+WATCH_SKILL_SHA=03ceb42f7fa2c4439aca01752118044baabffb8f          # bradautomates/claude-video: /watch skill (MIT)
 
 fetch() { # repo sha dest
   rm -rf "$3"; mkdir -p "$3"
@@ -26,6 +27,9 @@ fetch remotion-dev/skills "$REMOTION_SKILLS_SHA" "$TMP/remotion"
 mkdir -p .claude/skills
 cp -r "$TMP"/remotion/skills/* .claude/skills/
 cp -r vendor/claude-code-video-toolkit/.claude/skills/{ffmpeg,frontend-design} .claude/skills/
+fetch bradautomates/claude-video "$WATCH_SKILL_SHA" "$TMP/watch"
+rm -rf .claude/skills/watch && cp -r "$TMP/watch/skills/watch" .claude/skills/watch
+command -v yt-dlp >/dev/null || pip install --quiet --user "yt-dlp[default]" || true
 
 if [[ "${SKIP_PYTHON:-0}" != 1 ]]; then
   echo "==> Python deps for MoneyPrinterTurbo (needs uv + ffmpeg)"
