@@ -137,16 +137,16 @@ footer { color: var(--muted); font-size: .85rem; }
 
 <section>
   <div class="eyebrow">Evidence · every video</div>
-  <h2>Which video got how many views</h2>
+  <h2>Which video got how many views and likes</h2>
   <div class="controls" id="niche-filter" role="group" aria-label="Filter by niche"></div>
   <div class="controls"><label for="sort">Sort by</label>
-    <select id="sort"><option value="views">Views</option><option value="likes">Likes</option><option value="length">Length</option><option value="shot">Shot length</option></select>
+    <select id="sort"><option value="likes">Likes</option><option value="views">Views</option><option value="length">Length</option><option value="shot">Shot length</option></select>
     <span class="muted" id="count"></span></div>
   <div class="tablebox"><table>
     <thead><tr><th>Short</th><th>Niche</th><th class="n">Views</th><th class="n">Likes</th><th>Hook</th><th class="n">Length</th><th class="n">Shot</th><th>Why it works</th></tr></thead>
     <tbody id="rows"></tbody>
   </table></div>
-  <p class="muted" style="font-size:.88rem">"—" means YouTube didn't show the number on the page Gemini read (Shorts pages often show likes only). Like counts are a rough popularity signal: a short typically gets 1 like per 20–50 views.</p>
+  <p class="muted" style="font-size:.88rem">Shorts pages usually show likes, not views, so likes are the main popularity number here; a short typically gets about 1 like per 20–50 views. "—" means the page didn't show the number. Four videos returned the wrong page when read, so they're marked "title unreadable" and their numbers are left out.</p>
 </section>
 
 <section>

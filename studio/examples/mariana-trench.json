@@ -1,31 +1,103 @@
 {
-  "topic": "falling into the Mariana Trench",
-  "title": "What if you fell into the Mariana Trench? 🌊",
-  "description": "The deepest place on Earth is nearly 11 km down. Here's what the water would do to your body on the way to the bottom. #shorts #whatif #ocean #science #marianatrench",
-  "tags": ["what if", "mariana trench", "deep sea", "ocean pressure", "challenger deep", "human body", "science", "shorts"],
-  "audio": null,
-  "scenes": [
-    {"narration": "What if you fell into the Mariana Trench?",
-     "type": "person", "shot": "medium", "pose": "idle", "face": "neutral", "color": "#1d3557", "accent": "#4cc9f0"},
-    {"narration": "It's nearly eleven kilometers deep, the deepest place on Earth.",
-     "type": "planet", "color": "#1d6fa3", "accent": "#48cae4", "callout": "11 KM"},
-    {"narration": "In the first ten meters, the pressure doubles and can burst your eardrums.",
-     "type": "person", "shot": "medium", "pose": "no", "face": "scared", "focus": "head", "color": "#14213d", "accent": "#ff4d6d"},
-    {"narration": "By two hundred meters, almost all the sunlight is gone.",
-     "type": "tunnel", "color": "#0b2545", "accent": "#90e0ef"},
-    {"narration": "Your lungs keep shrinking. The official record on one breath is just 214 meters.",
-     "type": "body", "focus": "lungs", "color": "#4cc9f0", "accent": "#ff4d6d", "callout": "214 M"},
-    {"narration": "Below a thousand meters, it's pitch black and barely above freezing.",
-     "type": "tunnel", "color": "#03045e", "accent": "#caf0f8"},
-    {"narration": "Down here, many animals make their own light to hunt.",
-     "type": "blob", "color": "#1b263b", "accent": "#00f5d4"},
-    {"narration": "At the bottom, the pressure is over a thousand times stronger than at the surface.",
-     "type": "shatter", "color": "#415a77", "accent": "#48cae4", "callout": "1,000×"},
-    {"narration": "That's about eight tons on every square inch of your body.",
-     "type": "person", "shot": "full", "pose": "tired", "face": "shocked", "color": "#1d3557", "accent": "#ff4d6d"},
-    {"narration": "In 1960, two men made it down inside a steel ball with walls thirteen centimeters thick.",
-     "type": "planet", "color": "#0b2545", "accent": "#ffd166"},
-    {"narration": "Would you make that trip?",
-     "type": "person", "shot": "medium", "pose": "yes", "face": "smile", "color": "#1d3557", "accent": "#ffd166"}
-  ]
+ "topic": "falling into the Mariana Trench",
+ "title": "What if you fell into the Mariana Trench? 🌊",
+ "description": "The deepest place on Earth is nearly 11 km down. Here's what the water would do to your body on the way to the bottom. #shorts #whatif #ocean #science #marianatrench",
+ "tags": [
+  "what if",
+  "mariana trench",
+  "deep sea",
+  "ocean pressure",
+  "challenger deep",
+  "human body",
+  "science",
+  "shorts"
+ ],
+ "audio": null,
+ "scenes": [
+  {
+   "narration": "What if you fell into the Mariana Trench?",
+   "type": "person",
+   "shot": "medium",
+   "pose": "idle",
+   "face": "neutral",
+   "color": "#1d3557",
+   "accent": "#4cc9f0"
+  },
+  {
+   "narration": "It's nearly eleven kilometers deep, the deepest place on Earth.",
+   "type": "planet",
+   "color": "#1d6fa3",
+   "accent": "#48cae4",
+   "callout": "11 KM"
+  },
+  {
+   "narration": "In the first ten meters, the pressure doubles and can burst your eardrums.",
+   "type": "person",
+   "shot": "medium",
+   "pose": "no",
+   "face": "scared",
+   "focus": "ears",
+   "color": "#14213d",
+   "accent": "#ff4d6d"
+  },
+  {
+   "narration": "By two hundred meters, almost all the sunlight is gone.",
+   "type": "tunnel",
+   "color": "#0b2545",
+   "accent": "#90e0ef",
+   "mode": "water"
+  },
+  {
+   "narration": "Your lungs keep shrinking. The official record on one breath is just 214 meters.",
+   "type": "body",
+   "focus": "lungs",
+   "color": "#4cc9f0",
+   "accent": "#ff4d6d",
+   "callout": "214 M"
+  },
+  {
+   "narration": "Below a thousand meters, it's pitch black and barely above freezing.",
+   "type": "tunnel",
+   "color": "#03045e",
+   "accent": "#caf0f8",
+   "mode": "water"
+  },
+  {
+   "narration": "Down here, many animals make their own light to hunt.",
+   "type": "blob",
+   "color": "#1b263b",
+   "accent": "#00f5d4"
+  },
+  {
+   "narration": "At the bottom, the pressure is over a thousand times stronger than at the surface.",
+   "type": "shatter",
+   "color": "#415a77",
+   "accent": "#48cae4",
+   "callout": "1,000×"
+  },
+  {
+   "narration": "That's about eight tons on every square inch of your body.",
+   "type": "person",
+   "shot": "full",
+   "pose": "tired",
+   "face": "shocked",
+   "color": "#1d3557",
+   "accent": "#ff4d6d"
+  },
+  {
+   "narration": "In 1960, two men made it down inside a steel ball with walls thirteen centimeters thick.",
+   "type": "bathysphere",
+   "color": "#0b2545",
+   "accent": "#ffd166"
+  },
+  {
+   "narration": "Would you make that trip?",
+   "type": "person",
+   "shot": "medium",
+   "pose": "yes",
+   "face": "smile",
+   "color": "#1d3557",
+   "accent": "#ffd166"
+  }
+ ]
 }

@@ -20,6 +20,7 @@ export type Scene = {
   accent?: string;
   callout?: string;
   focus?: string;
+  mode?: string;
   pose?: string;
   shot?: string;
   face?: string;

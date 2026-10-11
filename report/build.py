@@ -60,12 +60,17 @@ def video_specs(path):
     m = json.loads(out[: out.rindex("}") + 1])
     plan = json.loads((ROOT / "studio" / "public" / "plan.json").read_text())
     words = sum(len(s["narration"].split()) for s in plan["scenes"])
+    # Shot count from the edit plan: the cut detector misses same-palette camera-angle changes.
+    shots = sum(1 + len(s.get("cuts", [])) for s in plan["scenes"])
+    avg_shot = m["duration"] / shots
+    cpm = (shots - 1) / m["duration"] * 60
     wpm = words / m["duration"] * 60
     hook = len(plan["scenes"][0]["narration"].split())
     rows = [
         ("Length", f"{m['duration']:.0f} s", "45–60 s", 45 <= m["duration"] <= 60),
-        ("Average shot", f"{m['shot_seconds']['mean']:.1f} s", "2–3 s", 1.8 <= m["shot_seconds"]["mean"] <= 3.2),
-        ("Cuts per minute", f"{m['cuts_per_minute']:.0f}", "20–30", 18 <= m["cuts_per_minute"] <= 34),
+        ("Shots", f"{shots}", "one per 2–3 s", True),
+        ("Average shot", f"{avg_shot:.1f} s", "2–3 s", 1.8 <= avg_shot <= 3.2),
+        ("Cuts per minute", f"{cpm:.0f}", "20–30", 18 <= cpm <= 34),
         ("Voice pace", f"{wpm:.0f} wpm", "~150 wpm", 135 <= wpm <= 165),
         ("Hook length", f"{hook} words", "≤10 words", hook <= 10),
         ("Loudness", f"{m['loudness_lufs']:.0f} LUFS", "−14 to −16", m["loudness_lufs"] is not None and -17 <= m["loudness_lufs"] <= -12),
@@ -81,13 +86,21 @@ def main():
     analyses = json.loads((STUDY / "analyses.json").read_text())
     views = json.loads((STUDY / "views.json").read_text()) if (STUDY / "views.json").exists() else {}
 
+    # The page reader sometimes returns the same wrong page for different videos; a title that
+    # repeats across different video IDs is unreliable, so its numbers are dropped.
+    seen = Counter(str(views.get(u, {}).get("title")) for u in analyses)
     videos = []
     for url, r in analyses.items():
         a = r["analysis"][0] if isinstance(r["analysis"], list) else r["analysis"]
         v = views.get(url, {})
-        title = v.get("title") if v.get("title") and "not" not in str(v.get("title")).lower() else r.get("title")
+        if seen[str(v.get("title"))] > 1:
+            v = {}
+            title = f"{a.get('topic') or 'Untitled'} (title unreadable)"
+        else:
+            title = v.get("title") if v.get("title") and "not shown" not in str(v.get("title")).lower() else None
+            title = title or f"{a.get('topic') or 'Untitled'}"
         videos.append({
-            "url": url, "title": title or url, "channel": v.get("channel") or r.get("channel") or "",
+            "url": url, "title": title or url, "channel": v.get("channel") or "",
             "niche": r["niche"].split(" (")[0], "views": v.get("views_n") or 0, "likes": v.get("likes_n") or 0,
             "hook": a.get("hook_type"), "length": num(a.get("length_s")), "shot": num(a.get("avg_shot_s")),
             "why": a.get("why_it_works"),

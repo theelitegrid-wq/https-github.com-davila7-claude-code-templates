@@ -11,9 +11,9 @@ import {retarget} from './retarget';
 import type {Scene} from './Short';
 
 type V3 = [number, number, number];
-type SceneProps = {color: string; accent: string; t: number; dur: number; seed: string; focus?: string};
+type SceneProps = {color: string; accent: string; t: number; dur: number; seed: string; focus?: string; mode?: string};
 
-export const SCENE_TYPES = ['person', 'body', 'tunnel', 'blob', 'planet', 'shatter', 'virus'] as const;
+export const SCENE_TYPES = ['person', 'bathysphere', 'body', 'tunnel', 'blob', 'planet', 'shatter', 'virus'] as const;
 
 const ease = (t: number, a: number, b: number, from: number, to: number) =>
   interpolate(t, [a, b], [from, to], {
@@ -182,7 +182,95 @@ const Blob: React.FC<SceneProps> = ({color, accent, t, seed}) => {
 };
 
 // ---------- tunnel: flying through a blood vessel, throat, gut, cave, pipe ----------
-const Tunnel: React.FC<SceneProps> = ({color, accent, t, seed}) => {
+// Drifting particles in deep water ("marine snow"), streaming past a descending camera.
+const Snow: React.FC<{seed: string; t: number; color: string; count?: number; spread?: number; speed?: number}> = ({
+  seed, t, color, count = 420, spread = 9, speed = 0.9,
+}) => {
+  const geo = useMemo(() => new THREE.SphereGeometry(0.025, 6, 4), []);
+  return (
+    <Swarm
+      count={count}
+      geometry={geo}
+      place={(i) => {
+        const x = (random(`${seed}nx${i}`) - 0.5) * spread;
+        const z = -random(`${seed}nz${i}`) * spread;
+        const y = ((random(`${seed}ny${i}`) * spread + t * speed * (0.6 + random(`${seed}nv${i}`))) % spread) - spread / 2;
+        const k = 0.6 + random(`${seed}ns${i}`) * 1.6;
+        return {p: [x, y, z], s: [k, k, k], r: [0, 0, 0]};
+      }}
+    >
+      <meshBasicMaterial color={color} transparent opacity={0.55} />
+    </Swarm>
+  );
+};
+
+// Open deep water: no walls, light fading above, marine snow rising past the sinking camera.
+const DeepWater: React.FC<SceneProps> = ({color, accent, t, seed}) => {
+  const y = -t * 0.6;
+  return (
+    <>
+      <Backdrop color={color} fog={[1, 10]} />
+      <Rig pos={[Math.sin(t * 0.3) * 0.3, y, 4]} look={[0, y - 0.6, 0]} fov={55} orbit={false} />
+      <ambientLight intensity={0.25} />
+      <mesh position={[0, y + 9, -4]}>
+        <planeGeometry args={[30, 8]} />
+        <meshBasicMaterial color={accent} transparent opacity={0.12} />
+      </mesh>
+      <group position={[0, y, 0]}>
+        <Snow seed={seed} t={t} color={accent} />
+      </group>
+    </>
+  );
+};
+
+// A steel deep-sea sphere with a lit porthole, sinking slowly through dark water.
+const Bathysphere: React.FC<SceneProps> = ({color, accent, t, seed}) => {
+  const z = ease(t, 0, 6, 7.6, 6.4);
+  return (
+    <>
+      <Backdrop color={color} fog={[4, 16]} />
+      <Rig pos={[0.6 + Math.sin(t * 0.25) * 0.6, 0.4, z]} />
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[2, 6, 4]} intensity={1.6} color="#cfe8ff" />
+      <pointLight position={[0, -2.2, 1.2]} color={accent} intensity={25} distance={7} />
+      <group position={[0, Math.sin(t * 0.8) * 0.08, 0]} rotation={[0.05, -0.3 + t * 0.05, Math.sin(t * 0.6) * 0.03]}>
+        <mesh>
+          <sphereGeometry args={[1, 64, 48]} />
+          <meshStandardMaterial color="#9aa7b4" metalness={0.85} roughness={0.32} />
+        </mesh>
+        {[-0.35, 0, 0.35].map((a) => (
+          <mesh key={a} rotation={[Math.PI / 2, 0, a]}>
+            <torusGeometry args={[1.005, 0.018, 8, 96]} />
+            <meshStandardMaterial color="#6c7a89" metalness={0.9} roughness={0.4} />
+          </mesh>
+        ))}
+        <group position={[0, 0.05, 0.99]}>
+          <mesh>
+            <torusGeometry args={[0.2, 0.05, 16, 48]} />
+            <meshStandardMaterial color="#5b6672" metalness={0.9} roughness={0.3} />
+          </mesh>
+          <mesh position={[0, 0, 0.03]}>
+            <circleGeometry args={[0.2, 40]} />
+            <meshBasicMaterial color={accent} />
+          </mesh>
+          <pointLight position={[0, 0, 0.6]} color={accent} intensity={4} distance={3} />
+        </group>
+        <mesh position={[0, 1.15, 0]}>
+          <cylinderGeometry args={[0.03, 0.03, 0.4, 12]} />
+          <meshStandardMaterial color="#5b6672" metalness={0.9} roughness={0.4} />
+        </mesh>
+      </group>
+      <Snow seed={seed} t={t} color="#cfe8ff" count={300} spread={10} speed={0.5} />
+    </>
+  );
+};
+
+const Tunnel: React.FC<SceneProps> = (props) => {
+  if (props.mode === 'water') return <DeepWater {...props} />;
+  return <TunnelBody {...props} />;
+};
+
+const TunnelBody: React.FC<SceneProps> = ({color, accent, t, seed}) => {
   const L = 90;
   const wall = useMemo(() => {
     const g = new THREE.CylinderGeometry(2.2, 2.2, L, 80, 260, true);
@@ -514,6 +602,7 @@ const FACES: Record<string, {mouthOpen: number; mouthSmile: number}> = {
 // Offsets are in the bone's local space (Mixamo bones are in centimetres).
 const ORGANS: Record<string, [string, V3, number]> = {
   brain: ['mixamorigHead', [0, 17, -2], 0.05],
+  ears: ['mixamorigHead', [8.5, 8, -1], 0.022],
   head: ['mixamorigHead', [0, 10, -1], 0.07],
   eyes: ['mixamorigHead', [0, 8, 9], 0.025],
   heart: ['mixamorigSpine2', [3, 2, 6], 0.045],
@@ -578,7 +667,13 @@ const Person: React.FC<PersonProps> = ({color, accent, t, dur, focus, pose = 'id
   }, [mixer, model, clips, baseName, layerName]);
 
   const organ = focus ? ORGANS[focus.toLowerCase()] : undefined;
-  const glow = useRef<THREE.Group>(null);
+  // Paired organs glow on both sides of the body.
+  const points: V3[] = organ
+    ? focus?.toLowerCase() === 'ears'
+      ? [organ[1], [-organ[1][0], organ[1][1], organ[1][2]]]
+      : [organ[1]]
+    : [];
+  const glows = useRef<(THREE.Group | null)[]>([]);
   useLayoutEffect(() => {
     mixer.setTime(t);
     model.updateMatrixWorld(true);
@@ -592,10 +687,11 @@ const Person: React.FC<PersonProps> = ({color, accent, t, dur, focus, pose = 'id
         }
       }
     });
-    if (organ && glow.current) {
-      const bone = model.getObjectByName(organ[0]);
-      if (bone) glow.current.position.copy(bone.localToWorld(new THREE.Vector3(...organ[1])));
-    }
+    const bone = organ ? model.getObjectByName(organ[0]) : undefined;
+    points.forEach((p, i) => {
+      const g = glows.current[i];
+      if (bone && g) g.position.copy(bone.localToWorld(new THREE.Vector3(...p)));
+    });
   });
 
   const faceY = useMemo(() => {
@@ -633,8 +729,8 @@ const Person: React.FC<PersonProps> = ({color, accent, t, dur, focus, pose = 'id
         <planeGeometry args={[30, 8]} />
         <meshStandardMaterial color={color} roughness={0.95} />
       </mesh>
-      {organ ? (
-        <group ref={glow}>
+      {organ ? points.map((_, gi) => (
+        <group key={gi} ref={(el) => { glows.current[gi] = el; }}>
           <mesh scale={1 + 0.2 * beat}>
             <sphereGeometry args={[organ[2], 24, 16]} />
             <meshBasicMaterial color={accent} transparent opacity={0.7} blending={THREE.AdditiveBlending} depthTest={false} depthWrite={false} />
@@ -644,7 +740,7 @@ const Person: React.FC<PersonProps> = ({color, accent, t, dur, focus, pose = 'id
             <meshBasicMaterial color={accent} transparent opacity={0.15} blending={THREE.AdditiveBlending} depthTest={false} depthWrite={false} />
           </mesh>
         </group>
-      ) : null}
+      )) : null}
     </>
   );
 };
@@ -660,6 +756,7 @@ const COMPONENTS: Record<string, React.FC<PersonProps>> = {
   planet: Planet,
   shatter: Shatter,
   virus: Virus,
+  bathysphere: Bathysphere,
 };
 
 export const SceneView: React.FC<{scene: Scene; index: number; variant?: number; offset?: number}> = ({
@@ -679,6 +776,7 @@ export const SceneView: React.FC<{scene: Scene; index: number; variant?: number;
       t={frame / fps + offset}
       dur={scene.duration}
       focus={scene.focus}
+      mode={scene.mode}
       pose={scene.pose}
       shot={scene.shot}
       face={scene.face}

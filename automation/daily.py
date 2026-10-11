@@ -55,7 +55,9 @@ Return ONLY a JSON object with these keys:
           "person"  a realistic everyday person reacting (use for the hook, the human moments and
                     the ending; about half the scenes), optionally with a glowing organ (focus),
           "body"    x-ray human with one glowing organ (inside-the-body cutaways),
-          "tunnel"  flying through a blood vessel / throat / gut / cave / pipe,
+          "tunnel"  flying through a blood vessel / throat / gut / cave / pipe; with "mode": "water"
+                    it becomes open deep water with drifting particles (ocean, sinking, darkness),
+          "bathysphere" a steel deep-sea sphere sinking (submarines, deep dives, explorers),
           "blob"    a glossy pulsing organic object (organ, brain, cell, creature, food),
           "planet"  a planet in space (Earth, space, climate, global scale),
           "shatter" something exploding into pieces (shock, collapse, impact, a twist),
