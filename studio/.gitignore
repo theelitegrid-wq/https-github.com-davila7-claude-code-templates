@@ -1,0 +1,7 @@
+node_modules/
+.venv/
+models/
+out/
+public/voice.wav
+public/voice.norm.wav
+public/plan.json

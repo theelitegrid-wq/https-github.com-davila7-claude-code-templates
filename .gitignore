@@ -1,0 +1,7 @@
+vendor/
+.claude/skills/*
+!.claude/skills/style-study/
+__pycache__/
+references/*
+!references/README.md
+research/**/*.log

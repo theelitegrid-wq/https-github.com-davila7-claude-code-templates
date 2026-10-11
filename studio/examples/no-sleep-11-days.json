@@ -1,0 +1,25 @@
+{
+  "topic": "11 days without sleep",
+  "title": "What if you don't sleep for 11 days? 😵",
+  "description": "In 1964, 17-year-old Randy Gardner stayed awake for 11 days and 25 minutes. Here's what it did to his brain and body. #shorts #science #sleep #humanbody #whatif",
+  "tags": ["what if", "sleep deprivation", "randy gardner", "11 days without sleep", "human body", "brain", "science facts", "shorts"],
+  "audio": null,
+  "scenes": [
+    {"narration": "What if you don't sleep for eleven days?",
+     "type": "person", "shot": "medium", "pose": "idle", "face": "neutral", "color": "#3d5a80", "accent": "#ffd166"},
+    {"narration": "A teenager actually did it in 1964.",
+     "type": "person", "shot": "full", "pose": "walk", "face": "neutral", "color": "#4a6fa5", "accent": "#ffd166", "callout": "1964"},
+    {"narration": "After one night, his brain worked like someone who's drunk.",
+     "type": "person", "shot": "medium", "pose": "tired", "face": "neutral", "focus": "brain", "color": "#5c4d7d", "accent": "#ff4d6d", "callout": "24 HOURS"},
+    {"narration": "Then microsleeps hit, switching his brain off for seconds.",
+     "type": "blob", "color": "#7b2cbf", "accent": "#c77dff"},
+    {"narration": "His immune system got weaker every day.",
+     "type": "virus", "color": "#2a9d8f", "accent": "#e9c46a"},
+    {"narration": "By day four, he thought a street sign was a person.",
+     "type": "person", "shot": "close", "pose": "no", "face": "shocked", "color": "#6d597a", "accent": "#ff9f1c", "callout": "DAY 4"},
+    {"narration": "Then he slept fourteen hours and woke up fine.",
+     "type": "person", "shot": "medium", "pose": "yes", "face": "smile", "focus": "brain", "color": "#355070", "accent": "#80ffdb"},
+    {"narration": "Guinness stopped tracking it. Too dangerous. Would you last three days?",
+     "type": "person", "shot": "close", "pose": "idle", "face": "smile", "color": "#3d5a80", "accent": "#ffd166"}
+  ]
+}

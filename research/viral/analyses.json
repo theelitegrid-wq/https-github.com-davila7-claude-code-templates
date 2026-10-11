@@ -1,0 +1,53 @@
+{
+ "https://www.youtube.com/watch?v=gs9IqxEgMpE": {
+  "niche": "human-body-3d",
+  "title": "🫁 The Human Body: How It Works [Animation] #sciencefacts #animation #allen #shorts",
+  "channel": "ALLEN Overseas",
+  "views": "not shown",
+  "views_n": 0,
+  "uploaded": "not shown",
+  "analysis": {
+   "topic": "Human Body Cellular Chemistry",
+   "hook_words": "Hello students. Do you know the human body is composed of",
+   "hook_type": "question",
+   "length_s": 60,
+   "structure": [
+    "Hook: Cell count statistic",
+    "Analogy: Body as a chemical factory",
+    "System harmony & organ function",
+    "Illness as chemical imbalance",
+    "Medicine's role in restoring balance",
+    "Outro & Call to action"
+   ],
+   "cut_count": 18,
+   "avg_shot_s": 3.3,
+   "camera": {
+    "wide": 60,
+    "medium": 30,
+    "close": 10
+   },
+   "visual_style": "2D animation",
+   "characters": "2D cartoon figures, scientific illustrations of cells and organs, live-action person.",
+   "captions": {
+    "type": "phrase",
+    "size": "medium",
+    "position": "middle",
+    "pct_of_runtime": 85
+   },
+   "voice": "AI/TTS; clear, educational",
+   "words_per_minute": 135,
+   "music_sfx": "Upbeat educational background music with pop SFX",
+   "ending": "CTA",
+   "retention_tricks": [
+    "Text overlays",
+    "Changing visual themes",
+    "Sound effect transitions"
+   ],
+   "emotion": "curiosity",
+   "why_it_works": "Uses simple animation to explain complex biological concepts quickly. Energetic pacing maintains youth engagement.",
+   "production_difficulty": 2,
+   "faceless": true,
+   "makeable_with_free_3d_pipeline": "yes - Easily recreated using free 2D vector assets and basic video editing tools."
+  }
+ }
+}

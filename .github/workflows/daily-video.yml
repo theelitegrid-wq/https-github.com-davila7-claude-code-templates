@@ -1,0 +1,82 @@
+name: Daily video
+
+on:
+  schedule:
+    - cron: "17 14 * * *"   # 14:17 UTC daily; change to when your audience is online
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Render only, skip YouTube upload"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency: daily-video
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      HAS_CLAUDE: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
+
+      - name: Cache voice model
+        uses: actions/cache@v4
+        with:
+          path: studio/models
+          key: kokoro-v1.0
+
+      - name: Install ffmpeg and ImageMagick
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg imagemagick
+
+      - name: Install Claude Code CLI (only used when CLAUDE_CODE_OAUTH_TOKEN is set)
+        if: ${{ env.HAS_CLAUDE == 'true' }}
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Install skills and engines (pinned)
+        run: bash setup.sh && vendor/MoneyPrinterTurbo/.venv/bin/python -m pip install -q kaggle || pip install -q kaggle
+
+      - name: Make and upload today's video
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+        run: vendor/MoneyPrinterTurbo/.venv/bin/python automation/daily.py
+
+      - name: Keep the rendered video as a download
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ github.run_number }}
+          path: |
+            studio/out/final.mp4
+            vendor/MoneyPrinterTurbo/storage/tasks/*/final-*.mp4
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Save topic history (prevents repeat topics)
+        run: |
+          git config user.name "daily-video-bot"
+          git config user.email "daily-video-bot@users.noreply.github.com"
+          git add automation/history.json
+          git diff --cached --quiet || (git commit -m "Daily video: $(date -u +%F)" && git push)

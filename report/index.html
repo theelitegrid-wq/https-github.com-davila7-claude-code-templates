@@ -1,0 +1,318 @@
+<title>What-If Shorts Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,800&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one reading column (~70ch) with full-width data tables; sections in decision order:
+   verdict -> test video -> evidence -> niches -> money timeline -> what's built -> next steps */
+:root {
+  --bg: #f3f6f8; --surface: #ffffff; --ink: #0d1b2a; --muted: #4f6273; --line: #d5dee6;
+  --accent: #0a6fa8; --accent-soft: #e2f0f8; --signal: #b8560f; --good: #1d7a4f; --warn: #a2620b; --bad: #b3261e;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0a121c; --surface: #111c29; --ink: #e4ecf3; --muted: #9db0c1; --line: #22344a;
+  --accent: #56c4f2; --accent-soft: #12314a; --signal: #ffb35c; --good: #5fd39a; --warn: #f2bd5a; --bad: #ff8a80; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0a121c; --surface: #111c29; --ink: #e4ecf3; --muted: #9db0c1; --line: #22344a;
+  --accent: #56c4f2; --accent-soft: #12314a; --signal: #ffb35c; --good: #5fd39a; --warn: #f2bd5a; --bad: #ff8a80; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 64px; display: grid; gap: 56px; }
+.col { max-width: 70ch; }
+h1, h2, h3 { font-family: var(--display); font-stretch: 112%; line-height: 1.12; text-wrap: balance; margin: 0; }
+h1 { font-weight: 800; font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -0.01em; }
+h2 { font-weight: 800; font-size: clamp(1.4rem, 3.4vw, 1.9rem); }
+h3 { font-weight: 600; font-size: 1.1rem; }
+p { margin: 0; }
+section { display: grid; gap: 18px; min-width: 0; }
+.eyebrow { font: 600 .74rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.lede { font-size: 1.15rem; color: var(--muted); max-width: 62ch; }
+.depth { font: 500 .8rem/1 var(--mono); color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+.depth span { border: 1px solid var(--line); padding: 6px 9px; border-radius: 4px; background: var(--surface); }
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.vcard { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.vcard b { font: 800 1.25rem/1.2 var(--display); font-stretch: 112%; }
+.vcard small { color: var(--muted); }
+.video-row { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 720px) { .video-row { grid-template-columns: 1fr; } }
+video { width: 100%; max-width: 300px; aspect-ratio: 9 / 16; border-radius: 10px; background: #000; display: block; }
+.specs { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.spec { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.spec span:nth-child(2), .spec span:nth-child(3) { font: 500 .9rem var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.spec span:nth-child(3) { color: var(--muted); }
+.ok { color: var(--good); } .meh { color: var(--warn); }
+.bars { display: grid; gap: 8px; }
+.bar { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 2.6rem; gap: 10px; align-items: center; font-size: .92rem; }
+.bar i { display: block; height: 12px; background: var(--accent); border-radius: 2px; min-width: 2px; }
+.bar em { font: normal 500 .85rem var(--mono); text-align: right; color: var(--muted); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+.grid2 > * { min-width: 0; display: grid; gap: 12px; align-content: start; }
+.tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 .72rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--surface); position: sticky; top: 0; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+th.n { text-align: right; }
+tr:last-child td { border-bottom: 0; }
+td a { color: var(--accent); }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { font: 500 .8rem var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 11px; border-radius: 999px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.chip:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+select { font: inherit; font-size: .9rem; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.rank { display: grid; gap: 10px; counter-reset: r; }
+.niche { display: grid; grid-template-columns: 2.2rem minmax(0, 1fr) auto; gap: 14px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; align-items: start; }
+.niche .no { font: 800 1.4rem/1 var(--display); color: var(--accent); }
+.niche p { color: var(--muted); font-size: .93rem; }
+.pill { font: 600 .72rem/1 var(--mono); letter-spacing: .04em; padding: 5px 8px; border-radius: 4px; white-space: nowrap; border: 1px solid currentColor; }
+.pill.strong { color: var(--good); } .pill.medium { color: var(--warn); } .pill.weak { color: var(--bad); }
+.pick { border: 2px solid var(--accent); }
+ol.formula { margin: 0; padding-left: 1.3rem; display: grid; gap: 8px; }
+ol.formula li::marker { font-family: var(--mono); color: var(--accent); }
+.timeline { display: grid; gap: 12px; }
+.tl { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+@media (max-width: 560px) { .tl { grid-template-columns: 1fr; } .bar { grid-template-columns: 7rem minmax(0, 1fr) 2.4rem; } }
+.tl b { font-family: var(--display); font-stretch: 112%; }
+.tl .when { font: 500 .95rem var(--mono); color: var(--signal); }
+.callout { border-left: 3px solid var(--signal); padding: 4px 0 4px 14px; color: var(--ink); }
+.muted { color: var(--muted); }
+.list2 { columns: 2 260px; column-gap: 28px; margin: 0; padding-left: 1.1rem; }
+.list2 li { break-inside: avoid; margin-bottom: 6px; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; }
+details summary { cursor: pointer; font-weight: 600; }
+details[open] summary { margin-bottom: 10px; }
+code { font-family: var(--mono); font-size: .85em; background: var(--accent-soft); padding: 1px 5px; border-radius: 3px; }
+.checklist { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.checklist li { display: grid; grid-template-columns: 1.4rem minmax(0, 1fr); gap: 8px; }
+.checklist li::before { content: "☐"; color: var(--accent); font-size: 1.1rem; line-height: 1.4; }
+.checklist li.done::before { content: "☑"; color: var(--good); }
+footer { color: var(--muted); font-size: .85rem; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+<header style="display:grid;gap:16px">
+  <div class="eyebrow">Channel plan · October 2026</div>
+  <h1>What-If Shorts Playbook</h1>
+  <p class="lede">Everything we researched, measured and built for a faceless 3D "What if" Shorts channel: which niche to pick, how the videos must be made, what the test video looks like, and how long monetization will realistically take.</p>
+  <div class="depth"><span id="stat-videos">65 shorts analyzed</span><span>60 channels profiled</span><span>16 niches compared</span><span>1 test short rendered</span></div>
+</header>
+
+<section>
+  <div class="eyebrow">The decision</div>
+  <h2>Pick "What if" hypotheticals about your body, survival and space</h2>
+  <div class="verdict">
+    <div class="vcard"><small>Niche</small><b>3D "What if you…?" shorts</b><small>Body, survival and space hypotheticals in the Zack D. Films / Kurzgesagt mold. Every top performer we measured was one hypothetical with escalating consequences.</small></div>
+    <div class="vcard"><small>Format</small><b>45–60 s, a shot every 2–3 s</b><small>Question hook in 2 s, ~150 words a minute, escalating beats, a true twist, an abrupt loop ending.</small></div>
+    <div class="vcard"><small>Monetization estimate</small><b>~4–8 months if the videos are good</b><small>Best case 2–3 months with an early breakout. Without a breakout short, most channels never qualify.</small></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Test video</div>
+  <h2>"What if you fell into the Mariana Trench?"</h2>
+  <div class="video-row">
+    <video controls playsinline preload="metadata" src="mariana-trench.mp4" poster="mariana-poster.jpg"></video>
+    <div style="display:grid;gap:14px;min-width:0">
+      <p class="muted">Made entirely with the free pipeline: script written and fact-checked by Claude, 3D scenes rendered on CPU with Remotion + three.js, open-source Kokoro voice, generated whooshes and music bed. Measured against the 65-short study:</p>
+      <div class="specs" id="specs"></div>
+      <p class="callout">Known gap: the character is a free stylized model (Michelle). For a regular-looking American person, download any free Mixamo character; animations retarget automatically.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Evidence · 65 shorts</div>
+  <h2>What viral shorts have in common</h2>
+  <p class="col muted">Gemini watched each short and recorded its hook, cuts, camera, captions, voice, ending and emotion. Views were then re-read one page at a time.</p>
+  <div class="grid2">
+    <div><h3>Hook type</h3><div class="bars" id="bars-hook"></div></div>
+    <div><h3>Main emotion</h3><div class="bars" id="bars-emotion"></div></div>
+    <div><h3>Ending</h3><div class="bars" id="bars-ending"></div></div>
+    <div><h3>Caption style</h3><div class="bars" id="bars-captions"></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Evidence · every video</div>
+  <h2>Which video got how many views and likes</h2>
+  <div class="controls" id="niche-filter" role="group" aria-label="Filter by niche"></div>
+  <div class="controls"><label for="sort">Sort by</label>
+    <select id="sort"><option value="likes">Likes</option><option value="views">Views</option><option value="length">Length</option><option value="shot">Shot length</option></select>
+    <span class="muted" id="count"></span></div>
+  <div class="tablebox"><table>
+    <thead><tr><th>Short</th><th>Niche</th><th class="n">Views</th><th class="n">Likes</th><th>Hook</th><th class="n">Length</th><th class="n">Shot</th><th>Why it works</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <p class="muted" style="font-size:.88rem">Shorts pages usually show likes, not views, so likes are the main popularity number here; a short typically gets about 1 like per 20–50 views. "—" means the page didn't show the number. Four videos returned the wrong page when read, so they're marked "title unreadable" and their numbers are left out.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Niches</div>
+  <h2>Top 10 niches, ranked for this channel</h2>
+  <p class="col muted">Ranked on viral potential, US audience, ad value, fit with our free 3D pipeline, and risk under YouTube's "mass-produced content" rules. Plain explainers underperformed in the study; the same topics work framed as a "What if" with stakes for the viewer.</p>
+  <div class="rank" id="niches"></div>
+  <p class="col"><b>Avoid:</b> Reddit stories over gameplay (reused-content risk), ambient/satisfying loops (repetitive content), movie recaps (copyright claims), low-effort scary-fact lists.</p>
+</section>
+
+<section class="grid2">
+  <div>
+    <div class="eyebrow">Script formula</div>
+    <h2>How every short is written</h2>
+    <ol class="formula">
+      <li><b>Hook, 0–2 s:</b> "What if you…?" in 10 words or fewer. Voice on frame 1.</li>
+      <li><b>Answer, 2–5 s:</b> the first consequence, no intro.</li>
+      <li><b>Escalate:</b> 4–6 beats, each more extreme, one fact per line.</li>
+      <li><b>Twist:</b> one surprising true detail near the end.</li>
+      <li><b>Abrupt end:</b> a punchline or question that loops back to the hook.</li>
+    </ol>
+  </div>
+  <div>
+    <div class="eyebrow">Editing & look</div>
+    <h2>How every short is edited</h2>
+    <ol class="formula">
+      <li>New shot every 2–3 s; mostly medium framing; one cut style.</li>
+      <li>Same recognizable character every video; glowing x-ray cutaways.</li>
+      <li>Word-by-word captions, current word highlighted, small and low.</li>
+      <li>2–3 big number pop-ups per video, gone in ~1.5 s.</li>
+      <li>Whoosh on cuts, quiet music bed, loudness about −14 LUFS.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Content plan</div>
+  <h2>Top 10 shorts to make first</h2>
+  <div class="tablebox"><table>
+    <thead><tr><th class="n">#</th><th>Title / hook</th><th>Niche</th><th>Status</th></tr></thead>
+    <tbody id="ideas"></tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="eyebrow">Monetization</div>
+  <h2>How long until the channel earns</h2>
+  <div class="tablebox"><table>
+    <thead><tr><th>Tier</th><th>Shorts requirement</th><th>Unlocks</th></tr></thead>
+    <tbody>
+      <tr><td>Early access</td><td>500 subscribers, 3 uploads in 90 days, <b>3M Shorts views in 90 days</b></td><td>Memberships, Super Thanks, Shopping. No ad money.</td></tr>
+      <tr><td>Full YPP, apply before Feb 1, 2027</td><td>1,000 subscribers + <b>10M engaged Shorts views in 90 days</b> (~110,000/day)</td><td>Shorts ad revenue share</td></tr>
+      <tr><td>Full YPP, apply from Feb 1, 2027</td><td>1,000 subscribers + <b>20M engaged Shorts views in 90 days</b> (~220,000/day)</td><td>Shorts ad revenue share</td></tr>
+    </tbody>
+  </table></div>
+  <p class="col muted">Only engaged views count; replays don't. New channels' shorts usually get hundreds to a few thousand views each, so the target is reached through breakout shorts of 1M+ views, not upload volume alone.</p>
+  <div class="timeline">
+    <div class="tl"><div><b>Best case</b><div class="when">~2–3 months</div></div><p>A 5M+ breakout in the first 6–8 weeks. Early access in 1–2 months; full monetization under the 10M rule if you apply before Feb 1, 2027.</p></div>
+    <div class="tl"><div><b>Realistic</b><div class="when">~4–8 months</div></div><p>Daily good shorts produce several 500K–2M hits by month 3–4. Early access in 2–4 months; full monetization likely under the 20M rule.</p></div>
+    <div class="tl"><div><b>Common outcome</b><div class="when">never</div></div><p>No breakout and views stay in the thousands. Fix the first 3 seconds using the retention graph, change topics, and keep iterating.</p></div>
+  </div>
+  <p class="col">Pay once monetized: about <b>$50–500 per million Shorts views</b>, so 10M views is roughly $500–5,000, depending on audience country and niche.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Research</div>
+  <h2>The 60 channels we profiled</h2>
+  <div class="grid2">
+    <details><summary>30 big creator-led channels</summary><ul class="list2" id="creators"></ul></details>
+    <details><summary>30 big faceless channels</summary><ul class="list2" id="faceless"></ul></details>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">What's built</div>
+  <h2>The automated pipeline (all free)</h2>
+  <div class="tablebox"><table>
+    <thead><tr><th>Part</th><th>What it does</th><th>Where</th></tr></thead>
+    <tbody>
+      <tr><td>Daily writer</td><td>Picks a new topic, writes a 10-scene "What if" script following the style guide; Claude subscription or free Gemini</td><td><code>automation/daily.py</code></td></tr>
+      <tr><td>Style guide</td><td>Owner feedback + measured rules; the writer reads it every run</td><td><code>automation/style.md</code></td></tr>
+      <tr><td>3D studio</td><td>7 scene types (person, x-ray body, vessel tunnel, organ, planet, explosion, virus), captions, callouts, two camera angles per line</td><td><code>studio/</code></td></tr>
+      <tr><td>Voice & sound</td><td>Kokoro voice at ~150 wpm, whoosh on cuts, music bed, −14 LUFS</td><td><code>studio/voice.py</code></td></tr>
+      <tr><td>Upload</td><td>YouTube Data API with AI disclosure, private until you switch</td><td><code>automation/youtube_upload.py</code></td></tr>
+      <tr><td>Schedule</td><td>GitHub Actions runs daily; dry-run button keeps the video as a download</td><td><code>.github/workflows/daily-video.yml</code></td></tr>
+      <tr><td>Learning skills</td><td><code>/watch</code> pulls frames and transcripts; <code>/style-study</code> measures reference videos and updates the style guide</td><td><code>.claude/skills/</code></td></tr>
+      <tr><td>Study tools</td><td>Viral shorts study and per-video view recheck with Gemini</td><td><code>research/</code></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="eyebrow">Next steps</div>
+  <h2>What's left, in order</h2>
+  <ul class="checklist">
+    <li class="done">Research channels, study 65 viral shorts, pick the niche</li>
+    <li class="done">Build the free 3D pipeline and render a test short</li>
+    <li>Replace the Gemini key that was pasted in chat (aistudio.google.com/apikey)</li>
+    <li>Swap in a regular-looking person from Mixamo (free account) as <code>studio/public/models/person.glb</code></li>
+    <li>Add GitHub secrets: <code>GEMINI_API_KEY</code> (or <code>CLAUDE_CODE_OAUTH_TOKEN</code>), <code>YT_CLIENT_ID</code>, <code>YT_CLIENT_SECRET</code>, <code>YT_REFRESH_TOKEN</code></li>
+    <li>Merge the <code>youtube-autopilot</code> branch into <code>main</code> so the daily schedule runs</li>
+    <li>Run the workflow once with "dry run", watch the result, then let it post daily (private for the first week)</li>
+    <li>Review analytics weekly: fix hooks where viewers drop in the first 3 seconds; double down on topics that beat the channel average</li>
+  </ul>
+</section>
+
+<section>
+  <div class="eyebrow">Method and limits</div>
+  <div class="col" style="display:grid;gap:10px">
+    <p>YouTube itself is blocked from the cloud session that did this work, so shorts were found by web search, not by YouTube's own most-viewed rankings; some come from small channels. Gemini watched each short through Google's API. A first attempt to read views for 8 pages at once mixed pages up, so views and likes were re-read one page at a time; numbers YouTube didn't show are marked "—".</p>
+    <p>Monetization rules come from YouTube's announcements as reported in October 2026; time estimates are judgments, not guarantees. Sources: AIR Media-Tech YPP guide 2026, Tubefilter (Aug 10, 2026), YouTube blog on qualified views, gofaceless.ai for RPM ranges.</p>
+  </div>
+</section>
+
+<footer>Built from the files in the <code>youtube-autopilot</code> branch: <code>research/viral-shorts/</code>, <code>research/niche-report.md</code>, <code>research/channels.md</code>.</footer>
+</div>
+
+<script id="data" type="application/json">{"videos": [{"url": "https://www.youtube.com/watch?v=nvjI57PfZPc", "title": "Nuclear Engineer reacts to animation of survivor of both atomic bombings (title unreadable)", "channel": "", "niche": "Zack D. Films clips", "views": 0, "likes": 0, "hook": "visual shock", "length": 133.0, "shot": 1.4, "why": "Combines a gripping historical survival story with expert scientific commentary from a nuclear engineer. Fast-paced editing and dynamic subtitles keep the viewer engaged throughout."}, {"url": "https://www.youtube.com/watch?v=QdMxFpHvDd0", "title": "What Happens if Grain of Sand Hits Earth at Light Speed? - Nuclear Engineer Reacts to Zack D. Films", "channel": "@tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 10000, "hook": "question", "length": 105.0, "shot": 3.75, "why": "Combines a viral sci-fi hypothetical scenario with the authoritative credibility and entertaining commentary of an actual expert reactor. Fast pacing and continuous visual shifts maintain high engagement."}, {"url": "https://www.youtube.com/watch?v=Dknc6F1xG6c", "title": "What Happens if You Shoot a Nuke? - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 135000, "hook": "visual shock", "length": 105.0, "shot": 3.75, "why": "Combines high-interest viral simulation content with credible expert commentary, keeping viewers engaged through debunking common misconceptions. The rapid pacing and clear visual breakdowns make complex nuclear physics accessible."}, {"url": "https://www.youtube.com/watch?v=WKgqyoqRw5w", "title": "What if You Woke Up in Space? - Nuclear Engineer Reacts to Zack D. Films", "channel": "@tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 1591, "hook": "question", "length": 232.0, "shot": 3.57, "why": "Combines bizarre hypothetical scenarios with expert scientific reasoning, keeping viewers hooked through humor and logical problem-solving."}, {"url": "https://www.youtube.com/watch?v=j6BxFRtxjAc", "title": "Human Leg Upgrades? - Nuclear Engineer Reacts to Zack D. Films", "channel": "@tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 55000, "hook": "visual shock", "length": 229.0, "shot": 2.8, "why": "Combines high-production 3D animated sci-fi concepts with a qualified expert breaking down why the physics would catastrophically fail in real life. The humor and deadpan reactor analogies keep retention high throughout."}, {"url": "https://www.youtube.com/watch?v=OT_yQ_cnCp8", "title": "The Plane that Almost Nuked North Carolina - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 0, "hook": "story cold-open", "length": 128.0, "shot": 2.5, "why": "Combines expert authority (real nuclear engineer) with high-stakes historical danger and smooth 3D visual aids. The explanation demystifies a terrifying real-world event while delivering a strong engineering lesson."}, {"url": "https://www.youtube.com/watch?v=vgb_4rBzoYU", "title": "Using Nuclear Reactors to Pull Up Worms - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 83000, "hook": "visual shock", "length": 115.0, "shot": 4.1, "why": "Combines fascinating 3D animation simulation with expert humorous commentary, breaking down absurd hypothetical scenarios into entertaining scientific reality checks."}, {"url": "https://www.youtube.com/watch?v=UW2qUG7IsqY", "title": "What if the World Suddenly Froze? - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 23000, "hook": "story cold-open", "length": 146.0, "shot": 2.35, "why": "Combines a viral, high-concept fictional scenario (time stopping for everyone else) with genuine, grounded expert analysis from a nuclear engineer. The juxtaposition of absurd video game physics and professional safety/infrastructure insights creates high engagement and keeps retention high."}, {"url": "https://www.youtube.com/watch?v=_4UGJ09ayE4", "title": "What to Do if Your Car Sinks? - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 0, "hook": "story cold-open", "length": 139.0, "shot": 4.0, "why": "Combines high-stakes survival scenarios with professional expertise from an unexpected field (nuclear engineering), making physics concepts relatable and engaging. The dual-perspective layout keeps visual stimulation high throughout."}, {"url": "https://www.youtube.com/watch?v=AaV3MuiHw_w", "title": "Spying from Space - Nuclear Engineer Reacts to Zack D. Films", "channel": "@tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 0, "hook": "question", "length": 131.0, "shot": 3.1, "why": "Combines high-interest absurd science hypothetical questions with real expert commentary and engaging 3D animations. The expert validates or debunks animated concepts in real time, keeping viewers hooked."}, {"url": "https://www.youtube.com/watch?v=WQe3I7tOyXU", "title": "Biggest Nuclear Test Ever (Too Big!) - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 0, "hook": "shocking claim", "length": 154.0, "shot": 2.26, "why": "Combines a recognizable historical event with expert scientific deconstruction, keeping the viewer engaged through fast-paced visuals and relatable distance comparisons."}, {"url": "https://www.youtube.com/watch?v=DY7j4cDW9no", "title": "What Happens if You Eat Too Many Bananas? - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 16000, "hook": "question", "length": 123.0, "shot": 3.5, "why": "It combines a viral cartoon animation with an actual domain expert explaining the real science, keeping viewers engaged through comedy and fascinating trivia. The dual-frame layout maintains visual stimulation throughout."}, {"url": "https://www.youtube.com/watch?v=ESS0sf__KMU", "title": "Dropping a Yo Yo from a Skyscraper - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 0, "hook": "visual shock", "length": 102.0, "shot": 2.49, "why": "Combines bizarre, high-production 3D simulations with authentic expert commentary from a real professional, leveraging curiosity and humor to explain complex physics laws."}, {"url": "https://www.youtube.com/watch?v=m9xTeACdlSg", "title": "Using Physics to Get Ketchup Out - Nuclear Engineer Reacts to Zack D. Films", "channel": "tfolsenuclear", "niche": "Zack D. Films clips", "views": 0, "likes": 6900, "hook": "shocking claim", "length": 98.0, "shot": 12.25, "why": "It bridges an everyday physics annoyance with complex nuclear engineering concepts using an entertaining and accessible visual analogy. The creator maintains high authority while keeping the tone light and humorous."}, {"url": "https://www.youtube.com/watch?v=vUnlG2xkGs0", "title": "Does Naruto Running Make You Faster? - Nuclear Engineer Reacts to Zack D. Films", "channel": "not shown", "niche": "Zack D. Films clips", "views": 0, "likes": 0, "hook": "question", "length": 84.0, "shot": 3.0, "why": "Combines a popular internet meme (Naruto running) with genuine, highly technical nuclear engineering analogies delivered with deadpan humor. The split-screen creator reaction keeps the human connection strong throughout the analytical breakdown."}, {"url": "https://www.youtube.com/watch?v=Pj20omaP7WI", "title": "Something in Your Kitchen Emits Antimatter", "channel": "@kurzgesagt", "niche": "Kurzgesagt what-ifs", "views": 0, "likes": 0, "hook": "question", "length": 60.0, "shot": 2.0, "why": "It hooks the viewer with a bizarre claim about a household item and explains complex physics using entertaining, easy-to-understand animations."}, {"url": "https://www.youtube.com/watch?v=28T91fgkpkA", "title": "How Many Moons Could Earth Handle?", "channel": "@kurzgesagt", "niche": "Kurzgesagt what-ifs", "views": 0, "likes": 0, "hook": "question", "length": 59.0, "shot": 1.07, "why": "It simplifies complex astrophysical concepts into fun, visually intuitive animations with clear comparisons and engaging storytelling. The fast pacing and vibrant colors keep the viewer hooked throughout."}, {"url": "https://www.youtube.com/watch?v=ld4K5nw9gsk", "title": "What If Our Sun Disappeared?", "channel": "@kurzgesagt", "niche": "Kurzgesagt what-ifs", "views": 0, "likes": 371000, "hook": "question", "length": 57.0, "shot": 2.04, "why": "It combines a compelling existential hypothetical question with high-quality, colorful vector animation and rapid pacing that keeps the viewer hooked from start to finish. The clear narrative structure and humorous visual gags make complex scientific concepts easily digestible."}, {"url": "https://www.youtube.com/watch?v=ty0WVFjOkok", "title": "What If Earth Suddenly Turned Into Gold?", "channel": "@kurzgesagt", "niche": "Kurzgesagt what-ifs", "views": 99000, "likes": 1102, "hook": "question", "length": 92.0, "shot": 3.68, "why": "Combines a surreal, universally fascinating hypothetical question with dynamic, high-stakes cartoon animation and rapid-fire visual payoffs. The dramatic escalation from floating to apocalyptic vaporization keeps viewers hooked till the end."}, {"url": "https://www.youtube.com/watch?v=LbARorLmhsc", "title": "Would You Upload Your Mind?", "channel": "@kurzgesagt", "niche": "Kurzgesagt what-ifs", "views": 0, "likes": 25000, "hook": "shocking claim", "length": 57.0, "shot": 1.78, "why": "It simplifies complex futurism and AI concepts into relatable, visually engaging animations that spark existential curiosity. The fast pacing and clear narrative arc maintain high viewer retention from start to finish."}, {"url": "https://www.youtube.com/watch?v=XFM4tCakAXY", "title": "Let's Make Earth Twice as Large!", "channel": "@kurzgesagt", "niche": "Kurzgesagt what-ifs", "views": 681000, "likes": 11000, "hook": "visual shock", "length": 61.0, "shot": 2.26, "why": "It takes a compelling hypothetical question and logically chains extreme cascading effects together using clean, easy-to-understand animations. The pacing keeps viewers engaged by constantly introducing new unexpected consequences."}, {"url": "https://www.youtube.com/watch?v=bxj-PtW-NJQ", "title": "Minecraft RTX 127% NEMISIS #Shorts", "channel": "@JakeFellman", "niche": "3D animation", "views": 5500000, "likes": 9384, "hook": "visual shock", "length": 9.9, "shot": 1.1, "why": "Combines recognizable gaming tropes (Minecraft portals) with fast-paced building action and bizarre meme-style real human face textures. The rapid cuts and smooth 3D animation maintain high visual interest from start to finish."}, {"url": "https://www.youtube.com/watch?v=BolsTFOoxNI", "title": "Among Us in HD (Part 1) EMERGENCY MEETING #Shorts", "channel": "JakeFellman", "niche": "3D animation", "views": 0, "likes": 0, "hook": "visual shock", "length": 25.0, "shot": 3.12, "why": "Adapts a universally popular game into a live-action skit with high energy and quick comedic timing. The relatable accusations and sudden twist keep viewers entertained until the end."}, {"url": "https://www.youtube.com/watch?v=7EfT5BZ_ZOo", "title": "What if…", "channel": "@WOWOOW-h9v", "niche": "3D animation", "views": 0, "likes": 4900, "hook": "question", "length": 57.0, "shot": 1.04, "why": "The extremely fast cuts combined with absurd animated comedy keep the viewer engaged throughout the entire hypothetical sequence."}, {"url": "https://www.youtube.com/watch?v=TfAmdbFNk5Q", "title": "The science behind the T-Virus in Resident Evil", "channel": "@sciantsmedia", "niche": "Human body", "views": 0, "likes": 0, "hook": "shocking claim", "length": 47.0, "shot": 5.88, "why": "It bridges a massively popular pop-culture gaming trope with real-world biology, satisfying viewer curiosity and correcting common sci-fi misconceptions. The dynamic editing between the presenter and clear 3D cellular visuals maintains high engagement throughout."}, {"url": "https://www.youtube.com/watch?v=LKmKgz9AuqY", "title": "The HVAC system of a Human Body", "channel": "hvakr", "niche": "Human body", "views": 0, "likes": 36, "hook": "shocking claim", "length": 84.0, "shot": 10.5, "why": "It bridges an everyday mechanical system (HVAC) with human biology using creative whiteboard drawings and an engaging presenter, making complex concepts easy and fun to understand. The high energy and relatable comparisons keep viewers hooked until the end."}, {"url": "https://www.youtube.com/watch?v=faPdHqG4mWI", "title": "What If Your Body Was Made of Diamond, Rubber & Glass? 💎 #shorts #biology #science", "channel": "@AlteredReality-here", "niche": "Human body", "views": 0, "likes": 0, "hook": "question", "length": 20.0, "shot": 1.5, "why": "Combines a fascinating hypothetical scenario with hyper-realistic 3D rendering and fast-paced editing. The contrast between indestructible bones and fragile skin creates immediate tension."}, {"url": "https://www.youtube.com/watch?v=jkfDOVvznCM", "title": "Scientifically Speaking #1: Babies Have More Bones Than Adults?", "channel": "@mashableSEA", "niche": "Human body", "views": 0, "likes": 18, "hook": "question", "length": 58.0, "shot": 4.14, "why": "Combines a fascinating human biology fact with clear medical illustrations and an engaging host presentation. The pacing keeps viewers hooked through the explanation of cartilage and bone fusion."}, {"url": "https://www.youtube.com/watch?v=VVGaYQOBfRU", "title": "Inside the Human Body — A Mind-Blowing 3D Reveal 🔥", "channel": "@SmartDoctor1", "niche": "Human body", "views": 0, "likes": 1000, "hook": "visual shock", "length": 21.0, "shot": 21.0, "why": "The smooth, visceral peeling of the anatomical model's skin and muscles creates an immediate visual curiosity about the human body's interior. The dramatic background music enhances the cinematic reveal."}, {"url": "https://www.youtube.com/watch?v=zTw6XX5RXLU", "title": "Imagining what would happen if your body was made of elemental elements like ice, sand, and light (title unreadable)", "channel": "", "niche": "Human body", "views": 0, "likes": 0, "hook": "question", "length": 48.0, "shot": 2.67, "why": "It uses a structured leveling format ('Level 1, 2, 3') combined with high-quality AI visuals and fast-paced editing to keep viewers hooked on the hypothetical superpowers and their drawbacks."}, {"url": "https://www.youtube.com/watch?v=p1lXCyey_pI", "title": "Human Kidney fun (3D Animation)", "channel": "@Clappeducation", "niche": "Human body", "views": 0, "likes": 0, "hook": "visual shock", "length": 5.0, "shot": 5.0, "why": "Using a relatable, anthropomorphized organ evokes empathy instantly. The high-quality 3D visual grabs attention during the silent hook."}, {"url": "https://www.youtube.com/watch?v=RzU9mcGHH7U", "title": "Le corps humain et ses organes (animation 3D) #anatomie #body #humanbody #anatomy #santé #health", "channel": "@indexsanteca", "niche": "Human body", "views": 0, "likes": 0, "hook": "visual shock", "length": 17.0, "shot": 3.4, "why": "The visually striking 3D animation of internal organs assembling into a human body immediately grabs attention. Clean transitions and professional branding create high perceived value."}, {"url": "https://www.youtube.com/watch?v=gs9IqxEgMpE", "title": "🫁 The Human Body: How It Works [Animation] #sciencefacts #animation #allen #shorts", "channel": "ALLENOverseas", "niche": "Human body", "views": 0, "likes": 0, "hook": "question", "length": 60.0, "shot": 2.4, "why": "It simplifies complex biological concepts using engaging 2D/3D animations and relatable analogies like a 'chemical factory'. Fast-paced editing and dynamic captions maintain high viewer engagement."}, {"url": "https://www.youtube.com/watch?v=_onV5ZvQ8Zo", "title": "Inside the Human Body: How Your Organs Work | 3D Medical Animation", "channel": "@DandelionMedical-v6g", "niche": "Human body", "views": 0, "likes": 18, "hook": "visual shock", "length": 20.0, "shot": 5.0, "why": "The seamless transition from an external human model to microscopic cellular levels creates instant visual fascination. High production value keeps viewers hooked without needing dialogue."}, {"url": "https://www.youtube.com/watch?v=E6yIM6POvFU", "title": "6 Bizarre Human Body Reflexes and Oddities #Shorts #HumanBody #Biology", "channel": "@Quick-Think", "niche": "Human body", "views": 0, "likes": 0, "hook": "question", "length": 60.0, "shot": 10.0, "why": "The video combines fascinating psychological and biological facts with engaging, fast-paced visual storytelling. It keeps viewers hooked by using a numbered list and clear, dynamic captions."}, {"url": "https://www.youtube.com/watch?v=qDTaAMzScJA", "title": "UNIVERSE SIZE Comparison Blows MINDS", "channel": "An-KiScale", "niche": "Space & scale", "views": 0, "likes": 12000, "hook": "shocking claim", "length": 59.0, "shot": 1.07, "why": "The rapid-fire pace combined with mind-bending cosmic scale escalation keeps viewers hooked till the end. The heavy beat-synced editing maximizes dopamine release and replay value."}, {"url": "https://www.youtube.com/watch?v=OdLeE-XgejU", "title": "What If a White Hole and Black Hole Collided? #Space #BlackHole #Science #Astronomy #Shorts", "channel": "@whatifscienceshow", "niche": "Space & scale", "views": 0, "likes": 13000, "hook": "question", "length": 118.0, "shot": 2.27, "why": "It combines two fascinating, mysterious cosmic concepts into an epic battle narrative. High visual fidelity space animations paired with energetic pacing maintain viewer attention throughout."}, {"url": "https://www.youtube.com/watch?v=hTvn0s-1i8M", "title": "This 'Impossible' Supermassive Black Hole Could Rewrite Cosmic History", "channel": "@NSpaceNews", "niche": "Space & scale", "views": 0, "likes": 1000, "hook": "shocking claim", "length": 76.0, "shot": 3.04, "why": "It taps into cutting-edge space discoveries that challenge existing scientific paradigms, presented with stunning CGI space footage and fast-paced editing."}, {"url": "https://www.youtube.com/watch?v=uXf6ndiYAPg", "title": "5 Black Hole Facts #shorts", "channel": "@NSFScience", "niche": "Space & scale", "views": 0, "likes": 96, "hook": "countdown", "length": 54.0, "shot": 1.9, "why": "Combines fascinating astronomical concepts with high-quality 3D animations and rapid pacing to maintain viewer attention."}, {"url": "https://www.youtube.com/watch?v=YnD-MD5DSng", "title": "Why Black Holes Are SO Dangerous ⚫ #space #facts", "channel": "LittleBubblesKidsc", "niche": "Space & scale", "views": 0, "likes": 0, "hook": "story cold-open", "length": 44.0, "shot": 3.38, "why": "It combines a fascinating, normally frightening scientific concept (black holes) with adorable, cute visual personification that appeals to children's natural curiosity. The pacing keeps viewers engaged with constant dynamic transitions and clear, easy-to-understand voiceover."}, {"url": "https://www.youtube.com/watch?v=ul951wnTuFs", "title": "Disturbing facts (title unreadable)", "channel": "", "niche": "Scary facts", "views": 0, "likes": 0, "hook": "countdown", "length": 23.0, "shot": 2.3, "why": "Combines a deeply unsettling background visual with rapid-fire morbid facts that trigger morbid curiosity. The numbered countdown gives viewers a clear stopping point, encouraging them to stay until the end."}, {"url": "https://www.youtube.com/watch?v=1SsIUMXILoE", "title": "Scary Facts YOU Didn't Know About… 😳", "channel": "socksreact", "niche": "Scary facts", "views": 0, "likes": 170000, "hook": "shocking claim", "length": 36.0, "shot": 2.0, "why": "The constant stream of weird, shocking facts paired with enthusiastic streamer reaction keeps viewers hooked. High visual variety and fast pacing prevent drop-offs."}, {"url": "https://www.youtube.com/watch?v=Q2i3Gpg8frA", "title": "Creepy science Facts", "channel": "list25", "niche": "Scary facts", "views": 0, "likes": 20, "hook": "countdown", "length": 22.0, "shot": 2.75, "why": "Packs counter-intuitive trivia into a fast-paced format with dynamic captions and quick visual transitions, maintaining high engagement from start to finish."}, {"url": "https://www.youtube.com/watch?v=QMSdJaNMqCU", "title": "Creepy Facts That Will Make Your Skin Crawl", "channel": "@list25", "niche": "Scary facts", "views": 0, "likes": 0, "hook": "shocking claim", "length": 58.0, "shot": 2.76, "why": "Combines bizarre historical facts with unsettling true crime mysteries, maintaining high curiosity and fast pacing."}, {"url": "https://www.youtube.com/watch?v=JBBpQPeW1Hs", "title": "⚡️ Lightning Struck My Tree… Will It Survive?🌲", "channel": "@terryclayton", "niche": "Survival", "views": 0, "likes": 8700, "hook": "story cold-open", "length": 34.0, "shot": 34.0, "why": "It taps into the natural curiosity of seeing extreme weather damage firsthand and invites audience engagement with a question. The seamless single-shot approach feels authentic and unscripted."}, {"url": "https://www.youtube.com/watch?v=Lp4A-g74Ubo", "title": "How To Survive A Falling Elevator? 🤔", "channel": "@davisfacts", "niche": "Survival", "views": 0, "likes": 0, "hook": "question", "length": 32.0, "shot": 1.03, "why": "It addresses a widespread common myth with clear physics explanations and rapid visual pacing that keeps viewers engaged. The clean editing and authoritative host delivery establish instant trust."}, {"url": "https://www.youtube.com/watch?v=KQsd22iGOSA", "title": "Survival tips for a falling elevator (title unreadable)", "channel": "", "niche": "Survival", "views": 0, "likes": 0, "hook": "question", "length": 27.0, "shot": 3.4, "why": "It taps into a universal fear (elevator accidents) and debunks a common myth with clear, visceral 3D visual demonstrations."}, {"url": "https://www.youtube.com/watch?v=OxOx6--oN8I", "title": "The Most Dangerous Animal", "channel": "@kurzgesagt", "niche": "Animals", "views": 0, "likes": 1951, "hook": "question", "length": 60.0, "shot": 2.4, "why": "It subverts common fears by revealing harmless-looking animals like dogs and mosquitoes actually kill far more people than sharks and lions. The fast pacing and clean animation keep viewers hooked through every reveal."}, {"url": "https://www.youtube.com/watch?v=u1fiBLg7hx8", "title": "The Deadliest Animal Traps You Won't Believe #wildlife #curiosity", "channel": "@DecodeUniverse88", "niche": "Animals", "views": 0, "likes": 2100, "hook": "shocking claim", "length": 98.0, "shot": 1.4, "why": "Combines a classic countdown structure with fascinating animal behaviors and rapid-fire editing to keep viewers hooked from start to finish. The pacing prevents any lull in attention."}, {"url": "https://www.youtube.com/watch?v=wHWpTSze8lU", "title": "Australia's Deadliest Animals #Survival #Australia #Animals #Shorts", "channel": "@howtosurviveshow", "niche": "Animals", "views": 0, "likes": 1100, "hook": "shocking claim", "length": 236.0, "shot": 2.7, "why": "Combines terrifying animal facts with high-energy presentation and rapid cuts to maintain viewer attention. The escalating danger from land to ocean creates a compelling narrative arc."}, {"url": "https://www.youtube.com/watch?v=o4ZvQcTKuPI", "title": "Australia's Deadliest Animal Attacks #Survival #Animals #Shark #Crocodile #Shorts", "channel": "@howtosurviveshow", "niche": "Animals", "views": 0, "likes": 33, "hook": "shocking claim", "length": 228.0, "shot": 2.65, "why": "Combines high-stakes true crime survival stories with educational value and practical survival advice. The rapid visual pacing and high-production-value B-roll maintain viewer engagement throughout."}, {"url": "https://www.youtube.com/watch?v=sMpEZr8_Yxo", "title": "What is the world's most deadly animal?", "channel": "razorscience", "niche": "Animals", "views": 0, "likes": 35, "hook": "question", "length": 57.0, "shot": 2.37, "why": "Combines high-stakes macro wildlife footage with expert authority and a gripping public health angle. Pacing keeps viewers hooked from the very first question."}, {"url": "https://www.youtube.com/watch?v=QlEg-vBpYuo", "title": "What's The Deadliest Animal On Earth?", "channel": "@DropAPinShow", "niche": "Animals", "views": 0, "likes": 4200, "hook": "question", "length": 152.0, "shot": 4.3, "why": "The rapid succession of wildly incorrect guesses creates humor and curiosity, keeping viewers watching until the reveal. The man-on-the-street interview style feels relatable and dynamic."}, {"url": "https://www.youtube.com/watch?v=xNK1tmLCTxA", "title": "Three of the Cutest — But Deadliest — Animals on Earth | The Dodo", "channel": "@TheDodo", "niche": "Animals", "views": 0, "likes": 3400, "hook": "countdown", "length": 61.0, "shot": 2.18, "why": "It leverages the psychological contrast of cute animals having terrifying defense mechanisms, paired with high-paced editing and intriguing statistics that maintain viewer curiosity throughout."}, {"url": "https://www.youtube.com/watch?v=eYJjCRnHZYY", "title": "Deadliest Tricks In The Animal Kingdom 😨#animalfacts #wildlife #facts", "channel": "@InfiniteFactssofficial", "niche": "Animals", "views": 0, "likes": 253, "hook": "shocking claim", "length": 50.0, "shot": 1.28, "why": "It taps into viewers' fascination with bizarre and predatory animal behaviors using fast-paced editing and macro close-ups. The numbered countdown structure creates anticipation for each new animal trick."}, {"url": "https://www.youtube.com/watch?v=zJNhs0QjrQQ", "title": "How a car engine works? #shorts", "channel": "@autotechtv", "niche": "How it works", "views": 391, "likes": 14, "hook": "other", "length": 56.0, "shot": 3.1, "why": "It uses clear 3D cutaway animations to demystify complex mechanical internal engine parts. The relatable bicycle pedal analogy makes technical pressure data easy to grasp."}, {"url": "https://www.youtube.com/watch?v=w-7FxZkH0v0", "title": "How Jet Engines Actually Work (3D Animation)", "channel": "MrRaja_77", "niche": "How it works", "views": 0, "likes": 0, "hook": "question", "length": 131.0, "shot": 5.24, "why": "It breaks down a complex mechanical engineering concept into intuitive, step-by-step visual problem solving. The 3D animations make internal machinery transparent and easy to understand."}, {"url": "https://www.youtube.com/watch?v=92tVvFwbx2w", "title": "How a Jet Engine Works Inside a Turbofan Engine in Stunning 3D Animation #shorts", "channel": "@TechnologyAircraft", "niche": "How it works", "views": 0, "likes": 0, "hook": "visual shock", "length": 37.0, "shot": 1.05, "why": "High-fidelity 3D cross-section animations satisfy curiosity by revealing complex internal engineering in an aesthetically pleasing way. The rapid pacing and immersive sound design keep viewers glued until the final airplane takeoff."}, {"url": "https://www.youtube.com/watch?v=g4woN9eJHuM", "title": "How Engine Oil Lubrication System Works - 3D Animation Explained", "channel": "@ruicanmachinery", "niche": "How it works", "views": 0, "likes": 0, "hook": "story cold-open", "length": 10.0, "shot": 10.0, "why": "The clear animated diagram paired with precise narration makes a complex mechanical process extremely easy to understand in seconds. Keeping the camera locked on the 3D model maintains focus without visual clutter."}, {"url": "https://www.youtube.com/watch?v=jwmkfWjNQi8", "title": "Mind power psychology experiment (title unreadable)", "channel": "", "niche": "Psychology", "views": 0, "likes": 0, "hook": "question", "length": 41.0, "shot": 1.02, "why": "Combines a powerful psychological story with the charismatic imagery of Tommy Shelby, capturing attention with rapid cuts and relatable self-reflection."}, {"url": "https://www.youtube.com/watch?v=hhj5l1TEOVQ", "title": "Magic Trick Explained | How Your Brain Gets Fooled (Mentalism, Psychology, Perception)", "channel": "@realtalkwithmarissa", "niche": "Psychology", "views": 0, "likes": 0, "hook": "question", "length": 109.0, "shot": 4.0, "why": "It uses a tangible, fascinating optical illusion to hook the viewer instantly and bridges it smoothly into a compelling psychological insight about conspiracy theories. The dynamic back-and-forth between the host and charismatic guest keeps engagement exceptionally high throughout."}, {"url": "https://www.youtube.com/watch?v=mNkb_T770os", "title": "6 Human Psychology Facts You Didn't Know About Yourself", "channel": "psychologysecrets-k8x", "niche": "Psychology", "views": 0, "likes": 39, "hook": "shocking claim", "length": 9.0, "shot": 9.0, "why": "It uses bulleted list items that challenge common beliefs and tap into human curiosity. The call-to-action at the end gently pressures the viewer to follow."}, {"url": "https://www.youtube.com/watch?v=kG4P6yT6ae4", "title": "Interviewing wealthy people about how they made their money (title unreadable)", "channel": "", "niche": "Money stories", "views": 0, "likes": 0, "hook": "question", "length": 122.0, "shot": 1.79, "why": "Combines high-value curiosity (asking a billionaire how he got rich) with an immediate hook involving security friction. The dramatic personal turnaround story from negative 13 million to billionaire status keeps viewers watching till the end."}, {"url": "https://www.youtube.com/watch?v=SYsVZDe5_7I", "title": "The Youngest Billionaire in the World", "channel": "Nas Daily", "niche": "Money stories", "views": 0, "likes": 289000, "hook": "shocking claim", "length": 254.0, "shot": 2.7, "why": "It combines an inspiring rags-to-riches underdog narrative with fast-paced visual storytelling and rapid cuts. The concrete milestones (ages and dollar amounts) maintain high viewer engagement throughout."}, {"url": "https://www.youtube.com/watch?v=uEPKGYYUF3M", "title": "The World's Shortest Billionaire 😳💰 #shorts", "channel": "storylineatlaas", "niche": "Money stories", "views": 0, "likes": 80000, "hook": "shocking claim", "length": 62.0, "shot": 2.48, "why": "Combines visual surprise with a heartwarming and intriguing human interest story. The contrast in height and display of immense wealth instantly grabs viewer attention."}], "counts": {"hook": [["question", 25], ["shocking claim", 16], ["visual shock", 13], ["story cold-open", 6], ["countdown", 4], ["other", 1]], "emotion": [["curiosity", 44], ["humor", 9], ["awe", 8], ["fear", 4]], "ending": [["abrupt", 26], ["punchline", 17], ["CTA", 14], ["question", 4], ["cliffhanger", 3], ["humor", 1]], "captions": [["word-by-word", 32], ["phrase", 20], ["none", 9], ["title only", 4]]}, "specs": [{"label": "Length", "ours": "49 s", "target": "45–60 s", "ok": true}, {"label": "Shots", "ours": "20", "target": "one per 2–3 s", "ok": true}, {"label": "Average shot", "ours": "2.4 s", "target": "2–3 s", "ok": true}, {"label": "Cuts per minute", "ours": "23", "target": "20–30", "ok": true}, {"label": "Voice pace", "ours": "151 wpm", "target": "~150 wpm", "ok": true}, {"label": "Hook length", "ours": "8 words", "target": "≤10 words", "ok": true}, {"label": "Loudness", "ours": "-16 LUFS", "target": "−14 to −16", "ok": true}, {"label": "Frame", "ours": "1080x1920 vertical", "target": "1080×1920 vertical", "ok": true}], "niches": [{"name": "\"What if\" hypotheticals: body and physics", "why": "Most top performers in the study; curiosity hook; endless topics.", "fit": "Strong"}, {"name": "Space and scale", "why": "Top short in the sample was a universe size comparison; awe emotion.", "fit": "Strong"}, {"name": "Survival scenarios", "why": "Question hook plus \"would I survive?\" comments drive engagement.", "fit": "Strong"}, {"name": "Deadly and weird animals", "why": "\"Deadliest animal\" format performs; cute-vs-deadly contrast.", "fit": "Medium"}, {"name": "Inside the human body (as \"what if\")", "why": "Fits our scenes; plain explainers did poorly, so frame them as hypotheticals.", "fit": "Strong"}, {"name": "History: what if you lived then", "why": "Strong genre on YouTube; needs period characters and sets.", "fit": "Medium"}, {"name": "Mysteries and strange places", "why": "Storytelling genre with strong retention; needs atmosphere scenes.", "fit": "Medium"}, {"name": "How it works (3D cutaways)", "why": "Sample shorts were slow (~89 wpm, 4 s shots) and weak; needs machine models.", "fit": "Medium"}, {"name": "Psychology facts", "why": "Crowded; sample shorts performed poorly; template risk.", "fit": "Weak"}, {"name": "Money stories", "why": "Mostly live-action interviews; hard to make in 3D.", "fit": "Weak"}], "ideas": [["What if you don't sleep for 11 days?", "Body", "Rendered (test 1)"], ["What if you fell into the Mariana Trench?", "Survival", "Rendered (this test)"], ["What happens to your body in space without a suit?", "Body / space", "Next"], ["What if the Moon disappeared tonight?", "Space", "Next"], ["What if you got struck by lightning?", "Survival / body", "Next"], ["What if your heart stopped for 60 seconds?", "Body", "Next"], ["What if you stood next to a black hole?", "Space", "Next"], ["What if a mosquito bit you in 1347?", "History / animals", "Next"], ["What if you fell through thin ice?", "Survival", "Next"], ["What if Earth were twice as big?", "Space", "Next (Kurzgesagt did it; use a different angle)"]], "creators": ["MrBeast", "Vlad and Niki", "Kids Diana Show", "Like Nastya", "Stokes Twins", "Alan's Universe", "PewDiePie", "Zhong", "Dude Perfect", "A4 (Vlad Bumaga)", "Mark Rober", "Markiplier", "Jake Fellman", "Daniel LaBelle", "Brent Rivera", "Ben Azelart", "Sidemen", "Ryan's World", "Dhar Mann", "Smosh", "CarryMinati", "Total Gaming", "Techno Gamerz", "Sourav Joshi Vlogs", "Fernanfloo", "Mikecrack", "Whindersson Nunes", "HolaSoyGerman", "Fede Vigevani", "Ryan Trahan"], "faceless": ["Cocomelon", "ChuChu TV", "Pinkfong (Baby Shark)", "Little Baby Bum", "5-Minute Crafts", "Zack D. Films", "Jake Fellman", "What If", "Kurzgesagt", "The Infographics Show", "Bright Side", "WatchMojo", "Daily Dose of Internet", "Lofi Girl", "Mr. Nightmare", "Chilling Scares", "Kings and Generals", "OverSimplified", "Simple History", "TED-Ed", "MinutePhysics", "Wendover Productions", "Half as Interesting", "Economics Explained", "LEMMiNO", "Fern", "MagnatesMedia", "Alan Becker", "Hoog", "Real Engineering"], "medians": {"length_s": 60.0, "avg_shot_s": 2.7, "words_per_minute": 155.0}}</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const fmt = n => !n ? '—' : n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'K' : String(n);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+
+document.getElementById('stat-videos').textContent = D.videos.length + ' shorts analyzed';
+
+document.getElementById('specs').innerHTML = D.specs.map(s =>
+  `<div class="spec"><span>${esc(s.label)}</span><span class="${s.ok ? 'ok' : 'meh'}">${esc(s.ours)}</span><span>target ${esc(s.target)}</span></div>`).join('');
+
+function bars(id, counts) {
+  const max = Math.max(...counts.map(c => c[1]));
+  document.getElementById(id).innerHTML = counts.map(([k, v]) =>
+    `<div class="bar"><span>${esc(k)}</span><i style="width:${(v / max * 100).toFixed(1)}%"></i><em>${v}</em></div>`).join('');
+}
+bars('bars-hook', D.counts.hook); bars('bars-emotion', D.counts.emotion);
+bars('bars-ending', D.counts.ending); bars('bars-captions', D.counts.captions);
+
+const niches = ['All', ...new Set(D.videos.map(v => v.niche))];
+let active = 'All';
+const filter = document.getElementById('niche-filter');
+filter.innerHTML = niches.map(n => `<button class="chip" aria-pressed="${n === 'All'}" data-n="${esc(n)}">${esc(n)}</button>`).join('');
+filter.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  active = b.dataset.n;
+  filter.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  render();
+});
+document.getElementById('sort').addEventListener('change', render);
+function render() {
+  const key = document.getElementById('sort').value;
+  const rows = D.videos.filter(v => active === 'All' || v.niche === active)
+    .sort((a, b) => (b[key] || 0) - (a[key] || 0) || (b.likes || 0) - (a.likes || 0));
+  document.getElementById('count').textContent = rows.length + ' shorts';
+  document.getElementById('rows').innerHTML = rows.map(v => `<tr>
+    <td style="min-width:13rem"><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.title)}</a><br><span class="muted">${esc(v.channel)}</span></td>
+    <td>${esc(v.niche)}</td><td class="n">${fmt(v.views)}</td><td class="n">${fmt(v.likes)}</td>
+    <td>${esc(v.hook)}</td><td class="n">${v.length ? Math.round(v.length) + ' s' : '—'}</td>
+    <td class="n">${v.shot ? v.shot.toFixed(1) + ' s' : '—'}</td><td style="min-width:22rem">${esc(v.why)}</td></tr>`).join('');
+}
+render();
+
+document.getElementById('niches').innerHTML = D.niches.map((n, i) => `<div class="niche${i === 0 ? ' pick' : ''}">
+  <div class="no">${i + 1}</div><div style="display:grid;gap:4px;min-width:0"><h3>${esc(n.name)}</h3><p>${esc(n.why)}</p></div>
+  <span class="pill ${n.fit.toLowerCase()}">${esc(n.fit)} fit</span></div>`).join('');
+
+document.getElementById('ideas').innerHTML = D.ideas.map((x, i) =>
+  `<tr><td class="n">${i + 1}</td><td>${esc(x[0])}</td><td>${esc(x[1])}</td><td>${esc(x[2])}</td></tr>`).join('');
+document.getElementById('creators').innerHTML = D.creators.map(c => `<li>${esc(c)}</li>`).join('');
+document.getElementById('faceless').innerHTML = D.faceless.map(c => `<li>${esc(c)}</li>`).join('');
+</script>
