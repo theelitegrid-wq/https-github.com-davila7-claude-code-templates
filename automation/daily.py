@@ -70,6 +70,14 @@ Return ONLY a JSON object with these keys:
        "color" and "accent": hex colors that fit the subject (accent is the glow/highlight),
        "callout": optional big on-screen number or time stamp (max 12 chars, e.g. "72 HOURS", "DAY 4");
           use it on 2-3 scenes only.
+       "image_prompt": the exact shot for an AI image model, showing literally what this line says.
+          Zack D. Films style: put the recurring character (call him Jake) in an everyday American
+          place viewers know (bedroom, kitchen, office, car, gas station, grocery store, backyard,
+          beach, pier, hospital); show his body reacting; for anything inside the body use an
+          "x-ray cutaway 3D medical animation" of the organ; for big-scale facts show the place or
+          object itself. Give framing (wide/medium/close-up), action, setting, lighting. No text.
+       "motion": camera move for the shot: push | pull | pan-left | pan-right | up | down | shake
+          (shake for impacts, pain or shocks).
   "search_terms": list of 6-8 short English stock-footage search phrases that match the script visually
 """
 
@@ -144,15 +152,40 @@ def render(cfg, plan, clips=None):
     return video if video.is_absolute() else ENGINE / video
 
 
+def ai_shots(cfg, plan):
+    """Generate one AI image (or clip) per scene on Kaggle's free GPU; attach as scene media."""
+    from kaggle_shots import fetch_shots
+    animate = int(cfg.get("animate_shots", 0))
+    shots = []
+    for i, scene in enumerate(plan["scenes"]):
+        prompt = f"{cfg['look'].strip()} {scene.get('image_prompt') or scene['narration']}"
+        if "jake" in prompt.lower():
+            prompt += f" Jake is {cfg['character'].strip()}"
+        shots.append({"i": i, "prompt": prompt, "animate": False,
+                      "motion_prompt": f"{scene.get('image_prompt', '')} subtle natural motion, cinematic"})
+    # Animate the shots with the most dramatic camera moves first.
+    for s in sorted(shots, key=lambda s: plan["scenes"][s["i"]].get("motion") != "shake")[:animate]:
+        s["animate"] = True
+    got = fetch_shots(shots, STUDIO / "public" / "shots")
+    for i, media in got.items():
+        plan["scenes"][i]["media"] = media
+
+
 def render_studio(cfg, plan):
-    """Free 3D animation: Kokoro voice + Remotion/three.js scenes, all on CPU."""
+    """Remotion render: AI shots (visuals: ai) or procedural 3D scenes, Gemini/Kokoro voice."""
     out = STUDIO / "out"
     out.mkdir(exist_ok=True)
+    if cfg.get("visuals") == "ai":
+        try:
+            ai_shots(cfg, plan)
+        except Exception as e:  # never miss a day: fall back to the procedural 3D scenes
+            print(f"AI shots failed ({e}); falling back to the 3D studio", flush=True)
     plan_in = out / "plan_in.json"
     plan_in.write_text(json.dumps({**plan, "audio": None}, ensure_ascii=False), encoding="utf-8")
     subprocess.run(
         [str(STUDIO / ".venv" / "bin" / "python"), "voice.py", str(plan_in),
-         "--voice", cfg.get("studio_voice", "am_michael"), "--speed", str(cfg.get("studio_speed", 1.1))],
+         "--voice", cfg.get("studio_voice", "am_michael"), "--speed", str(cfg.get("studio_speed", 0.95)),
+         "--gemini-voice", cfg.get("gemini_voice", "Charon")],
         cwd=STUDIO, check=True,
     )
     video = out / "final.mp4"
@@ -175,7 +208,7 @@ def main():
     ))
     print(f"Topic: {plan['topic']}\nTitle: {plan['title']}", flush=True)
 
-    if cfg.get("visuals", "studio") == "studio":
+    if cfg.get("visuals", "studio") in ("studio", "ai"):
         video = render_studio(cfg, plan)
         return publish(cfg, plan, video, history)
 

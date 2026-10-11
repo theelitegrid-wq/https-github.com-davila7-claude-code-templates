@@ -104,3 +104,17 @@ locally with `--video-source local --video-materials your_clip.mp4` in `vendor/M
   then switch to `public`. Add your own edits, opinions or voice where you can.
 - AI disclosure is on by default (`containsSyntheticMedia`). Leave it on.
 - Growth comes from the niche, titles/thumbnails and retention. Expect weeks, not days.
+
+## AI shots on a free GPU (visuals: ai)
+
+Every line gets its own AI-generated shot in the Zack D. Films style (the same character, Jake,
+in everyday American places; x-ray cutaways for inside the body), made with open models on
+Kaggle's free GPU (~30 h/week): Z-Image-Turbo stills (SDXL fallback) with camera moves, and
+optional Wan 2.2 clips (`animate_shots` in `automation/channel.yaml`; slow on free GPUs).
+
+1. Create a free account at kaggle.com and verify your phone number (needed for GPU + internet).
+2. kaggle.com → Settings → API → **Create New Token** (downloads `kaggle.json` with username and key).
+3. Add GitHub secrets `KAGGLE_USERNAME` and `KAGGLE_KEY` from that file.
+
+If the GPU job fails, that day's video falls back to the procedural 3D studio. Narration uses
+Gemini TTS (free tier, one request per video) with Kokoro as the offline fallback.

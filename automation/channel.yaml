@@ -3,7 +3,8 @@ niche: "3D animated 'what happens if' shorts about the human body, survival and 
 audience: "curious 13-35 year olds who love jaw-dropping, slightly gross, satisfying explainers"
 language: en-US
 voice: en-US-JennyNeural-Female   # Edge TTS voice, used by visuals: veo / stock
-studio_voice: am_michael          # Kokoro voice for visuals: studio (am_adam, am_onyx, af_heart, bm_george, ...)
+gemini_voice: Charon              # natural Gemini TTS narrator (free tier, one request per video): Charon, Puck, Fenrir, Orus
+studio_voice: am_michael          # offline Kokoro fallback voice
 studio_speed: 0.95
 aspect: "9:16"                    # 9:16 = YouTube Shorts (fastest growth for new channels); 16:9 = long-form
 scenes: 10                        # ~10 one-sentence scenes at ~150 wpm ~= 45-60s (measured sweet spot)
@@ -13,11 +14,25 @@ style_rules: >
   never say "in this video". Facts must be scientifically accurate.
   Last line is a twist or a question that invites comments.
 
-# visuals: studio = FREE 3D animation rendered on CPU (Remotion + three.js + Kokoro voice). Default.
+# visuals: ai     = FREE AI shots from open models on Kaggle's free GPU (Z-Image-Turbo stills with
+#                  camera moves; optional Wan 2.2 clips). Needs KAGGLE_USERNAME/KAGGLE_KEY secrets.
+#                  Falls back to "studio" if the GPU job fails.
+# visuals: studio = FREE procedural 3D rendered on CPU (Remotion + three.js).
 # visuals: veo   = AI-generated scenes from Google Veo (the model behind Google Flow). Paid per second
 #                  of video: needs GEMINI_API_KEY on a Google Cloud project with billing enabled.
 # visuals: stock = free Pexels stock footage (PEXELS_API_KEY).
-visuals: studio
+visuals: ai
+animate_shots: 0     # how many shots per video Wan 2.2 animates (slow on free GPUs; 0 = stills + camera moves)
+
+# The same character in every video, so viewers recognize the channel.
+character: >
+  Jake, an ordinary American guy, about 28, short messy brown hair, light stubble,
+  gray hoodie, blue jeans, white sneakers, friendly face
+# Visual style for every AI shot (Zack D. Films-like 3D animated look).
+look: >
+  3D animated film still, stylized realistic CGI like a premium animated explainer short,
+  expressive characters, soft cinematic lighting, shallow depth of field, rich detail,
+  vertical 9:16 composition, no text, no watermark
 veo_model: veo-3.1-fast-generate-preview   # cheaper/faster; falls back to veo-3.1-generate-preview
 veo_seconds: 8
 veo_style: >

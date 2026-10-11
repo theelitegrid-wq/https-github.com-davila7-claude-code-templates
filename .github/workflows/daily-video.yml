@@ -18,7 +18,7 @@ concurrency: daily-video
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 180
     env:
       HAS_CLAUDE: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
     steps:
@@ -48,7 +48,7 @@ jobs:
         run: npm install -g @anthropic-ai/claude-code
 
       - name: Install skills and engines (pinned)
-        run: bash setup.sh
+        run: bash setup.sh && vendor/MoneyPrinterTurbo/.venv/bin/python -m pip install -q kaggle || pip install -q kaggle
 
       - name: Make and upload today's video
         env:
@@ -58,6 +58,8 @@ jobs:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
           DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
         run: vendor/MoneyPrinterTurbo/.venv/bin/python automation/daily.py
 
