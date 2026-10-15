@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Johnston Dental Artistry | Cosmetic & Family Dentist in West Seattle</title>
+<meta name="description" content="Johnston Dental Artistry (formerly West Seattle Smile Co.) — boutique cosmetic and family dentistry by Dr. Geoff & Dr. Niki Johnston at 4150 California Ave SW, Seattle. Free on-site parking.">
+<meta name="theme-color" content="#2E4A43">
+
+<!-- build:fonts -->
+<!-- build:icons -->
+
+<style>
+  /* Pacific Northwest boutique luxury: alabaster + warm sand grounds, sage for structure, gold used sparingly for action. */
+  :root {
+    --bg: #FAF8F5;
+    --bg-2: #F2EFE9;
+    --ink: #1E2229;
+    --ink-soft: #565B57;
+    --sage: #2E4A43;
+    --gold: #C5A059;
+    --line: rgba(30, 34, 41, .1);
+    --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  h1, h2, h3, .font-display { font-family: var(--serif); text-wrap: balance; letter-spacing: -.01em; }
+  [hidden] { display: none !important; }
+  ::selection { background: var(--gold); color: #fff; }
+
+  .wrap { width: 100%; max-width: 1240px; margin-inline: auto;
+          padding-left: max(20px, env(safe-area-inset-left, 0px));
+          padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+  .eyebrow { font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; font-weight: 600; color: var(--sage); }
+  .eyebrow-gold { color: var(--gold); }
+
+  /* Glass nav */
+  .glass { background: rgba(250, 248, 245, .72); backdrop-filter: saturate(160%) blur(18px); -webkit-backdrop-filter: saturate(160%) blur(18px); }
+  #navbar { top: 0; transition: box-shadow .3s ease, background .3s ease; }
+  #navbar.scrolled { box-shadow: 0 10px 30px -18px rgba(30,34,41,.35); background: rgba(250,248,245,.88); }
+  .nav-link { position: relative; }
+  .nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+  .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+  .nav-link.active { color: var(--sage); }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; border-radius: 999px; font-weight: 600; font-size: .9rem; letter-spacing: .02em; transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease; cursor: pointer; white-space: nowrap; }
+  .btn:active { transform: translateY(1px) scale(.99); }
+  .btn-gold { background: var(--gold); color: #1E2229; box-shadow: 0 10px 24px -12px rgba(197,160,89,.9); }
+  .btn-gold:hover { background: #B8924A; transform: translateY(-2px); box-shadow: 0 16px 30px -14px rgba(197,160,89,.95); }
+  .btn-sage { background: var(--sage); color: #fff; }
+  .btn-sage:hover { background: #223833; transform: translateY(-2px); }
+  .btn-ghost { border: 1px solid rgba(30,34,41,.22); color: var(--ink); background: transparent; }
+  .btn-ghost:hover { border-color: var(--sage); color: var(--sage); background: rgba(46,74,67,.05); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+  /* Image frames. If a photo cannot load, a branded topographic panel shows instead (a nod to Puget Sound contour maps). */
+  .frame { position: relative; overflow: hidden; isolation: isolate;
+           background:
+             radial-gradient(110% 80% at 85% 8%, rgba(197,160,89,.20), transparent 60%),
+             repeating-radial-gradient(ellipse at 78% 28%, transparent 0 28px, rgba(46,74,67,.13) 28px 29px),
+             linear-gradient(165deg, #F3EEE5 0%, #E8E1D4 100%); }
+  .frame > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+  .frame > .fallback { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: clamp(1rem, 4%, 2rem); color: #2E4A43; }
+  .frame > .fallback > div { display: flex; flex-direction: column; gap: .35rem; font-size: .68rem; letter-spacing: .26em; text-transform: uppercase; font-weight: 600; }
+  .frame > .fallback > div::before { content: "J"; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(3rem, 9vw, 5.5rem); line-height: .8; letter-spacing: 0; text-transform: none; color: var(--gold); }
+  .frame > .fallback svg { display: none; }
+  .frame > .initials { position: absolute; inset: 0; display: grid; place-items: center; color: #2E4A43; font-family: var(--serif); font-size: .8rem; font-weight: 600; }
+  /* Before / after slider */
+  .ba { position: relative; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .ba .layer { position: absolute; inset: 0; }
+  .ba .layer img { width: 100%; height: 100%; object-fit: cover; }
+  .ba .before { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+  .ba .before img { filter: sepia(.55) saturate(.7) brightness(.92) contrast(.92) hue-rotate(-8deg); }
+  .ba .handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: #fff; transform: translateX(-1px); z-index: 3; pointer-events: none; box-shadow: 0 0 0 1px rgba(0,0,0,.05); }
+  .ba .knob { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 52px; height: 52px; border-radius: 999px; background: #fff; display: grid; place-items: center; box-shadow: 0 10px 25px -8px rgba(0,0,0,.45); color: var(--sage); }
+  .ba input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; z-index: 4; margin: 0; }
+  .ba-tag { position: absolute; top: 16px; z-index: 2; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; padding: .45rem .8rem; border-radius: 999px; background: rgba(30,34,41,.62); color: #fff; backdrop-filter: blur(6px); }
+
+  /* Tabs, chips */
+  .chip { border: 1px solid rgba(30,34,41,.15); border-radius: 999px; padding: .55rem 1rem; font-size: .85rem; font-weight: 500; transition: all .2s ease; background: #fff; cursor: pointer; }
+  .chip:hover { border-color: var(--sage); }
+  .chip[aria-pressed="true"], .chip[aria-selected="true"], .chip.is-on { background: var(--sage); color: #fff; border-color: var(--sage); }
+
+  .service-card { transition: background .3s ease, border-color .3s ease, transform .3s ease; }
+  .service-card[aria-selected="true"] { background: #fff; border-color: rgba(197,160,89,.65); box-shadow: 0 20px 50px -30px rgba(30,34,41,.4); }
+  .service-card[aria-selected="true"] .svc-icon { background: var(--sage); color: #fff; }
+
+  /* Form fields */
+  .field { width: 100%; border: 1px solid rgba(30,34,41,.16); background: #fff; border-radius: 14px; padding: .85rem 1rem; font-size: .95rem; transition: border-color .2s, box-shadow .2s; color: var(--ink); }
+  .field:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 4px rgba(46,74,67,.12); }
+  .field.invalid { border-color: #B4543A; box-shadow: 0 0 0 4px rgba(180,84,58,.1); }
+  .err { color: #9E4430; font-size: .78rem; margin-top: .35rem; }
+  .option-card { border: 1px solid rgba(30,34,41,.14); border-radius: 16px; background: #fff; padding: 1rem; cursor: pointer; transition: all .2s ease; text-align: left; }
+  .option-card:hover { border-color: var(--sage); }
+  .option-card.is-on { border-color: var(--sage); background: #EEF2EF; box-shadow: inset 0 0 0 1px var(--sage); }
+
+  /* Modal */
+  .modal { position: fixed; inset: 0; z-index: 80; display: flex; align-items: flex-end; justify-content: center; }
+  @media (min-width: 640px) { .modal { align-items: center; padding: 1.5rem; } }
+  .modal-backdrop { position: absolute; inset: 0; background: rgba(20,24,28,.55); backdrop-filter: blur(4px); opacity: 0; transition: opacity .3s ease; }
+  .modal-panel { position: relative; width: 100%; max-width: 640px; max-height: 92vh; overflow-y: auto; background: var(--bg); border-radius: 28px 28px 0 0; transform: translateY(30px); opacity: 0; transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .3s ease; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  @media (min-width: 640px) { .modal-panel { border-radius: 28px; } }
+  .modal.open .modal-backdrop { opacity: 1; }
+  .modal.open .modal-panel { transform: none; opacity: 1; }
+  .progress-dot { height: 4px; border-radius: 4px; background: rgba(30,34,41,.12); flex: 1; transition: background .3s; }
+  .progress-dot.on { background: var(--gold); }
+
+  /* Reviews carousel */
+  .track { display: flex; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+  .slide { flex: 0 0 100%; min-width: 0; }
+  @media (min-width: 768px) { .slide { flex-basis: 50%; } }
+  @media (min-width: 1100px) { .slide { flex-basis: 33.3333%; } }
+  .dot { width: 8px; height: 8px; border-radius: 99px; background: rgba(30,34,41,.2); transition: all .3s; }
+  .dot.on { width: 26px; background: var(--sage); }
+
+  /* Reveal */
+  .reveal { opacity: 1; transform: none; }
+  .js .reveal.pre { opacity: 0; transform: translateY(18px); }
+  .js .reveal { transition: opacity .8s ease, transform .8s ease; }
+
+  /* Toast */
+  #toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 30px); opacity: 0; transition: all .35s ease; z-index: 90; pointer-events: none; }
+  #toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+  .grain { background-image: radial-gradient(rgba(30,34,41,.035) 1px, transparent 1px); background-size: 4px 4px; }
+  .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { scrollbar-width: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+<!-- build:tailwind -->
+</head>
+<body class="font-sans">
+
+<!-- 1. Rebrand announcement bar -->
+<div id="announce" class="bg-sage text-white text-[13px] sm:text-sm">
+  <div class="wrap flex items-center justify-center gap-3 py-2.5 text-center relative">
+    <p class="leading-snug pr-8 sm:pr-0">✨ West Seattle Smile Co. is Now <strong class="font-semibold">Johnston Dental Artistry</strong> — New Name. Same Trusted Husband &amp; Wife Team.</p>
+    <button id="announceClose" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-full hover:bg-white/10" aria-label="Dismiss announcement">
+      <i data-lucide="x" class="w-4 h-4"></i>
+    </button>
+  </div>
+</div>
+
+<!-- 2. Sticky glass navbar -->
+<header id="navbar" class="glass sticky z-50 border-b border-charcoal/5">
+  <nav class="wrap flex items-center justify-between gap-4 h-[76px]" aria-label="Primary">
+    <a href="#top" class="flex flex-col leading-none shrink-0" aria-label="Johnston Dental Artistry home">
+      <span class="font-serif text-[1.02rem] sm:text-[1.25rem] font-semibold tracking-[.12em] sm:tracking-[.14em] text-charcoal whitespace-nowrap">JOHNSTON DENTAL ARTISTRY</span>
+      <span class="text-[.62rem] tracking-[.42em] text-gold font-semibold mt-1">| WEST SEATTLE</span>
+    </a>
+
+    <ul class="hidden xl:flex items-center gap-7 text-[.86rem] font-medium text-charcoal/80 whitespace-nowrap">
+      <li><a class="nav-link hover:text-sage" href="#practice">The Practice</a></li>
+      <li><a class="nav-link hover:text-sage" href="#artistry">Cosmetic Artistry</a></li>
+      <li><a class="nav-link hover:text-sage" href="#gallery">Smile Gallery</a></li>
+      <li><a class="nav-link hover:text-sage" href="#consult">Virtual Consult</a></li>
+      <li><a class="nav-link hover:text-sage" href="#reviews">Reviews</a></li>
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <a href="tel:+12069351855" class="hidden xl:inline-flex items-center gap-2 text-sm font-semibold text-charcoal hover:text-sage whitespace-nowrap">
+        <i data-lucide="phone" class="w-4 h-4 text-gold"></i>(206) 935-1855
+      </a>
+      <button class="btn btn-gold px-5 py-2.5 hidden sm:inline-flex" data-open-booking>
+        <i data-lucide="calendar-check" class="w-4 h-4"></i>Book Online
+      </button>
+      <button id="menuBtn" class="xl:hidden w-11 h-11 grid place-items-center rounded-full border border-charcoal/15" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="xl:hidden border-t border-charcoal/5 bg-alabaster" hidden>
+    <div class="wrap py-6 flex flex-col gap-1">
+      <a class="mobile-link py-3 text-lg font-serif border-b border-charcoal/5" href="#practice">The Practice</a>
+      <a class="mobile-link py-3 text-lg font-serif border-b border-charcoal/5" href="#artistry">Cosmetic Artistry</a>
+      <a class="mobile-link py-3 text-lg font-serif border-b border-charcoal/5" href="#gallery">Smile Gallery</a>
+      <a class="mobile-link py-3 text-lg font-serif border-b border-charcoal/5" href="#consult">Virtual Consult</a>
+      <a class="mobile-link py-3 text-lg font-serif border-b border-charcoal/5" href="#reviews">Reviews</a>
+      <div class="flex flex-col sm:flex-row gap-3 pt-5">
+        <a href="tel:+12069351855" class="btn btn-ghost px-5 py-3"><i data-lucide="phone" class="w-4 h-4"></i>(206) 935-1855</a>
+        <button class="btn btn-gold px-5 py-3" data-open-booking><i data-lucide="calendar-check" class="w-4 h-4"></i>Book Online</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 3. Split hero -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 grain pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full bg-gold/10 blur-3xl pointer-events-none" aria-hidden="true"></div>
+  <div class="wrap relative grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-16 items-center py-14 sm:py-20 lg:py-24">
+    <div class="reveal min-w-0">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white border border-gold/40 shadow-sm px-4 py-2 text-[13px] font-medium">
+        <span>⭐ 4.8/5 Rating</span><span class="text-gold">•</span><span>600+ Google Reviews</span>
+      </div>
+      <h1 class="mt-7 text-[2.9rem] leading-[1.02] sm:text-6xl lg:text-[4.6rem] font-medium text-charcoal">
+        Smiles crafted with an <em class="text-sage font-normal">artist’s eye</em> and a neighbor’s care.
+      </h1>
+      <p class="mt-6 text-[1.05rem] sm:text-lg leading-relaxed text-charcoal/70 max-w-[34rem]">
+        Boutique cosmetic and family dentistry in the heart of West Seattle. Dr. Geoff &amp; Dr. Niki Johnston pair meticulous clinical work with the unhurried, personal attention you remember from West Seattle Smile Co.
+      </p>
+      <div class="mt-9 flex flex-col sm:flex-row gap-3">
+        <button class="btn btn-gold px-7 py-4 text-[.95rem]" data-open-booking>
+          <i data-lucide="calendar-check" class="w-5 h-5"></i>Book Your Visit
+        </button>
+        <a href="#consult" class="btn btn-ghost px-7 py-4 text-[.95rem]">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>Start a Virtual Smile Consult
+        </a>
+      </div>
+      <dl class="mt-11 grid grid-cols-3 gap-4 max-w-[30rem] border-t border-charcoal/10 pt-7">
+        <div><dt class="text-[.7rem] uppercase tracking-[.18em] text-charcoal/55">Rating</dt><dd class="font-serif text-3xl mt-1">4.8<span class="text-gold">★</span></dd></div>
+        <div><dt class="text-[.7rem] uppercase tracking-[.18em] text-charcoal/55">Reviews</dt><dd class="font-serif text-3xl mt-1">600+</dd></div>
+        <div><dt class="text-[.7rem] uppercase tracking-[.18em] text-charcoal/55">Parking</dt><dd class="font-serif text-3xl mt-1">Free</dd></div>
+      </dl>
+    </div>
+
+    <div class="reveal relative min-w-0">
+      <div class="frame rounded-[2.2rem] aspect-[4/5] shadow-lift max-w-full">
+        <div class="fallback" style="align-items:flex-start"><div><i data-lucide="armchair" class="w-8 h-8"></i>Our West Seattle studio</div></div>
+        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80" alt="Bright, modern treatment room at Johnston Dental Artistry" loading="eager" onerror="this.hidden=true">
+      </div>
+      <!-- floating cards -->
+      <div class="absolute left-3 sm:-left-8 bottom-6 sm:bottom-10 bg-white/95 backdrop-blur rounded-2xl shadow-soft p-4 pr-6 flex items-center gap-3 max-w-[260px]">
+        <div class="w-11 h-11 shrink-0 rounded-full bg-sage text-white grid place-items-center"><i data-lucide="car" class="w-5 h-5"></i></div>
+        <div class="min-w-0"><p class="text-sm font-semibold">Free On-Site Parking</p><p class="text-xs text-charcoal/60">4150 California Ave SW</p></div>
+      </div>
+      <div class="absolute right-3 sm:-right-6 top-auto bottom-28 sm:bottom-auto sm:top-8 bg-white/95 backdrop-blur rounded-2xl shadow-soft p-4 max-w-[220px]">
+        <div class="flex -space-x-2">
+          <div class="w-9 h-9 rounded-full ring-2 ring-white frame"><span class="initials">SM</span><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="" onerror="this.hidden=true"></div>
+          <div class="w-9 h-9 rounded-full ring-2 ring-white frame"><span class="initials">DK</span><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="" onerror="this.hidden=true"></div>
+          <div class="w-9 h-9 rounded-full ring-2 ring-white frame"><span class="initials">PR</span><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&q=80" alt="" onerror="this.hidden=true"></div>
+        </div>
+        <p class="mt-2 text-sm font-semibold">Husband &amp; wife team</p>
+        <p class="text-xs text-charcoal/60">Two doctors. One standard of care.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust strip -->
+<section class="border-y border-charcoal/10 bg-sand">
+  <div class="wrap py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+    <div class="flex items-center gap-3"><i data-lucide="heart-handshake" class="w-5 h-5 text-sage shrink-0"></i><span>New patients welcome</span></div>
+    <div class="flex items-center gap-3"><i data-lucide="car" class="w-5 h-5 text-sage shrink-0"></i><span>Free on-site parking</span></div>
+    <div class="flex items-center gap-3"><i data-lucide="scan-face" class="w-5 h-5 text-sage shrink-0"></i><span>Digital smile design</span></div>
+    <div class="flex items-center gap-3"><i data-lucide="coffee" class="w-5 h-5 text-sage shrink-0"></i><span>Comfort-first appointments</span></div>
+  </div>
+</section>
+
+<!-- The Practice -->
+<section id="practice" class="py-20 sm:py-28">
+  <div class="wrap">
+    <div class="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-20 items-end">
+      <div class="reveal min-w-0">
+        <p class="eyebrow">The Practice</p>
+        <h2 class="mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[1.05] font-medium">A new name for the West Seattle practice you already trust.</h2>
+      </div>
+      <p class="reveal text-lg leading-relaxed text-charcoal/70 max-w-[38rem]">
+        West Seattle Smile Co. has become Johnston Dental Artistry. The doors, the team, the free parking and the doctors are the same. The new name reflects the cosmetic work that has always been at the center of how Geoff and Niki practice: careful planning, natural-looking results, and plenty of time to talk it through.
+      </p>
+    </div>
+
+    <!-- Doctor switcher -->
+    <div class="mt-14 flex gap-2" role="tablist" aria-label="Meet the doctors">
+      <button class="chip" role="tab" aria-selected="true" aria-controls="doc-geoff" id="tab-geoff" data-doc="geoff">Dr. Geoff Johnston</button>
+      <button class="chip" role="tab" aria-selected="false" aria-controls="doc-niki" id="tab-niki" data-doc="niki">Dr. Niki Johnston</button>
+    </div>
+
+    <div class="mt-8">
+      <article id="doc-geoff" role="tabpanel" aria-labelledby="tab-geoff" class="doc-panel grid md:grid-cols-[.9fr_1.1fr] gap-8 lg:gap-14 items-center">
+        <div class="frame rounded-[2rem] aspect-[4/5] shadow-soft max-w-full">
+          <div class="fallback"><div><i data-lucide="user-round" class="w-8 h-8"></i>Dr. Geoff Johnston</div></div>
+          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=1000&q=80" alt="Portrait of Dr. Geoff Johnston" loading="lazy" onerror="this.hidden=true">
+        </div>
+        <div class="min-w-0">
+          <p class="eyebrow eyebrow-gold">Co-Founder · Restorative &amp; Implant Dentistry</p>
+          <h3 class="mt-3 text-4xl sm:text-5xl font-medium">Dr. Geoff Johnston</h3>
+          <p class="mt-5 text-charcoal/70 leading-relaxed max-w-[36rem]">Geoff is the planner. He maps every restoration digitally before treatment begins, so patients see where they are headed and why. His focus is restorations that hold up to real life: implants, crowns and full-mouth rehabilitation that feel like your own teeth.</p>
+          <ul class="mt-7 grid sm:grid-cols-2 gap-3 text-sm">
+            <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>Dental implants &amp; restoration</li>
+            <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>Full-mouth rehabilitation</li>
+            <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>Same-visit digital crowns</li>
+            <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>Bite &amp; TMJ evaluation</li>
+          </ul>
+          <blockquote class="mt-8 border-l-2 border-gold pl-5 font-serif italic text-2xl leading-snug text-sage">“The best dentistry is the kind nobody notices. It just looks and feels like you.”</blockquote>
+        </div>
+      </article>
+
+      <article id="doc-niki" role="tabpanel" aria-labelledby="tab-niki" class="doc-panel grid md:grid-cols-[.9fr_1.1fr] gap-8 lg:gap-14 items-center" hidden>
+        <div class="frame rounded-[2rem] aspect-[4/5] shadow-soft max-w-full">
+          <div class="fallback"><div><i data-lucide="user-round" class="w-8 h-8"></i>Dr. Niki Johnston</div></div>
+          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=80" alt="Portrait of Dr. Niki Johnston" loading="lazy" onerror="this.hidden=true">
+        </div>
+        <div class="min-w-0">
+          <p class="eyebrow eyebrow-gold">Co-Founder · Cosmetic &amp; Family Dentistry</p>
+          <h3 class="mt-3 text-4xl sm:text-5xl font-medium">Dr. Niki Johnston</h3>
+          <p class="mt-5 text-charcoal/70 leading-relaxed max-w-[36rem]">Niki leads the practice’s cosmetic work. She designs veneers, bonding and whitening plans around each patient’s face, lip line and personality, never a one-size template. Families also know her for gentle, patient care with nervous adults and first-time kids.</p>
+          <ul class="mt-7 grid sm:grid-cols-2 gap-3 text-sm">
+            <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>Porcelain veneers</li>
+            <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>Invisalign clear aligners</li>
+            <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>Cosmetic bonding &amp; whitening</li>
+            <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>Family &amp; preventive care</li>
+          </ul>
+          <blockquote class="mt-8 border-l-2 border-gold pl-5 font-serif italic text-2xl leading-snug text-sage">“A beautiful smile should still look like it belongs to you.”</blockquote>
+        </div>
+      </article>
+    </div>
+
+    <!-- Studio image band -->
+    <div class="mt-20 grid md:grid-cols-3 gap-5">
+      <div class="frame rounded-[1.6rem] aspect-[4/3] md:col-span-2 max-w-full">
+        <div class="fallback"><div><i data-lucide="sofa" class="w-8 h-8"></i>The reception lounge</div></div>
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80" alt="Warm, light-filled lounge interior" loading="lazy" onerror="this.hidden=true">
+      </div>
+      <div class="rounded-[1.6rem] bg-sage text-white p-8 flex flex-col justify-between gap-8">
+        <i data-lucide="map-pin" class="w-7 h-7 text-gold"></i>
+        <div>
+          <p class="font-serif text-3xl leading-tight">Heart of West Seattle</p>
+          <p class="mt-3 text-white/75 text-sm leading-relaxed">4150 California Ave SW<br>Seattle, WA 98116<br>Free on-site parking, right at our door.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=4150+California+Ave+SW+Seattle+WA+98116" target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 text-gold font-semibold text-sm hover:gap-3 transition-all">Get directions <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cosmetic Artistry -->
+<section id="artistry" class="py-20 sm:py-28 bg-sand">
+  <div class="wrap">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+      <div class="reveal max-w-2xl">
+        <p class="eyebrow">Cosmetic Artistry</p>
+        <h2 class="mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[1.05] font-medium">Treatments, explained plainly.</h2>
+      </div>
+      <p class="reveal text-charcoal/70 max-w-md">Pick a treatment to see what it involves, how long it takes and who it suits. Every plan starts with a conversation, not a sales pitch.</p>
+    </div>
+
+    <div class="mt-12 grid lg:grid-cols-[1fr_1.15fr] gap-8 items-start">
+      <div class="grid sm:grid-cols-2 gap-3" role="tablist" aria-label="Cosmetic treatments" id="serviceList"></div>
+      <div id="serviceDetail" class="lg:sticky lg:top-28 rounded-[2rem] bg-white shadow-soft overflow-hidden min-w-0" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Smile Gallery -->
+<section id="gallery" class="py-20 sm:py-28">
+  <div class="wrap">
+    <div class="text-center max-w-2xl mx-auto reveal">
+      <p class="eyebrow">Smile Gallery</p>
+      <h2 class="mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[1.05] font-medium">Drag to see the difference.</h2>
+      <p class="mt-5 text-charcoal/70">Slide the handle (or use your arrow keys) to compare. Choose a case below.</p>
+    </div>
+
+    <div class="mt-10 flex flex-wrap justify-center gap-2" id="caseTabs" role="tablist" aria-label="Smile cases"></div>
+
+    <div class="mt-8 grid lg:grid-cols-[1.4fr_1fr] gap-8 items-center">
+      <div class="ba rounded-[2rem] aspect-[4/3] shadow-lift frame max-w-full" id="ba" style="--pos:50%">
+        <div class="layer after"><img id="baAfter" src="" alt="" onerror="this.hidden=true"></div>
+        <div class="layer before"><img id="baBefore" src="" alt="" onerror="this.hidden=true"></div>
+        <span class="ba-tag left-4">Before</span>
+        <span class="ba-tag right-4">After</span>
+        <div class="handle"><div class="knob"><i data-lucide="chevrons-left-right" class="w-5 h-5"></i></div></div>
+        <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Before and after comparison">
+      </div>
+      <div class="min-w-0" id="caseInfo" aria-live="polite"></div>
+    </div>
+    <p class="mt-6 text-xs text-charcoal/50 text-center">Gallery images are illustrative. Ask us to see real patient cases during your consultation.</p>
+  </div>
+</section>
+
+<!-- Virtual Consult -->
+<section id="consult" class="py-20 sm:py-28 bg-sage text-white relative overflow-hidden">
+  <div class="absolute -bottom-40 -left-40 w-[520px] h-[520px] rounded-full bg-gold/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+  <div class="wrap relative grid lg:grid-cols-[.9fr_1.1fr] gap-12 lg:gap-16 items-start">
+    <div class="reveal min-w-0">
+      <p class="eyebrow eyebrow-gold">Virtual Consult</p>
+      <h2 class="mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[1.05] font-medium">Start your smile plan from the couch.</h2>
+      <p class="mt-6 text-white/75 text-lg leading-relaxed max-w-[32rem]">Answer three short questions and add a smile photo if you like. Dr. Niki or Dr. Geoff reviews it personally and follows up with options and a ballpark range.</p>
+      <ul class="mt-9 space-y-5">
+        <li class="flex gap-4"><span class="w-10 h-10 shrink-0 rounded-full bg-white/10 grid place-items-center"><i data-lucide="clock" class="w-5 h-5 text-gold"></i></span><div><p class="font-semibold">Takes about 2 minutes</p><p class="text-white/65 text-sm">No account or insurance details needed.</p></div></li>
+        <li class="flex gap-4"><span class="w-10 h-10 shrink-0 rounded-full bg-white/10 grid place-items-center"><i data-lucide="user-check" class="w-5 h-5 text-gold"></i></span><div><p class="font-semibold">Reviewed by a doctor</p><p class="text-white/65 text-sm">Not a bot and not a call center.</p></div></li>
+        <li class="flex gap-4"><span class="w-10 h-10 shrink-0 rounded-full bg-white/10 grid place-items-center"><i data-lucide="shield-check" class="w-5 h-5 text-gold"></i></span><div><p class="font-semibold">Private by default</p><p class="text-white/65 text-sm">Your photo is only used for your consult.</p></div></li>
+      </ul>
+    </div>
+
+    <div class="reveal bg-alabaster text-charcoal rounded-[2rem] p-6 sm:p-9 shadow-lift min-w-0">
+      <div class="flex gap-2 mb-7" aria-hidden="true">
+        <span class="progress-dot on" data-cstep-dot="1"></span><span class="progress-dot" data-cstep-dot="2"></span><span class="progress-dot" data-cstep-dot="3"></span>
+      </div>
+      <form id="consultForm" novalidate>
+        <!-- step 1 -->
+        <fieldset data-cstep="1">
+          <legend class="font-serif text-3xl font-medium">What would you like to change?</legend>
+          <p class="text-sm text-charcoal/60 mt-1">Choose all that apply.</p>
+          <div class="mt-6 grid grid-cols-2 gap-3" id="goalOptions">
+            <button type="button" class="option-card" data-goal="Whiter teeth"><i data-lucide="sun" class="w-5 h-5 text-gold"></i><span class="block mt-2 font-semibold text-sm">Whiter teeth</span></button>
+            <button type="button" class="option-card" data-goal="Straighter teeth"><i data-lucide="align-center" class="w-5 h-5 text-gold"></i><span class="block mt-2 font-semibold text-sm">Straighter teeth</span></button>
+            <button type="button" class="option-card" data-goal="Chips or gaps"><i data-lucide="puzzle" class="w-5 h-5 text-gold"></i><span class="block mt-2 font-semibold text-sm">Chips or gaps</span></button>
+            <button type="button" class="option-card" data-goal="Missing teeth"><i data-lucide="circle-dashed" class="w-5 h-5 text-gold"></i><span class="block mt-2 font-semibold text-sm">Missing teeth</span></button>
+            <button type="button" class="option-card" data-goal="Full smile makeover"><i data-lucide="sparkles" class="w-5 h-5 text-gold"></i><span class="block mt-2 font-semibold text-sm">Full makeover</span></button>
+            <button type="button" class="option-card" data-goal="Not sure yet"><i data-lucide="help-circle" class="w-5 h-5 text-gold"></i><span class="block mt-2 font-semibold text-sm">Not sure yet</span></button>
+          </div>
+          <p class="err" id="goalErr" hidden>Choose at least one option to continue.</p>
+        </fieldset>
+
+        <!-- step 2 -->
+        <fieldset data-cstep="2" hidden>
+          <legend class="font-serif text-3xl font-medium">When are you hoping to start?</legend>
+          <div class="mt-6 flex flex-wrap gap-2" id="timelineOptions">
+            <button type="button" class="chip" data-timeline="As soon as possible">As soon as possible</button>
+            <button type="button" class="chip" data-timeline="Within 3 months">Within 3 months</button>
+            <button type="button" class="chip" data-timeline="Before a big event">Before a big event</button>
+            <button type="button" class="chip" data-timeline="Just exploring">Just exploring</button>
+          </div>
+          <p class="err" id="timelineErr" hidden>Pick a timeline to continue.</p>
+          <label class="block mt-7 text-sm font-semibold" for="smilePhoto">Smile photo <span class="font-normal text-charcoal/50">(optional)</span></label>
+          <label for="smilePhoto" id="dropZone" class="mt-2 flex items-center gap-4 border border-dashed border-charcoal/25 rounded-2xl p-4 cursor-pointer hover:border-sage bg-white transition">
+            <span id="photoPreview" class="w-16 h-16 shrink-0 rounded-xl bg-sand grid place-items-center overflow-hidden"><i data-lucide="camera" class="w-6 h-6 text-sage"></i></span>
+            <span class="text-sm min-w-0"><span class="font-semibold block" id="photoName">Upload or drop a photo</span><span class="text-charcoal/55">A natural, full smile in daylight works best.</span></span>
+          </label>
+          <input type="file" id="smilePhoto" accept="image/*" class="sr-only">
+        </fieldset>
+
+        <!-- step 3 -->
+        <fieldset data-cstep="3" hidden>
+          <legend class="font-serif text-3xl font-medium">Where should we send your plan?</legend>
+          <div class="mt-6 grid gap-4">
+            <div><label class="text-sm font-semibold" for="cName">Full name</label><input id="cName" class="field mt-1.5" autocomplete="name" placeholder="Jordan Lee"><p class="err" hidden>Enter your name.</p></div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div><label class="text-sm font-semibold" for="cEmail">Email</label><input id="cEmail" type="email" class="field mt-1.5" autocomplete="email" placeholder="you@email.com"><p class="err" hidden>Enter a valid email address.</p></div>
+              <div><label class="text-sm font-semibold" for="cPhone">Phone</label><input id="cPhone" type="tel" class="field mt-1.5" autocomplete="tel" placeholder="(206) 555-0123"><p class="err" hidden>Enter a 10-digit phone number.</p></div>
+            </div>
+            <div><label class="text-sm font-semibold" for="cNotes">Anything else? <span class="font-normal text-charcoal/50">(optional)</span></label><textarea id="cNotes" rows="3" class="field mt-1.5" placeholder="e.g. My front tooth chipped last year and I’d like it to match."></textarea></div>
+          </div>
+        </fieldset>
+
+        <!-- success -->
+        <div data-cstep="done" hidden class="text-center py-4">
+          <div class="w-16 h-16 mx-auto rounded-full bg-sage text-white grid place-items-center"><i data-lucide="check" class="w-8 h-8"></i></div>
+          <h3 class="mt-6 font-serif text-3xl font-medium">Thank you, <span id="consultFirst"></span>.</h3>
+          <p class="mt-3 text-charcoal/65 max-w-sm mx-auto">Here’s your consult summary. A doctor will review it and reach out within one business day. Questions sooner? Call <a href="tel:+12069351855" class="text-sage font-semibold">(206) 935-1855</a>.</p>
+          <dl id="consultSummary" class="mt-6 text-left text-sm bg-white rounded-2xl p-5 space-y-2"></dl>
+          <button type="button" id="consultReset" class="btn btn-ghost px-6 py-3 mt-6">Start another consult</button>
+        </div>
+
+        <div class="mt-8 flex items-center justify-between gap-3" id="consultNav">
+          <button type="button" id="consultBack" class="btn btn-ghost px-5 py-3" hidden><i data-lucide="arrow-left" class="w-4 h-4"></i>Back</button>
+          <span class="text-xs text-charcoal/50" id="consultCount">Step 1 of 3</span>
+          <button type="button" id="consultNext" class="btn btn-sage px-6 py-3">Continue<i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section id="reviews" class="py-20 sm:py-28">
+  <div class="wrap">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="reveal">
+        <p class="eyebrow">Reviews</p>
+        <h2 class="mt-4 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[1.05] font-medium">600+ neighbors, 4.8 stars.</h2>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="revPrev" class="w-12 h-12 rounded-full border border-charcoal/15 grid place-items-center hover:border-sage hover:text-sage transition" aria-label="Previous reviews"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <button id="revNext" class="w-12 h-12 rounded-full bg-sage text-white grid place-items-center hover:bg-sage-deep transition" aria-label="Next reviews"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+
+    <div class="mt-12 overflow-hidden -mx-3" id="revViewport">
+      <div class="track" id="revTrack"></div>
+    </div>
+    <div class="mt-8 flex items-center justify-center gap-2" id="revDots"></div>
+    <!-- TODO before launch: replace the sample testimonials in REVIEWS (script below) with verified Google reviews. -->
+  </div>
+</section>
+
+<!-- Closing CTA -->
+<section class="pb-20 sm:pb-28">
+  <div class="wrap">
+    <div class="relative rounded-[2.4rem] overflow-hidden bg-charcoal text-white">
+      <div class="frame absolute inset-0 opacity-35" aria-hidden="true" style="background:#1E2229">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80" alt="" loading="lazy" onerror="this.hidden=true">
+      </div>
+      <div class="relative px-6 sm:px-14 py-16 sm:py-20 grid lg:grid-cols-[1.3fr_1fr] gap-10 items-center">
+        <div>
+          <p class="eyebrow eyebrow-gold">Now welcoming new patients</p>
+          <h2 class="mt-4 text-4xl sm:text-5xl font-medium leading-tight">Your next visit is a short walk from the Junction.</h2>
+        </div>
+        <div class="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 lg:justify-self-end">
+          <button class="btn btn-gold px-7 py-4" data-open-booking><i data-lucide="calendar-check" class="w-5 h-5"></i>Book Online</button>
+          <a href="tel:+12069351855" class="btn px-7 py-4 border border-white/30 text-white hover:bg-white/10"><i data-lucide="phone" class="w-5 h-5"></i>(206) 935-1855</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-sand border-t border-charcoal/10">
+  <div class="wrap py-16 grid md:grid-cols-2 lg:grid-cols-4 gap-10 text-sm">
+    <div class="lg:col-span-1">
+      <p class="font-serif text-xl font-semibold tracking-[.14em]">JOHNSTON DENTAL ARTISTRY</p>
+      <p class="text-[.62rem] tracking-[.42em] text-gold font-semibold mt-1">| WEST SEATTLE</p>
+      <p class="mt-4 text-charcoal/60 leading-relaxed">Formerly West Seattle Smile Co. Same husband &amp; wife team, same address, new name.</p>
+    </div>
+    <div>
+      <p class="eyebrow mb-4">Visit</p>
+      <address class="not-italic text-charcoal/75 leading-relaxed">4150 California Ave SW<br>Seattle, WA 98116</address>
+      <p class="mt-2 text-charcoal/75 flex items-center gap-2"><i data-lucide="car" class="w-4 h-4 text-sage"></i>Free on-site parking</p>
+      <a class="mt-3 inline-flex items-center gap-1.5 text-sage font-semibold" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=4150+California+Ave+SW+Seattle+WA+98116">Open in Maps <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+    </div>
+    <div>
+      <p class="eyebrow mb-4">Contact</p>
+      <a href="tel:+12069351855" class="block font-serif text-2xl hover:text-sage">(206) 935-1855</a>
+      <button type="button" class="mt-2 inline-flex items-center gap-1.5 text-charcoal/60 hover:text-sage" data-copy="(206) 935-1855"><i data-lucide="copy" class="w-3.5 h-3.5"></i>Copy number</button>
+      <a href="https://www.instagram.com/johnstondentalartistry/" target="_blank" rel="noopener" class="mt-4 flex items-center gap-2 text-charcoal/75 hover:text-sage"><i data-lucide="instagram" class="w-4 h-4"></i>@johnstondentalartistry</a>
+    </div>
+    <div>
+      <p class="eyebrow mb-4">Explore</p>
+      <ul class="space-y-2 text-charcoal/75">
+        <li><a href="#practice" class="hover:text-sage">The Practice</a></li>
+        <li><a href="#artistry" class="hover:text-sage">Cosmetic Artistry</a></li>
+        <li><a href="#gallery" class="hover:text-sage">Smile Gallery</a></li>
+        <li><a href="#consult" class="hover:text-sage">Virtual Consult</a></li>
+        <li><a href="#reviews" class="hover:text-sage">Reviews</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-charcoal/10">
+    <div class="wrap py-6 flex flex-col sm:flex-row justify-between gap-2 text-xs text-charcoal/50" style="padding-bottom:max(1.5rem, env(safe-area-inset-bottom, 0px))">
+      <p>© <span id="year"></span> Johnston Dental Artistry. All rights reserved.</p>
+      <p>West Seattle, Washington</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Booking modal -->
+<div id="booking" class="modal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle" hidden>
+  <div class="modal-backdrop" data-close-booking></div>
+  <div class="modal-panel">
+    <div class="sticky top-0 z-10 bg-alabaster/95 backdrop-blur px-6 sm:px-8 pt-6 pb-4 border-b border-charcoal/5">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="eyebrow eyebrow-gold">Book Online</p>
+          <h2 id="bookingTitle" class="font-serif text-3xl font-medium mt-1">Request your visit</h2>
+        </div>
+        <button class="w-10 h-10 rounded-full border border-charcoal/15 grid place-items-center hover:border-sage shrink-0" data-close-booking aria-label="Close booking"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="mt-4 flex gap-2" aria-hidden="true">
+        <span class="progress-dot on" data-bstep-dot="1"></span><span class="progress-dot" data-bstep-dot="2"></span><span class="progress-dot" data-bstep-dot="3"></span>
+      </div>
+    </div>
+
+    <form id="bookingForm" class="px-6 sm:px-8 py-6" novalidate>
+      <!-- Step 1: visit type -->
+      <div data-bstep="1">
+        <p class="font-semibold">What brings you in?</p>
+        <div class="mt-4 grid sm:grid-cols-2 gap-3" id="visitTypes"></div>
+        <p class="err" id="visitErr" hidden>Choose a visit type.</p>
+      </div>
+
+      <!-- Step 2: date & time -->
+      <div data-bstep="2" hidden>
+        <div class="flex items-center justify-between gap-3">
+          <p class="font-semibold">Choose a day</p>
+          <div class="flex gap-2">
+            <button type="button" id="dayPrev" class="w-9 h-9 rounded-full border border-charcoal/15 grid place-items-center hover:border-sage" aria-label="Earlier days"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button type="button" id="dayNext" class="w-9 h-9 rounded-full border border-charcoal/15 grid place-items-center hover:border-sage" aria-label="Later days"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+        <div id="dayStrip" class="mt-4 grid grid-cols-5 gap-2"></div>
+        <p class="font-semibold mt-7">Preferred time</p>
+        <div id="timeSlots" class="mt-4 grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+        <p class="err" id="slotErr" hidden>Choose a day and a time.</p>
+        <p class="mt-4 text-xs text-charcoal/50">We’re open Monday through Friday. We’ll confirm your exact time by phone.</p>
+      </div>
+
+      <!-- Step 3: details -->
+      <div data-bstep="3" hidden>
+        <div class="rounded-2xl bg-sand p-4 text-sm flex items-start gap-3"><i data-lucide="calendar" class="w-5 h-5 text-sage shrink-0 mt-0.5"></i><p id="bookingRecap"></p></div>
+        <div class="mt-6 grid gap-4">
+          <div><label class="text-sm font-semibold" for="bName">Full name</label><input id="bName" class="field mt-1.5" autocomplete="name" placeholder="Jordan Lee"><p class="err" hidden>Enter your name.</p></div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div><label class="text-sm font-semibold" for="bPhone">Phone</label><input id="bPhone" type="tel" class="field mt-1.5" autocomplete="tel" placeholder="(206) 555-0123"><p class="err" hidden>Enter a 10-digit phone number.</p></div>
+            <div><label class="text-sm font-semibold" for="bEmail">Email</label><input id="bEmail" type="email" class="field mt-1.5" autocomplete="email" placeholder="you@email.com"><p class="err" hidden>Enter a valid email address.</p></div>
+          </div>
+          <fieldset>
+            <legend class="text-sm font-semibold">Are you a new patient?</legend>
+            <div class="mt-2 flex gap-2" id="newPatient">
+              <button type="button" class="chip is-on" data-new="Yes">Yes, I’m new</button>
+              <button type="button" class="chip" data-new="No">Returning patient</button>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <!-- Done -->
+      <div data-bstep="done" hidden class="text-center py-6">
+        <div class="w-16 h-16 mx-auto rounded-full bg-gold text-charcoal grid place-items-center"><i data-lucide="calendar-heart" class="w-8 h-8"></i></div>
+        <h3 class="mt-6 font-serif text-3xl font-medium">See you soon, <span id="bookFirst"></span>.</h3>
+        <p class="mt-3 text-charcoal/65 max-w-sm mx-auto">Here’s your request. Our front desk confirms every appointment by phone within one business day.</p>
+        <dl id="bookingSummary" class="mt-6 text-left text-sm bg-white rounded-2xl p-5 space-y-2"></dl>
+        <p class="mt-5 text-xs text-charcoal/55 flex items-center justify-center gap-1.5"><i data-lucide="car" class="w-3.5 h-3.5"></i>Free on-site parking at 4150 California Ave SW</p>
+        <button type="button" class="btn btn-sage px-7 py-3 mt-6" data-close-booking>Done</button>
+      </div>
+
+      <div class="mt-8 flex items-center justify-between gap-3" id="bookingNav">
+        <button type="button" id="bookBack" class="btn btn-ghost px-5 py-3" hidden><i data-lucide="arrow-left" class="w-4 h-4"></i>Back</button>
+        <span class="text-xs text-charcoal/50" id="bookCount">Step 1 of 3</span>
+        <button type="button" id="bookNext" class="btn btn-gold px-6 py-3">Continue<i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Mobile sticky action bar -->
+<div class="sm:hidden fixed inset-x-0 bottom-0 z-40 glass border-t border-charcoal/10" style="padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))">
+  <div class="grid grid-cols-2 gap-2">
+    <a href="tel:+12069351855" class="btn btn-ghost py-3 bg-white"><i data-lucide="phone" class="w-4 h-4"></i>Call</a>
+    <button class="btn btn-gold py-3" data-open-booking><i data-lucide="calendar-check" class="w-4 h-4"></i>Book Online</button>
+  </div>
+</div>
+<div class="sm:hidden h-[76px]" aria-hidden="true"></div>
+
+<div id="toast" class="bg-charcoal text-white text-sm rounded-full px-5 py-3 shadow-soft" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+  document.documentElement.classList.add('js');
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const U = (id, w = 1200) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+  const icons = () => window.lucide && window.lucide.createIcons();
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  /* ---------- Toast & copy ---------- */
+  let toastTimer;
+  function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+  $$('[data-copy]').forEach(b => b.addEventListener('click', () => {
+    const txt = b.dataset.copy;
+    const done = () => toast(`Copied ${txt}`);
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, () => toast(txt));
+    else toast(txt);
+  }));
+
+  /* ---------- Announcement bar ---------- */
+  $('#announceClose').addEventListener('click', () => { $('#announce').hidden = true; });
+
+  /* ---------- Navbar: scroll state, active link, mobile menu ---------- */
+  const navbar = $('#navbar');
+  const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 10);
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  const menuBtn = $('#menuBtn'), menu = $('#mobileMenu');
+  function setMenu(open) {
+    menu.hidden = !open; menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}" class="w-5 h-5"></i>`; icons();
+  }
+  menuBtn.addEventListener('click', () => setMenu(menu.hidden));
+  $$('.mobile-link').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+  const sections = ['practice', 'artistry', 'gallery', 'consult', 'reviews'].map(id => document.getElementById(id));
+  const navLinks = $$('.nav-link');
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(s => spy.observe(s));
+
+    // Reveal: only hide elements that start below the fold, so the first frame is complete.
+    const rev = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.remove('pre'); rev.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    $$('.reveal').forEach(el => {
+      if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add('pre'); rev.observe(el); }
+    });
+  }
+
+  /* ---------- Doctors tabs ---------- */
+  $$('[data-doc]').forEach(tab => tab.addEventListener('click', () => {
+    $$('[data-doc]').forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+    $$('.doc-panel').forEach(p => { p.hidden = p.id !== 'doc-' + tab.dataset.doc; });
+  }));
+
+  /* ---------- Cosmetic Artistry ---------- */
+  const SERVICES = [
+    { id: 'veneers', icon: 'gem', name: 'Porcelain Veneers', short: 'Reshape and brighten your smile',
+      img: '1606811971618-4486d14f3f99', time: '2–3 visits', lasts: '15+ years with care',
+      body: 'Thin, hand-layered porcelain shells bonded to the front of your teeth. We design them with a digital mock-up first, so you preview shape and shade before anything is permanent.',
+      fit: ['Worn, chipped or uneven edges', 'Stubborn discoloration', 'Small gaps you want closed'] },
+    { id: 'invisalign', icon: 'smile', name: 'Invisalign', short: 'Clear aligners, no brackets',
+      img: '1588776814546-1ffcf47267a5', time: '6–18 months', lasts: 'Retainers keep results',
+      body: 'Removable clear aligners that move teeth gradually. We scan your teeth digitally, show you the projected result, and check in every 6–8 weeks.',
+      fit: ['Crowding or spacing', 'Mild to moderate bite issues', 'Adults who want a discreet option'] },
+    { id: 'whitening', icon: 'sun', name: 'Professional Whitening', short: 'Several shades brighter, safely',
+      img: '1609840114035-3c981b782dfe', time: '1 visit or take-home', lasts: '1–3 years',
+      body: 'In-office whitening for a fast lift, or custom-fit trays for gradual results at home. We tune the strength to keep sensitivity low.',
+      fit: ['Coffee, tea or wine staining', 'Brightening before an event', 'Matching to existing work'] },
+    { id: 'implants', icon: 'anchor', name: 'Dental Implants', short: 'Permanent tooth replacement',
+      img: '1598256989800-fe5f95da9787', time: '3–6 months total', lasts: 'Designed to last decades',
+      body: 'A titanium post replaces the root and supports a custom crown matched to your neighboring teeth. Dr. Geoff plans each placement with 3D imaging.',
+      fit: ['One or more missing teeth', 'Loose or uncomfortable dentures', 'Preserving jawbone'] },
+    { id: 'bonding', icon: 'paintbrush', name: 'Cosmetic Bonding', short: 'Sculpted repairs in one visit',
+      img: '1622253692010-333f2da6031d', time: '1 visit', lasts: '5–10 years',
+      body: 'Tooth-colored composite sculpted by hand to repair chips, close small gaps or reshape edges. No anesthesia needed in most cases.',
+      fit: ['Minor chips', 'Small gaps', 'A quick, conservative fix'] },
+    { id: 'makeover', icon: 'sparkles', name: 'Smile Makeover', short: 'A complete, planned redesign',
+      img: '1600585154340-be6161a56a0c', time: 'Planned in phases', lasts: 'Long-term plan',
+      body: 'A combination of treatments planned around your face, lips and goals. You get a written plan, a digital preview and a clear sequence with costs at each step.',
+      fit: ['Several concerns at once', 'Restoring after wear or damage', 'A milestone refresh'] }
+  ];
+  const list = $('#serviceList'), detail = $('#serviceDetail');
+  list.innerHTML = SERVICES.map((s, i) => `
+    <button type="button" role="tab" id="svc-${s.id}" aria-selected="${i === 0}" aria-controls="serviceDetail" data-svc="${i}"
+      class="service-card text-left rounded-2xl border border-charcoal/10 bg-alabaster/60 p-5 hover:bg-white">
+      <span class="svc-icon w-11 h-11 rounded-full bg-gold-soft text-sage grid place-items-center transition"><i data-lucide="${s.icon}" class="w-5 h-5"></i></span>
+      <span class="block mt-4 font-serif text-2xl font-medium leading-tight">${s.name}</span>
+      <span class="block mt-1 text-sm text-charcoal/60">${s.short}</span>
+    </button>`).join('');
+  function showService(i) {
+    const s = SERVICES[i];
+    $$('[data-svc]', list).forEach(b => b.setAttribute('aria-selected', String(+b.dataset.svc === i)));
+    detail.innerHTML = `
+      <div class="frame aspect-[16/9] max-w-full">
+        <div class="fallback"><div><i data-lucide="${s.icon}" class="w-8 h-8"></i>${s.name}</div></div>
+        <img src="${U(s.img, 1200)}" alt="${s.name} at Johnston Dental Artistry" onerror="this.hidden=true">
+      </div>
+      <div class="p-7 sm:p-9">
+        <h3 class="font-serif text-4xl font-medium">${s.name}</h3>
+        <p class="mt-4 text-charcoal/70 leading-relaxed">${s.body}</p>
+        <div class="mt-6 grid grid-cols-2 gap-3">
+          <div class="rounded-xl bg-sand p-4"><p class="text-[.68rem] uppercase tracking-[.18em] text-charcoal/55">Timeline</p><p class="mt-1 font-semibold">${s.time}</p></div>
+          <div class="rounded-xl bg-sand p-4"><p class="text-[.68rem] uppercase tracking-[.18em] text-charcoal/55">Longevity</p><p class="mt-1 font-semibold">${s.lasts}</p></div>
+        </div>
+        <p class="mt-6 text-sm font-semibold">A good fit for</p>
+        <ul class="mt-3 space-y-2 text-sm text-charcoal/75">${s.fit.map(f => `<li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 text-gold shrink-0"></i>${f}</li>`).join('')}</ul>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <button type="button" class="btn btn-gold px-6 py-3" data-open-booking data-visit="cosmetic"><i data-lucide="calendar-check" class="w-4 h-4"></i>Book a consultation</button>
+          <a href="#consult" class="btn btn-ghost px-6 py-3">Ask virtually first</a>
+        </div>
+      </div>`;
+    icons();
+  }
+  list.addEventListener('click', e => { const b = e.target.closest('[data-svc]'); if (b) showService(+b.dataset.svc); });
+  list.addEventListener('keydown', e => {
+    if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+    const btns = $$('[data-svc]', list); const cur = btns.indexOf(document.activeElement); if (cur < 0) return;
+    e.preventDefault(); const n = (cur + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + btns.length) % btns.length;
+    btns[n].focus(); showService(n);
+  });
+  showService(0);
+
+  /* ---------- Smile Gallery (before/after) ---------- */
+  const CASES = [
+    { name: 'Veneers', img: '1494790108377-be9c29b29330', title: 'Eight porcelain veneers', visits: '3 visits', weeks: '4 weeks', note: 'Worn, uneven edges and old discolored bonding replaced with a brighter, softly rounded smile line.' },
+    { name: 'Whitening', img: '1531123897727-8f129e1688ce', title: 'In-office whitening', visits: '1 visit', weeks: '90 minutes', note: 'Years of coffee staining lifted in a single appointment, followed by custom take-home trays for touch-ups.' },
+    { name: 'Invisalign', img: '1500648767791-00dcc994a43e', title: 'Clear aligner therapy', visits: '7 check-ins', weeks: '11 months', note: 'Lower crowding and a slight overbite corrected without brackets, finished with whitening.' },
+    { name: 'Bonding', img: '1544005313-94ddf0286df2', title: 'Composite bonding', visits: '1 visit', weeks: 'Same day', note: 'A chipped front tooth and a small gap closed with hand-sculpted, color-matched composite.' }
+  ];
+  const ba = $('#ba'), range = $('#baRange');
+  $('#caseTabs').innerHTML = CASES.map((c, i) => `<button type="button" role="tab" class="chip" aria-selected="${i === 0}" data-case="${i}">${c.name}</button>`).join('');
+  function setPos(v) { ba.style.setProperty('--pos', v + '%'); range.value = v; }
+  function showCase(i) {
+    const c = CASES[i];
+    $$('[data-case]').forEach(b => b.setAttribute('aria-selected', String(+b.dataset.case === i)));
+    ['#baAfter', '#baBefore'].forEach(sel => { const im = $(sel); im.hidden = false; im.src = U(c.img, 1400); });
+    $('#baAfter').alt = `${c.name} result`; $('#baBefore').alt = `${c.name}, before treatment`;
+    $('#caseInfo').innerHTML = `
+      <p class="eyebrow eyebrow-gold">Case · ${c.name}</p>
+      <h3 class="mt-3 font-serif text-4xl font-medium">${c.title}</h3>
+      <p class="mt-4 text-charcoal/70 leading-relaxed">${c.note}</p>
+      <dl class="mt-6 grid grid-cols-2 gap-3">
+        <div class="rounded-xl bg-sand p-4"><dt class="text-[.68rem] uppercase tracking-[.18em] text-charcoal/55">Visits</dt><dd class="mt-1 font-semibold">${c.visits}</dd></div>
+        <div class="rounded-xl bg-sand p-4"><dt class="text-[.68rem] uppercase tracking-[.18em] text-charcoal/55">Time</dt><dd class="mt-1 font-semibold">${c.weeks}</dd></div>
+      </dl>
+      <button type="button" class="btn btn-sage px-6 py-3 mt-7" data-open-booking data-visit="cosmetic"><i data-lucide="calendar-check" class="w-4 h-4"></i>Plan a smile like this</button>`;
+    icons(); setPos(50);
+  }
+  $('#caseTabs').addEventListener('click', e => { const b = e.target.closest('[data-case]'); if (b) showCase(+b.dataset.case); });
+  range.addEventListener('input', () => setPos(range.value));
+  // pointer drag anywhere on the image for smoother control
+  let dragging = false;
+  const fromEvent = e => { const r = ba.getBoundingClientRect(); return Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)); };
+  ba.addEventListener('pointerdown', e => { dragging = true; setPos(fromEvent(e)); });
+  window.addEventListener('pointermove', e => { if (dragging) setPos(fromEvent(e)); });
+  window.addEventListener('pointerup', () => { dragging = false; });
+  showCase(0);
+
+  /* ---------- Virtual Consult ---------- */
+  const consult = { step: 1, goals: new Set(), timeline: '', photo: '' };
+  const cNext = $('#consultNext'), cBack = $('#consultBack');
+  $('#goalOptions').addEventListener('click', e => {
+    const b = e.target.closest('[data-goal]'); if (!b) return;
+    const g = b.dataset.goal;
+    consult.goals.has(g) ? consult.goals.delete(g) : consult.goals.add(g);
+    b.classList.toggle('is-on', consult.goals.has(g)); b.setAttribute('aria-pressed', String(consult.goals.has(g)));
+    $('#goalErr').hidden = true;
+  });
+  $('#timelineOptions').addEventListener('click', e => {
+    const b = e.target.closest('[data-timeline]'); if (!b) return;
+    consult.timeline = b.dataset.timeline;
+    $$('[data-timeline]').forEach(x => x.classList.toggle('is-on', x === b));
+    $('#timelineErr').hidden = true;
+  });
+  function loadPhoto(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    consult.photo = file.name;
+    const reader = new FileReader();
+    reader.onload = () => { $('#photoPreview').innerHTML = `<img src="${reader.result}" alt="Your uploaded smile photo" class="w-full h-full object-cover">`; };
+    reader.readAsDataURL(file);
+    $('#photoName').textContent = file.name;
+  }
+  $('#smilePhoto').addEventListener('change', e => loadPhoto(e.target.files[0]));
+  const dz = $('#dropZone');
+  ['dragover', 'dragenter'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('border-sage'); }));
+  ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('border-sage'); }));
+  dz.addEventListener('drop', e => loadPhoto(e.dataTransfer.files[0]));
+
+  const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+  const phoneOk = v => v.replace(/\D/g, '').replace(/^1/, '').length === 10;
+  function check(input, ok) {
+    const err = input.parentElement.querySelector('.err');
+    input.classList.toggle('invalid', !ok); if (err) err.hidden = ok;
+    input.setAttribute('aria-invalid', String(!ok));
+    return ok;
+  }
+  function formatPhone(input) {
+    input.addEventListener('input', () => {
+      const d = input.value.replace(/\D/g, '').slice(0, 10);
+      input.value = d.length > 6 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : d.length > 3 ? `(${d.slice(0, 3)}) ${d.slice(3)}` : d;
+    });
+  }
+  formatPhone($('#cPhone')); formatPhone($('#bPhone'));
+
+  function renderConsult() {
+    $$('[data-cstep]').forEach(f => { f.hidden = f.dataset.cstep !== String(consult.step); });
+    $$('[data-cstep-dot]').forEach(d => d.classList.toggle('on', consult.step === 'done' || +d.dataset.cstepDot <= consult.step));
+    $('#consultNav').hidden = consult.step === 'done';
+    cBack.hidden = consult.step === 1;
+    $('#consultCount').textContent = `Step ${consult.step} of 3`;
+    cNext.innerHTML = consult.step === 3 ? 'Send to the doctors<i data-lucide="send" class="w-4 h-4"></i>' : 'Continue<i data-lucide="arrow-right" class="w-4 h-4"></i>';
+    icons();
+  }
+  cNext.addEventListener('click', () => {
+    if (consult.step === 1) { if (!consult.goals.size) { $('#goalErr').hidden = false; return; } }
+    if (consult.step === 2) { if (!consult.timeline) { $('#timelineErr').hidden = false; return; } }
+    if (consult.step === 3) {
+      const a = check($('#cName'), $('#cName').value.trim().length > 1);
+      const b = check($('#cEmail'), emailOk($('#cEmail').value));
+      const c = check($('#cPhone'), phoneOk($('#cPhone').value));
+      if (!(a && b && c)) { $('#consultForm .invalid').focus(); return; }
+      const payload = {
+        goals: [...consult.goals], timeline: consult.timeline, photo: consult.photo || 'None',
+        name: $('#cName').value.trim(), email: $('#cEmail').value.trim(), phone: $('#cPhone').value.trim(), notes: $('#cNotes').value.trim()
+      };
+      submitRequest('virtual-consult', payload);
+      $('#consultFirst').textContent = payload.name.split(' ')[0];
+      $('#consultSummary').innerHTML = [['Goals', payload.goals.join(', ')], ['Timeline', payload.timeline], ['Photo', payload.photo], ['Contact', `${payload.email} · ${payload.phone}`]]
+        .map(([k, v]) => `<div class="flex justify-between gap-4"><dt class="text-charcoal/55 shrink-0">${k}</dt><dd class="font-medium text-right min-w-0 break-words">${esc(v)}</dd></div>`).join('');
+      consult.step = 'done'; renderConsult(); return;
+    }
+    consult.step++; renderConsult();
+  });
+  cBack.addEventListener('click', () => { consult.step--; renderConsult(); });
+  $('#consultReset').addEventListener('click', () => {
+    consult.step = 1; consult.goals.clear(); consult.timeline = ''; consult.photo = '';
+    $('#consultForm').reset(); $$('#goalOptions .is-on, #timelineOptions .is-on').forEach(b => b.classList.remove('is-on'));
+    $('#photoPreview').innerHTML = '<i data-lucide="camera" class="w-6 h-6 text-sage"></i>'; $('#photoName').textContent = 'Upload or drop a photo';
+    renderConsult();
+  });
+  ['#cName', '#cEmail', '#cPhone'].forEach(s => $(s).addEventListener('input', e => { if (e.target.classList.contains('invalid')) check(e.target, true); }));
+
+  /* ---------- Reviews carousel ---------- */
+  // Sample testimonials for layout. Replace with verified Google reviews before launch.
+  const REVIEWS = [
+    { name: 'Sarah M.', area: 'Admiral', img: '1438761681033-6461ffad8d80', tag: 'Veneers', text: 'Dr. Niki spent real time understanding what I wanted. My veneers look like my teeth, only better. Nobody can tell, they just say I look rested.' },
+    { name: 'David K.', area: 'Alki', img: '1507003211169-0a1dd7228f2d', tag: 'Implant', text: 'Dr. Geoff walked me through every step of my implant on a screen before we started. Zero surprises, and it feels completely natural.' },
+    { name: 'Priya R.', area: 'Fauntleroy', img: '1534528741775-53994a69daeb', tag: 'Invisalign', text: 'Finished Invisalign in under a year. Check-ins were quick, the team remembers my kids’ names, and parking is never a problem.' },
+    { name: 'Megan T.', area: 'The Junction', img: '1508214751196-bcfd4ca60f91', tag: 'Family care', text: 'I was a nervous patient for years. This is the first office where I actually don’t dread my cleanings. Same wonderful team after the rename.' },
+    { name: 'Chris L.', area: 'Morgan Junction', img: '1500648767791-00dcc994a43e', tag: 'Whitening', text: 'Whitening before my wedding and it was perfect. Noticeably brighter without any of the sensitivity I had with drugstore strips.' },
+    { name: 'Hannah W.', area: 'Genesee', img: '1517841905240-472988babdf9', tag: 'Bonding', text: 'Chipped my front tooth on a Friday and they fit me in Monday. You honestly cannot see where the repair is.' }
+  ];
+  const track = $('#revTrack'), dotsEl = $('#revDots');
+  track.innerHTML = REVIEWS.map(r => `
+    <div class="slide px-3">
+      <figure class="h-full rounded-[1.6rem] bg-white border border-charcoal/10 p-7 flex flex-col">
+        <div class="flex items-center justify-between">
+          <div class="text-gold tracking-[.2em]" aria-label="5 out of 5 stars">★★★★★</div>
+          <span class="text-[.68rem] uppercase tracking-[.18em] text-sage font-semibold bg-sage-soft rounded-full px-3 py-1">${r.tag}</span>
+        </div>
+        <blockquote class="mt-5 font-serif text-[1.45rem] leading-snug text-charcoal flex-1">“${r.text}”</blockquote>
+        <figcaption class="mt-7 flex items-center gap-3 pt-5 border-t border-charcoal/10">
+          <span class="w-11 h-11 rounded-full frame shrink-0"><span class="initials">${r.name.split(' ').map(w => w[0]).join('').replace('.', '')}</span><img src="${U(r.img, 160)}" alt="" loading="lazy" onerror="this.hidden=true"></span>
+          <span><span class="block font-semibold text-sm">${r.name}</span><span class="block text-xs text-charcoal/55">${r.area}, West Seattle</span></span>
+        </figcaption>
+      </figure>
+    </div>`).join('');
+  let rev = 0, revTimer;
+  const perView = () => window.innerWidth >= 1100 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+  const maxRev = () => REVIEWS.length - perView();
+  function renderDots() {
+    const n = maxRev() + 1;
+    dotsEl.innerHTML = Array.from({ length: n }, (_, i) => `<button type="button" class="dot${i === rev ? ' on' : ''}" data-dot="${i}" aria-label="Go to review ${i + 1}"></button>`).join('');
+  }
+  function goRev(i) {
+    rev = (i + maxRev() + 1) % (maxRev() + 1);
+    track.style.transform = `translateX(-${rev * (100 / perView())}%)`;
+    renderDots();
+  }
+  const restart = () => { clearInterval(revTimer); if (!matchMedia('(prefers-reduced-motion: reduce)').matches) revTimer = setInterval(() => goRev(rev + 1), 6500); };
+  $('#revNext').addEventListener('click', () => { goRev(rev + 1); restart(); });
+  $('#revPrev').addEventListener('click', () => { goRev(rev - 1); restart(); });
+  dotsEl.addEventListener('click', e => { const d = e.target.closest('[data-dot]'); if (d) { goRev(+d.dataset.dot); restart(); } });
+  const vp = $('#revViewport');
+  vp.addEventListener('mouseenter', () => clearInterval(revTimer)); vp.addEventListener('mouseleave', restart);
+  let tx = null;
+  vp.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  vp.addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) { goRev(rev + (dx < 0 ? 1 : -1)); restart(); } tx = null; });
+  window.addEventListener('resize', () => goRev(Math.min(rev, maxRev())));
+  goRev(0); restart();
+
+  /* ---------- Booking modal ---------- */
+  const VISITS = [
+    { id: 'new', icon: 'user-plus', name: 'New patient exam', meta: '60 min · exam, X-rays, cleaning' },
+    { id: 'cosmetic', icon: 'sparkles', name: 'Cosmetic consultation', meta: '45 min · veneers, whitening, makeover' },
+    { id: 'invisalign', icon: 'smile', name: 'Invisalign consultation', meta: '45 min · includes digital scan' },
+    { id: 'cleaning', icon: 'droplets', name: 'Cleaning & checkup', meta: '60 min · returning patients' },
+    { id: 'implant', icon: 'anchor', name: 'Implant consultation', meta: '45 min · with Dr. Geoff' },
+    { id: 'urgent', icon: 'siren', name: 'Tooth pain or urgent', meta: 'We’ll call to fit you in today' }
+  ];
+  const TIMES = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+  const booking = { step: 1, visit: '', day: null, time: '', isNew: 'Yes', dayOffset: 0 };
+  const modal = $('#booking');
+  let lastFocus = null;
+
+  $('#visitTypes').innerHTML = VISITS.map(v => `
+    <button type="button" class="option-card flex gap-3 items-start" data-visit-type="${v.id}">
+      <span class="w-10 h-10 rounded-full bg-gold-soft text-sage grid place-items-center shrink-0"><i data-lucide="${v.icon}" class="w-5 h-5"></i></span>
+      <span class="min-w-0"><span class="block font-semibold text-sm">${v.name}</span><span class="block text-xs text-charcoal/55 mt-0.5">${v.meta}</span></span>
+    </button>`).join('');
+
+  function businessDays(count) {
+    const out = []; const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + 1);
+    while (out.length < count) { if (d.getDay() !== 0 && d.getDay() !== 6) out.push(new Date(d)); d.setDate(d.getDate() + 1); }
+    return out;
+  }
+  const DAYS = businessDays(20);
+  const fmtDay = d => d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  // Deterministic "booked" slots so availability looks realistic and stays stable.
+  const taken = (d, t) => ((d.getDate() * 7 + TIMES.indexOf(t) * 3) % 5) === 0;
+
+  function renderDays() {
+    const slice = DAYS.slice(booking.dayOffset, booking.dayOffset + 5);
+    $('#dayStrip').innerHTML = slice.map(d => {
+      const on = booking.day && d.getTime() === booking.day.getTime();
+      return `<button type="button" class="rounded-2xl border py-3 text-center transition ${on ? 'bg-sage text-white border-sage' : 'bg-white border-charcoal/12 hover:border-sage'}" data-day="${d.getTime()}" aria-pressed="${on}">
+        <span class="block text-[.68rem] uppercase tracking-[.14em] ${on ? 'text-white/70' : 'text-charcoal/55'}">${d.toLocaleDateString('en-US', { weekday: 'short' })}</span>
+        <span class="block font-serif text-2xl leading-tight mt-0.5">${d.getDate()}</span>
+        <span class="block text-[.68rem] ${on ? 'text-white/70' : 'text-charcoal/55'}">${d.toLocaleDateString('en-US', { month: 'short' })}</span>
+      </button>`;
+    }).join('');
+    $('#dayPrev').disabled = booking.dayOffset === 0; $('#dayPrev').classList.toggle('opacity-40', booking.dayOffset === 0);
+    const atEnd = booking.dayOffset + 5 >= DAYS.length;
+    $('#dayNext').disabled = atEnd; $('#dayNext').classList.toggle('opacity-40', atEnd);
+    renderTimes();
+  }
+  function renderTimes() {
+    $('#timeSlots').innerHTML = TIMES.map(t => {
+      const off = !booking.day || taken(booking.day, t);
+      const on = booking.time === t && !off;
+      return `<button type="button" ${off ? 'disabled' : ''} data-time="${t}" class="rounded-xl border py-2.5 text-sm font-medium transition ${on ? 'bg-gold border-gold text-charcoal' : off ? 'bg-sand/60 border-transparent text-charcoal/30 line-through cursor-not-allowed' : 'bg-white border-charcoal/12 hover:border-sage'}">${t}</button>`;
+    }).join('');
+  }
+  $('#dayStrip').addEventListener('click', e => {
+    const b = e.target.closest('[data-day]'); if (!b) return;
+    booking.day = new Date(+b.dataset.day);
+    if (booking.time && taken(booking.day, booking.time)) booking.time = '';
+    $('#slotErr').hidden = true; renderDays();
+  });
+  $('#timeSlots').addEventListener('click', e => { const b = e.target.closest('[data-time]'); if (!b || b.disabled) return; booking.time = b.dataset.time; $('#slotErr').hidden = true; renderTimes(); });
+  $('#dayPrev').addEventListener('click', () => { booking.dayOffset = Math.max(0, booking.dayOffset - 5); renderDays(); });
+  $('#dayNext').addEventListener('click', () => { booking.dayOffset = Math.min(DAYS.length - 5, booking.dayOffset + 5); renderDays(); });
+
+  function selectVisit(id) {
+    booking.visit = id;
+    $$('[data-visit-type]').forEach(b => b.classList.toggle('is-on', b.dataset.visitType === id));
+    $('#visitErr').hidden = true;
+  }
+  $('#visitTypes').addEventListener('click', e => { const b = e.target.closest('[data-visit-type]'); if (b) selectVisit(b.dataset.visitType); });
+  $('#newPatient').addEventListener('click', e => { const b = e.target.closest('[data-new]'); if (!b) return; booking.isNew = b.dataset.new; $$('[data-new]').forEach(x => x.classList.toggle('is-on', x === b)); });
+
+  const visitName = () => (VISITS.find(v => v.id === booking.visit) || {}).name || '';
+  function renderBooking() {
+    $$('[data-bstep]').forEach(s => { s.hidden = s.dataset.bstep !== String(booking.step); });
+    $$('[data-bstep-dot]').forEach(d => d.classList.toggle('on', booking.step === 'done' || +d.dataset.bstepDot <= booking.step));
+    $('#bookingNav').hidden = booking.step === 'done';
+    $('#bookBack').hidden = booking.step === 1;
+    $('#bookCount').textContent = `Step ${booking.step} of 3`;
+    $('#bookNext').innerHTML = booking.step === 3 ? 'Request appointment<i data-lucide="check" class="w-4 h-4"></i>' : 'Continue<i data-lucide="arrow-right" class="w-4 h-4"></i>';
+    if (booking.step === 2) renderDays();
+    if (booking.step === 3) $('#bookingRecap').innerHTML = `<strong>${visitName()}</strong><br>${fmtDay(booking.day)} at ${booking.time}`;
+    icons();
+    $('.modal-panel').scrollTop = 0;
+  }
+  $('#bookNext').addEventListener('click', () => {
+    if (booking.step === 1 && !booking.visit) { $('#visitErr').hidden = false; return; }
+    if (booking.step === 2 && !(booking.day && booking.time)) { $('#slotErr').hidden = false; return; }
+    if (booking.step === 3) {
+      const a = check($('#bName'), $('#bName').value.trim().length > 1);
+      const b = check($('#bPhone'), phoneOk($('#bPhone').value));
+      const c = check($('#bEmail'), emailOk($('#bEmail').value));
+      if (!(a && b && c)) { $('#bookingForm .invalid').focus(); return; }
+      const payload = { visit: visitName(), date: fmtDay(booking.day), time: booking.time, newPatient: booking.isNew,
+        name: $('#bName').value.trim(), phone: $('#bPhone').value.trim(), email: $('#bEmail').value.trim() };
+      submitRequest('booking', payload);
+      $('#bookFirst').textContent = payload.name.split(' ')[0];
+      $('#bookingSummary').innerHTML = [['Visit', payload.visit], ['When', `${payload.date}, ${payload.time}`], ['New patient', payload.newPatient], ['Phone', payload.phone]]
+        .map(([k, v]) => `<div class="flex justify-between gap-4"><dt class="text-charcoal/55 shrink-0">${k}</dt><dd class="font-medium text-right min-w-0 break-words">${esc(v)}</dd></div>`).join('');
+      booking.step = 'done'; renderBooking(); return;
+    }
+    booking.step++; renderBooking();
+  });
+  $('#bookBack').addEventListener('click', () => { booking.step--; renderBooking(); });
+
+  function openBooking(preset) {
+    lastFocus = document.activeElement;
+    if (booking.step === 'done') {
+      Object.assign(booking, { step: 1, visit: '', day: null, time: '', isNew: 'Yes', dayOffset: 0 });
+      $('#bookingForm').reset(); $$('[data-new]').forEach(x => x.classList.toggle('is-on', x.dataset.new === 'Yes'));
+      $$('#bookingForm .invalid').forEach(i => check(i, true));
+    }
+    if (preset) selectVisit(preset); else if (!booking.visit) $$('[data-visit-type]').forEach(b => b.classList.remove('is-on'));
+    renderBooking();
+    modal.hidden = false; document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => { modal.classList.add('open'); $('[data-close-booking].w-10', modal).focus(); });
+    if (!menu.hidden) setMenu(false);
+  }
+  function closeBooking() {
+    modal.classList.remove('open'); document.body.style.overflow = '';
+    setTimeout(() => { modal.hidden = true; }, 300);
+    if (lastFocus) lastFocus.focus();
+  }
+  document.addEventListener('click', e => {
+    const o = e.target.closest('[data-open-booking]'); if (o) { e.preventDefault(); openBooking(o.dataset.visit); return; }
+    if (e.target.closest('[data-close-booking]')) closeBooking();
+  });
+  document.addEventListener('keydown', e => {
+    if (modal.hidden) return;
+    if (e.key === 'Escape') closeBooking();
+    if (e.key === 'Tab') { // focus trap
+      const f = $$('button:not([disabled]):not([hidden]), input, textarea, a[href]', modal).filter(el => el.offsetParent !== null);
+      if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    }
+  });
+  ['#bName', '#bPhone', '#bEmail'].forEach(s => $(s).addEventListener('input', e => { if (e.target.classList.contains('invalid')) check(e.target, true); }));
+  $$('form').forEach(f => f.addEventListener('submit', e => e.preventDefault()));
+
+  /*
+   * Integration point: connect your scheduling system or form endpoint here
+   * (e.g. a practice-management API, Formspree, or a serverless function).
+   */
+  function submitRequest(kind, payload) {
+    window.dispatchEvent(new CustomEvent('jda:request', { detail: { kind, payload } }));
+  }
+
+  /* ---------- Misc ---------- */
+  $('#year').textContent = new Date().getFullYear();
+  icons();
+})();
+</script>
+</body>
+</html>
