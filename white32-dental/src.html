@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>White32 Dental | Cosmetic & Restorative Dentist in Washington, DC</title>
+<meta name="description" content="White32 Dental, 3301 New Mexico Avenue NW, Suite 323, Washington, DC. Porcelain veneers, crowns and bridges, whitening, root canals, wisdom teeth, TMJ treatment and All-on-4 implants. Call (202) 519-7410.">
+<meta name="theme-color" content="#0F172A">
+<!-- build:fonts -->
+<!-- build:icons -->
+<style>
+  /* DC boutique luxury, clinical precision: white and soft-slate grounds, hairline rules, medical cyan for action, warm gold only for ratings and luxury details. Motif: the 32-tooth arch. */
+  :root {
+    --bg: #FFFFFF;
+    --bg-2: #F8FAFC;
+    --ink: #0F172A;
+    --cyan: #0EA5E9;
+    --cyan-deep: #0284C7;
+    --gold: #D97706;
+    --line: rgba(15, 23, 42, .09);
+    --display: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  h1, h2, h3, .font-display { font-family: var(--display); text-wrap: balance; letter-spacing: -.03em; }
+  ::selection { background: var(--cyan); color: #fff; }
+
+  .wrap { width: 100%; max-width: 1240px; margin-inline: auto;
+          padding-left: max(20px, env(safe-area-inset-left, 0px));
+          padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+  .label { display: inline-flex; align-items: center; gap: .6rem; font-family: var(--display); font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--cyan-deep); }
+  .label .num { font-variant-numeric: tabular-nums; color: var(--gold); }
+  .label::after { content: ""; width: 36px; height: 1px; background: currentColor; opacity: .5; }
+  .hair { border-color: var(--line); }
+
+  /* Precision grid backdrop */
+  .grid-bg { background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 80% 70% at 30% 30%, #000 30%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 30%, #000 30%, transparent 75%); }
+
+  /* Glass */
+  .glass { background: rgba(255,255,255,.74); backdrop-filter: saturate(170%) blur(18px); -webkit-backdrop-filter: saturate(170%) blur(18px); }
+  .glass-card { background: rgba(255,255,255,.8); backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%); border: 1px solid rgba(255,255,255,.95); }
+  #navbar { top: 0; transition: box-shadow .3s ease, background .3s ease; }
+  #navbar.scrolled { box-shadow: 0 12px 30px -20px rgba(15,23,42,.4); background: rgba(255,255,255,.92); }
+  .nav-link { position: relative; padding: .4rem 0; }
+  .nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1.5px; background: var(--cyan); transform: scaleX(0); transition: transform .3s ease; }
+  .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+  .nav-link.active { color: var(--cyan-deep); }
+
+  /* Buttons: squared-off, precise */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; border-radius: 10px; font-family: var(--display); font-weight: 700; font-size: .93rem; transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s ease; cursor: pointer; white-space: nowrap; }
+  .btn:active { transform: translateY(1px) scale(.99); }
+  .btn-cyan { background: var(--cyan); color: #fff; box-shadow: 0 12px 26px -12px rgba(14,165,233,.9); }
+  .btn-cyan:hover { background: var(--cyan-deep); transform: translateY(-2px); }
+  .btn-navy { background: var(--ink); color: #fff; }
+  .btn-navy:hover { background: #1E293B; transform: translateY(-2px); }
+  .btn-line { border: 1px solid rgba(15,23,42,.18); color: var(--ink); background: #fff; }
+  .btn-line:hover { border-color: var(--cyan); color: var(--cyan-deep); }
+  :focus-visible { outline: 3px solid rgba(14,165,233,.5); outline-offset: 3px; border-radius: 10px; }
+
+  /* Frames with branded fallback */
+  .frame { position: relative; overflow: hidden; isolation: isolate;
+           background:
+             radial-gradient(70% 60% at 80% 15%, rgba(14,165,233,.22), transparent 60%),
+             linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 28px 28px,
+             linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 28px 28px,
+             linear-gradient(160deg, #F8FAFC 0%, #E2EEF7 100%); }
+  .frame > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+  .frame > .fallback { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: clamp(1rem, 5%, 1.75rem); }
+  .frame > .fallback > div { display: flex; flex-direction: column; gap: .35rem; font-family: var(--display); font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--cyan-deep); }
+  .frame > .fallback > div::before { content: "W32"; font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: .9; letter-spacing: -.05em; font-weight: 800; color: rgba(15,23,42,.12); }
+
+  /* Before / after */
+  .ba { position: relative; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .ba .layer { position: absolute; inset: 0; }
+  .ba .layer img { width: 100%; height: 100%; object-fit: cover; }
+  .ba .before { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); z-index: 2; }
+  .ba .before img { filter: sepia(.5) saturate(.75) brightness(.9) contrast(.9) hue-rotate(-6deg); }
+  .ba .before.no-img { background: linear-gradient(160deg, #EAE4D8, #D8CEBB); }
+  .ba .handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: #fff; transform: translateX(-1px); z-index: 3; pointer-events: none; }
+  .ba .knob { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 54px; height: 54px; border-radius: 999px; background: var(--ink); color: #fff; display: grid; place-items: center; box-shadow: 0 10px 25px -6px rgba(15,23,42,.6), 0 0 0 5px rgba(255,255,255,.6); }
+  .ba input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; z-index: 4; margin: 0; }
+  .ba-tag { position: absolute; top: 16px; z-index: 3; font-family: var(--display); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; padding: .45rem .8rem; border-radius: 8px; background: rgba(15,23,42,.72); color: #fff; backdrop-filter: blur(6px); pointer-events: none; }
+
+  /* Tabs, options */
+  .tab { position: relative; padding: .9rem .25rem; font-family: var(--display); font-weight: 700; font-size: .95rem; color: rgba(15,23,42,.5); transition: color .2s; white-space: nowrap; }
+  .tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--cyan); transform: scaleX(0); transition: transform .3s ease; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); }
+  .tab[aria-selected="true"]::after { transform: scaleX(1); }
+  .opt { border: 1px solid rgba(15,23,42,.13); border-radius: 14px; background: #fff; padding: 1rem; cursor: pointer; transition: all .2s ease; text-align: left; }
+  .opt:hover { border-color: rgba(14,165,233,.6); transform: translateY(-2px); }
+  .opt.is-on { border-color: var(--cyan); background: #F0F9FF; box-shadow: 0 0 0 3px rgba(14,165,233,.15); }
+
+  .lift { transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+  .lift:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -32px rgba(15,23,42,.45); border-color: rgba(14,165,233,.35); }
+  .lift:hover .lift-icon { background: var(--ink); color: #fff; }
+  .lift .lift-icon { transition: all .3s ease; }
+
+  /* Fields */
+  .field { width: 100%; border: 1px solid rgba(15,23,42,.16); background: #fff; border-radius: 10px; padding: .85rem 1rem; font-size: .95rem; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
+  .field:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(14,165,233,.14); }
+  .field.invalid { border-color: #DC2626; box-shadow: 0 0 0 4px rgba(220,38,38,.1); }
+  .err { color: #B91C1C; font-size: .8rem; margin-top: .35rem; }
+
+  /* Modal */
+  .modal { position: fixed; inset: 0; z-index: 80; display: flex; align-items: flex-end; justify-content: center; }
+  @media (min-width: 640px) { .modal { align-items: center; padding: 1.5rem; } }
+  .modal-backdrop { position: absolute; inset: 0; background: rgba(2,6,23,.55); backdrop-filter: blur(5px); opacity: 0; transition: opacity .3s ease; }
+  .modal-panel { position: relative; width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto; background: #fff; border-radius: 22px 22px 0 0; transform: translateY(30px); opacity: 0; transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .3s ease; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  @media (min-width: 640px) { .modal-panel { border-radius: 22px; } }
+  .modal.open .modal-backdrop { opacity: 1; }
+  .modal.open .modal-panel { transform: none; opacity: 1; }
+  .step-dot { font-family: var(--display); font-weight: 700; font-size: .75rem; width: 26px; height: 26px; border-radius: 999px; display: grid; place-items: center; border: 1px solid rgba(15,23,42,.18); color: rgba(15,23,42,.45); transition: all .3s; }
+  .step-dot.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .step-line { flex: 1; height: 1px; background: rgba(15,23,42,.14); }
+
+  /* Reviews */
+  .track { display: flex; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+  .slide { flex: 0 0 100%; min-width: 0; }
+  @media (min-width: 768px) { .slide { flex-basis: 50%; } }
+  @media (min-width: 1100px) { .slide { flex-basis: 33.3333%; } }
+  .dot { width: 8px; height: 8px; border-radius: 99px; background: rgba(15,23,42,.2); transition: all .3s; }
+  .dot.on { width: 28px; background: var(--ink); }
+
+  /* 32-tooth arch */
+  .arch .t { fill: #fff; stroke: rgba(15,23,42,.18); stroke-width: 1; transition: fill .4s ease, stroke .4s ease; }
+  .arch .t.lit { fill: var(--cyan); stroke: var(--cyan-deep); }
+
+  .reveal { transition: opacity .7s ease, transform .7s ease; }
+  .js .reveal.pre { opacity: 0; transform: translateY(16px); }
+
+  #toast { position: fixed; left: 50%; bottom: calc(90px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); opacity: 0; transition: all .3s ease; z-index: 90; pointer-events: none; }
+  #toast.show { transform: translate(-50%, 0); opacity: 1; }
+  @media (min-width: 640px) { #toast { bottom: calc(24px + env(safe-area-inset-bottom, 0px)); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
+  }
+</style>
+<!-- build:tailwind -->
+</head>
+<body class="font-sans">
+<!-- demo:notice -->
+
+<!-- 1. Announcement & contact bar -->
+<div class="bg-navy text-white text-[13px]">
+  <div class="wrap flex items-center justify-center gap-x-4 gap-y-1 flex-wrap py-2.5 text-center">
+    <span>✨ Welcome to <strong class="font-semibold">White32 Dental</strong></span>
+    <span class="hidden sm:inline text-white/30">•</span>
+    <span class="hidden sm:inline">Exceptional Care in Washington, DC</span>
+    <span class="hidden sm:inline text-white/30">•</span>
+    <span>Call <a href="tel:+12025197410" class="font-semibold text-cyan-300 hover:text-white">(202) 519-7410</a></span>
+  </div>
+</div>
+
+<!-- 2. Sticky glass navbar -->
+<header id="navbar" class="glass sticky z-50 border-b hair">
+  <nav class="wrap flex items-center justify-between gap-6 h-[72px]" aria-label="Primary">
+    <a href="#top" class="flex items-center gap-3 shrink-0" aria-label="White32 Dental home">
+      <span class="w-10 h-10 rounded-[10px] bg-navy text-white grid place-items-center font-display font-extrabold text-[.95rem] tracking-tight">32</span>
+      <span class="leading-none">
+        <span class="block font-display font-extrabold text-[1.05rem] sm:text-[1.15rem] tracking-tight whitespace-nowrap">WHITE<span class="text-cyan">32</span> DENTAL</span>
+        <span class="block font-display font-semibold text-[.6rem] tracking-[.3em] text-navy/45 mt-1">| WASHINGTON DC</span>
+      </span>
+    </a>
+
+    <ul class="hidden xl:flex items-center gap-7 text-[.88rem] font-semibold text-navy/65 whitespace-nowrap">
+      <li><a class="nav-link hover:text-navy" href="#services">Services</a></li>
+      <li><a class="nav-link hover:text-navy" href="#smile-gallery">Smile Gallery</a></li>
+      <li><a class="nav-link hover:text-navy" href="#reviews">Patient Reviews</a></li>
+      <li><a class="nav-link hover:text-navy" href="#location">Location</a></li>
+      <li><a class="nav-link hover:text-navy" href="#consult-funnel" data-open-booking>Book Online</a></li>
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <a href="tel:+12025197410" class="hidden 2xl:inline-flex items-center gap-2 font-display font-bold text-navy hover:text-cyan-deep whitespace-nowrap">
+        <i data-lucide="phone" class="w-4 h-4 text-cyan"></i>(202) 519-7410
+      </a>
+      <a href="tel:+12025197410" class="hidden md:grid 2xl:hidden w-11 h-11 place-items-center rounded-[10px] border hair bg-white text-cyan-deep hover:border-cyan" aria-label="Call (202) 519-7410" title="(202) 519-7410">
+        <i data-lucide="phone" class="w-4 h-4"></i>
+      </a>
+      <button class="btn btn-cyan px-5 py-3 hidden sm:inline-flex" data-open-booking>
+        <i data-lucide="calendar-check" class="w-4 h-4"></i>Schedule Appointment
+      </button>
+      <button id="menuBtn" class="xl:hidden w-11 h-11 grid place-items-center rounded-[10px] border hair bg-white" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </nav>
+  <div id="mobileMenu" class="xl:hidden border-t hair bg-white" hidden>
+    <div class="wrap py-5 grid gap-1">
+      <a class="mobile-link py-3 font-display font-bold text-lg border-b hair" href="#services">Services</a>
+      <a class="mobile-link py-3 font-display font-bold text-lg border-b hair" href="#smile-gallery">Smile Gallery</a>
+      <a class="mobile-link py-3 font-display font-bold text-lg border-b hair" href="#reviews">Patient Reviews</a>
+      <a class="mobile-link py-3 font-display font-bold text-lg border-b hair" href="#location">Location</a>
+      <a class="mobile-link py-3 font-display font-bold text-lg border-b hair" href="#consult-funnel">Virtual Smile Assessment</a>
+      <div class="grid sm:grid-cols-2 gap-3 pt-5">
+        <a href="tel:+12025197410" class="btn btn-line px-5 py-3"><i data-lucide="phone" class="w-4 h-4"></i>(202) 519-7410</a>
+        <button class="btn btn-cyan px-5 py-3" data-open-booking><i data-lucide="calendar-check" class="w-4 h-4"></i>Schedule Appointment</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 3. Split hero -->
+<section class="relative overflow-hidden bg-mist">
+  <div class="absolute inset-0 grid-bg pointer-events-none" aria-hidden="true"></div>
+  <div class="wrap relative grid lg:grid-cols-[1.08fr_1fr] gap-12 lg:gap-14 items-center py-12 sm:py-16 lg:py-20">
+    <div class="reveal min-w-0">
+      <div class="inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-full bg-white border hair shadow-soft px-4 py-2.5 text-[13px] font-semibold">
+        <span><span class="text-gold">⭐</span> Top-Tier Dental Care in DC</span>
+        <span class="text-gold">•</span>
+        <span class="text-navy/60">Comprehensive &amp; Gentle Approach</span>
+      </div>
+      <h1 class="mt-6 text-[2.7rem] leading-[1.03] sm:text-6xl lg:text-[4.25rem] font-extrabold">
+        Excellence in Every Detail. <span class="text-cyan">Your Smile, Perfected.</span>
+      </h1>
+      <p class="mt-6 text-[1.05rem] sm:text-lg leading-relaxed text-navy/65 max-w-[36rem]">
+        Experience premium general, restorative, and cosmetic dentistry at White32 Dental in Washington, DC. From custom porcelain veneers to painless root canals and full smile makeovers.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3">
+        <button class="btn btn-navy px-7 py-4 text-base" data-open-booking data-service="Cosmetic consultation">
+          <i data-lucide="calendar-check" class="w-5 h-5"></i>Book Your Consultation
+        </button>
+        <a href="#services" class="btn btn-line px-7 py-4 text-base">
+          Explore Services<i data-lucide="arrow-down-right" class="w-5 h-5 text-cyan"></i>
+        </a>
+      </div>
+      <div class="mt-10 flex items-center gap-5 border-t hair pt-6 max-w-lg">
+        <svg class="arch w-28 h-auto shrink-0" viewBox="0 0 120 70" aria-hidden="true" id="arch"></svg>
+        <p class="text-sm text-navy/60 leading-relaxed"><strong class="text-navy font-display">32 teeth. Every one considered.</strong> Our name is our standard: thorough, precise care for your whole smile.</p>
+      </div>
+    </div>
+
+    <div class="reveal relative min-w-0">
+      <div class="frame rounded-[1.75rem] aspect-[5/6] sm:aspect-[4/4.3] shadow-lift max-w-full">
+        <div class="fallback" style="align-items:flex-start"><div>Your smile, perfected</div></div>
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=80" alt="Close portrait of a patient with a bright, natural smile" loading="eager" onerror="this.hidden=true">
+      </div>
+      <div class="glass-card absolute right-3 sm:-right-5 top-auto bottom-[6.5rem] sm:bottom-auto sm:top-10 rounded-2xl shadow-soft p-4 pr-5 flex items-center gap-3 max-w-[260px]">
+        <span class="text-2xl" aria-hidden="true">💎</span>
+        <p class="text-sm font-bold leading-snug">Custom Porcelain Veneers<span class="block font-medium text-navy/55">Designed for your face</span></p>
+      </div>
+      <div class="glass-card absolute left-3 sm:left-6 lg:-left-5 bottom-5 sm:bottom-8 rounded-2xl shadow-soft p-4 pr-5 flex items-center gap-3 max-w-[260px]">
+        <span class="text-2xl" aria-hidden="true">🦷</span>
+        <p class="text-sm font-bold leading-snug">Painless Expert Care<span class="block font-medium text-navy/55">Gentle from start to finish</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Smile gallery -->
+<section id="smile-gallery" class="py-20 sm:py-24">
+  <div class="wrap">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+      <div class="reveal max-w-2xl">
+        <p class="label"><span class="num">01</span>Smile Gallery</p>
+        <h2 class="mt-3 text-4xl sm:text-5xl font-extrabold leading-[1.05]">Drag to compare. Details matter.</h2>
+      </div>
+      <p class="reveal text-navy/60 max-w-sm">Choose a treatment, then slide the handle to see the change.</p>
+    </div>
+    <div class="mt-8 border-b hair flex gap-7 overflow-x-auto" role="tablist" aria-label="Treatment cases" id="caseTabs" style="scrollbar-width:none"></div>
+    <div class="mt-8 grid lg:grid-cols-[1.45fr_1fr] gap-8 items-stretch">
+      <div class="ba rounded-[1.5rem] aspect-[4/3] shadow-lift frame max-w-full" id="ba" style="--pos:50%">
+        <div class="layer"><img id="baAfter" src="" alt="" onerror="this.hidden=true"></div>
+        <div class="layer before" id="baBeforeLayer"><img id="baBefore" src="" alt="" onerror="this.hidden=true; this.parentElement.classList.add('no-img')"></div>
+        <span class="ba-tag left-4">Before</span>
+        <span class="ba-tag right-4 !bg-cyan">After</span>
+        <div class="handle"><div class="knob"><i data-lucide="chevrons-left-right" class="w-5 h-5"></i></div></div>
+        <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+      </div>
+      <article id="caseInfo" class="rounded-[1.5rem] border hair bg-mist p-7 sm:p-8 flex flex-col min-w-0" aria-live="polite"></article>
+    </div>
+    <p class="mt-5 text-xs text-navy/45">Illustrative images and cases. Ask to see White32 Dental’s own patient results at your consultation.</p>
+  </div>
+</section>
+
+<!-- 5. Services -->
+<section id="services" class="py-20 sm:py-24 bg-mist border-y hair">
+  <div class="wrap">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+      <div class="reveal max-w-2xl">
+        <p class="label"><span class="num">02</span>Services</p>
+        <h2 class="mt-3 text-4xl sm:text-5xl font-extrabold leading-[1.05]">Comprehensive care, one boutique practice.</h2>
+      </div>
+      <p class="reveal text-navy/60 max-w-md">General, restorative and cosmetic dentistry under one roof in Northwest DC.</p>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="serviceGrid"></div>
+    <div class="mt-5 rounded-[1.5rem] bg-navy text-white p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5">
+      <div class="flex items-center gap-4">
+        <span class="w-12 h-12 rounded-xl bg-gold grid place-items-center shrink-0"><i data-lucide="gem" class="w-6 h-6"></i></span>
+        <div><p class="font-display text-xl font-extrabold">All-on-4 Dental Implants</p><p class="text-white/60 text-sm mt-0.5">A full arch of fixed teeth on four implants, for patients missing most or all of their teeth.</p></div>
+      </div>
+      <button class="btn bg-white text-navy px-6 py-3 hover:bg-cyan-soft shrink-0" data-open-booking data-service="All-on-4 implant consultation">Ask about All-on-4<i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Virtual smile assessment funnel -->
+<section id="consult-funnel" class="py-20 sm:py-24">
+  <div class="wrap grid lg:grid-cols-[.85fr_1.15fr] gap-10 lg:gap-14 items-start">
+    <div class="reveal min-w-0 lg:sticky lg:top-28">
+      <p class="label"><span class="num">03</span>Virtual Smile Assessment</p>
+      <h2 class="mt-3 text-4xl sm:text-5xl font-extrabold leading-[1.05]">Get a quote without leaving home.</h2>
+      <p class="mt-5 text-navy/60 text-lg leading-relaxed">Three quick steps: your goal, a smile photo, and how to reach you. The White32 team reviews it and calls you back with options.</p>
+      <ol class="mt-8 grid gap-0 border-l hair ml-3">
+        <li class="relative pl-7 pb-6"><span class="absolute -left-[13px] top-0 step-dot on bg-white" data-side="1">1</span><p class="font-display font-bold">Choose your goal</p><p class="text-sm text-navy/55">Veneers, whitening, pain relief, implants or a cleaning.</p></li>
+        <li class="relative pl-7 pb-6"><span class="absolute -left-[13px] top-0 step-dot bg-white" data-side="2">2</span><p class="font-display font-bold">Share a smile photo</p><p class="text-sm text-navy/55">Optional, but it makes your quote more accurate.</p></li>
+        <li class="relative pl-7"><span class="absolute -left-[13px] top-0 step-dot bg-white" data-side="3">3</span><p class="font-display font-bold">Request your callback</p><p class="text-sm text-navy/55">We’ll reach out by phone or email.</p></li>
+      </ol>
+    </div>
+
+    <div class="reveal rounded-[1.75rem] border hair bg-white shadow-soft p-6 sm:p-9 min-w-0">
+      <form id="funnel" novalidate>
+        <div data-f="1">
+          <p class="text-sm font-bold text-cyan-deep">Step 1 of 3</p>
+          <h3 class="mt-1 text-2xl sm:text-3xl font-extrabold">What’s your primary goal?</h3>
+          <div class="mt-6 grid sm:grid-cols-2 gap-3" id="goalOpts"></div>
+          <p class="err" id="goalErr" hidden>Choose a goal to continue.</p>
+        </div>
+        <div data-f="2" hidden>
+          <p class="text-sm font-bold text-cyan-deep">Step 2 of 3</p>
+          <h3 class="mt-1 text-2xl sm:text-3xl font-extrabold">Add a quick smile photo</h3>
+          <label for="smilePhoto" id="dropZone" class="mt-6 flex flex-col sm:flex-row items-center gap-5 border-2 border-dashed border-navy/15 rounded-2xl p-6 cursor-pointer hover:border-cyan bg-mist transition text-center sm:text-left">
+            <span id="photoPreview" class="w-24 h-24 shrink-0 rounded-xl bg-white border hair grid place-items-center overflow-hidden"><i data-lucide="camera" class="w-8 h-8 text-cyan"></i></span>
+            <span class="min-w-0"><span class="block font-display font-bold" id="photoName">Tap to upload or drop a photo</span><span class="block text-sm text-navy/55 mt-1">Smile naturally in daylight, facing the camera. JPG or PNG.</span></span>
+          </label>
+          <input type="file" id="smilePhoto" accept="image/*" class="sr-only">
+          <button type="button" class="mt-4 text-sm font-semibold text-navy/55 hover:text-navy underline underline-offset-4" id="skipPhoto">Skip, I’ll share it later</button>
+        </div>
+        <div data-f="3" hidden>
+          <p class="text-sm font-bold text-cyan-deep">Step 3 of 3</p>
+          <h3 class="mt-1 text-2xl sm:text-3xl font-extrabold">Where should we call you back?</h3>
+          <div class="mt-6 grid gap-4">
+            <div><label for="fName" class="text-sm font-semibold">Full name</label><input id="fName" class="field mt-1.5" autocomplete="name" placeholder="Taylor Brooks"><p class="err" hidden>Enter your name.</p></div>
+            <div><label for="fContact" class="text-sm font-semibold">Phone or email</label><input id="fContact" class="field mt-1.5" autocomplete="email" placeholder="(202) 555-0123 or you@email.com"><p class="err" hidden>Enter a 10-digit phone number or a valid email.</p></div>
+          </div>
+          <p class="mt-4 text-xs text-navy/45 flex items-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5"></i>Your photo and details are used only for your assessment.</p>
+        </div>
+        <div data-f="done" hidden>
+          <div class="flex items-center gap-4">
+            <span class="w-14 h-14 rounded-2xl bg-navy text-white grid place-items-center shrink-0"><i data-lucide="phone-incoming" class="w-7 h-7"></i></span>
+            <div><h3 class="text-2xl sm:text-3xl font-extrabold">Request received, <span id="fFirst"></span>.</h3><p class="text-navy/60">The DC team will call you back with your options and quote.</p></div>
+          </div>
+          <!-- demo:note -->
+          <dl class="mt-6 grid gap-2 text-sm rounded-2xl bg-mist border hair p-5" id="fSummary"></dl>
+          <p class="mt-4 text-sm text-navy/60">Prefer to talk now? Call <a href="tel:+12025197410" class="font-bold text-cyan-deep">(202) 519-7410</a>.</p>
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <button type="button" class="btn btn-cyan px-6 py-3.5" id="fBook"><i data-lucide="calendar-check" class="w-4 h-4"></i>Book a consultation now</button>
+            <button type="button" class="btn btn-line px-6 py-3.5" id="fReset">Start over</button>
+          </div>
+        </div>
+        <div class="mt-8 flex items-center justify-between gap-3 border-t hair pt-6" id="fNav">
+          <button type="button" id="fBack" class="btn btn-line px-5 py-3" hidden><i data-lucide="arrow-left" class="w-4 h-4"></i>Back</button>
+          <span></span>
+          <button type="button" id="fNext" class="btn btn-navy px-6 py-3">Continue<i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Reviews -->
+<section id="reviews" class="py-20 sm:py-24 bg-mist border-y hair">
+  <div class="wrap">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="reveal">
+        <p class="label"><span class="num">04</span>Patient Reviews</p>
+        <h2 class="mt-3 text-4xl sm:text-5xl font-extrabold leading-[1.05]">What DC patients notice first.</h2>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="revPrev" class="w-12 h-12 rounded-[10px] border hair bg-white grid place-items-center hover:border-cyan hover:text-cyan-deep transition" aria-label="Previous review"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <button id="revNext" class="w-12 h-12 rounded-[10px] bg-navy text-white grid place-items-center hover:bg-navy-2 transition" aria-label="Next review"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <div class="mt-10 overflow-hidden -mx-2.5" id="revViewport"><div class="track" id="revTrack"></div></div>
+    <div class="mt-7 flex items-center justify-center gap-2" id="revDots"></div>
+    <!-- Sample reviews for the concept. Replace with verified patient reviews before launch. -->
+  </div>
+</section>
+
+<!-- Location -->
+<section id="location" class="py-20 sm:py-24">
+  <div class="wrap grid lg:grid-cols-[1fr_1.1fr] gap-10 items-center">
+    <div class="reveal min-w-0">
+      <p class="label"><span class="num">05</span>Location</p>
+      <h2 class="mt-3 text-4xl sm:text-5xl font-extrabold leading-[1.05]">Visit us in Northwest DC.</h2>
+      <address class="not-italic mt-6 text-lg text-navy/75 leading-relaxed">3301 New Mexico Avenue NW, Suite 323<br>Washington, DC 20016</address>
+      <div class="mt-6 grid sm:grid-cols-2 gap-3">
+        <a href="tel:+12025197410" class="rounded-2xl border hair p-5 hover:border-cyan transition group">
+          <i data-lucide="phone" class="w-5 h-5 text-cyan"></i>
+          <p class="mt-3 text-xs font-bold uppercase tracking-[.14em] text-navy/45">Call</p>
+          <p class="font-display text-xl font-extrabold group-hover:text-cyan-deep">(202) 519-7410</p>
+        </a>
+        <a href="https://www.instagram.com/white32dc/" target="_blank" rel="noopener" class="rounded-2xl border hair p-5 hover:border-cyan transition group">
+          <i data-lucide="instagram" class="w-5 h-5 text-cyan"></i>
+          <p class="mt-3 text-xs font-bold uppercase tracking-[.14em] text-navy/45">Follow</p>
+          <p class="font-display text-xl font-extrabold group-hover:text-cyan-deep">@white32dc</p>
+        </a>
+      </div>
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <a href="https://www.google.com/maps/search/?api=1&query=3301+New+Mexico+Avenue+NW+Suite+323+Washington+DC+20016" target="_blank" rel="noopener" class="btn btn-navy px-6 py-3.5"><i data-lucide="navigation" class="w-4 h-4"></i>Get directions</a>
+        <button type="button" class="btn btn-line px-6 py-3.5" data-copy="3301 New Mexico Avenue NW, Suite 323, Washington, DC 20016"><i data-lucide="copy" class="w-4 h-4"></i>Copy address</button>
+      </div>
+    </div>
+    <!-- Stylized map card: links out to Google Maps -->
+    <a href="https://www.google.com/maps/search/?api=1&query=3301+New+Mexico+Avenue+NW+Suite+323+Washington+DC+20016" target="_blank" rel="noopener" class="reveal relative block rounded-[1.75rem] overflow-hidden border hair aspect-[4/3] bg-mist group max-w-full" aria-label="Open White32 Dental in Google Maps">
+      <svg viewBox="0 0 400 300" class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="400" height="300" fill="#F1F5F9"/>
+        <path d="M-10 230 C 80 200, 160 210, 230 160 S 360 80, 420 60" stroke="#BFDBFE" stroke-width="18" fill="none"/>
+        <g stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round">
+          <path d="M0 120 L400 150"/><path d="M60 0 L120 300"/><path d="M250 0 L210 300"/><path d="M0 40 L400 70"/><path d="M330 0 L360 300"/>
+        </g>
+        <g stroke="#E2E8F0" stroke-width="4" fill="none"><path d="M0 200 L400 230"/><path d="M160 0 L170 300"/><path d="M0 275 L400 290"/></g>
+        <path d="M30 300 C 120 180, 200 140, 400 110" stroke="#FDE68A" stroke-width="7" fill="none"/>
+        <circle cx="200" cy="140" r="40" fill="#0EA5E9" opacity=".12"/>
+        <circle cx="200" cy="140" r="22" fill="#0EA5E9" opacity=".2"/>
+      </svg>
+      <div class="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-full flex flex-col items-center">
+        <div class="glass-card rounded-xl shadow-soft px-4 py-2.5 text-center">
+          <p class="font-display font-extrabold text-sm">White32 Dental</p>
+          <p class="text-xs text-navy/55">Suite 323</p>
+        </div>
+        <span class="mt-1 w-9 h-9 rounded-full bg-navy text-white grid place-items-center shadow-soft"><i data-lucide="map-pin" class="w-4 h-4"></i></span>
+      </div>
+      <span class="absolute bottom-4 right-4 btn bg-white text-navy px-4 py-2.5 text-sm shadow-soft group-hover:bg-cyan group-hover:text-white">Open in Maps<i data-lucide="arrow-up-right" class="w-4 h-4"></i></span>
+    </a>
+  </div>
+</section>
+</main>
+
+<!-- 8. Footer -->
+<footer class="bg-navy text-white">
+  <div class="wrap py-14 grid sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr] gap-10 text-sm">
+    <div>
+      <div class="flex items-center gap-3">
+        <span class="w-10 h-10 rounded-[10px] bg-white text-navy grid place-items-center font-display font-extrabold">32</span>
+        <span class="font-display font-extrabold text-lg leading-none">WHITE<span class="text-cyan">32</span> DENTAL<span class="block text-[.6rem] tracking-[.3em] text-white/45 mt-1">| WASHINGTON DC</span></span>
+      </div>
+      <p class="mt-4 text-white/55 leading-relaxed max-w-xs">Premium general, restorative and cosmetic dentistry in Washington, DC.</p>
+    </div>
+    <div>
+      <p class="font-display font-bold mb-3">Visit</p>
+      <address class="not-italic text-white/70 leading-relaxed">3301 New Mexico Avenue NW<br>Suite 323<br>Washington, DC 20016</address>
+    </div>
+    <div>
+      <p class="font-display font-bold mb-3">Contact</p>
+      <a href="tel:+12025197410" class="block font-display text-2xl font-extrabold hover:text-cyan-300">(202) 519-7410</a>
+      <button type="button" class="mt-1.5 inline-flex items-center gap-1.5 text-white/50 hover:text-white" data-copy="(202) 519-7410"><i data-lucide="copy" class="w-3.5 h-3.5"></i>Copy number</button>
+      <a href="https://www.instagram.com/white32dc/" target="_blank" rel="noopener" class="mt-4 flex items-center gap-2 text-white/75 hover:text-white"><i data-lucide="instagram" class="w-4 h-4"></i>@white32dc</a>
+    </div>
+    <div>
+      <p class="font-display font-bold mb-3">Services</p>
+      <ul class="space-y-1.5 text-white/65">
+        <li>Porcelain Veneers</li><li>Crown &amp; Bridge</li><li>Teeth Whitening</li><li>Root Canals</li><li>Wisdom Teeth Removal</li><li>TMJ Treatment</li><li>All-on-4 Implants</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="wrap py-6 flex flex-col sm:flex-row justify-between gap-3 text-xs text-white/45" style="padding-bottom:max(1.5rem, env(safe-area-inset-bottom, 0px))">
+      <p>© <span id="year"></span> White32 Dental. Washington, DC.</p>
+      <button class="text-left sm:text-right font-semibold text-cyan-300 hover:text-white" data-open-booking>Schedule an appointment →</button>
+    </div>
+  </div>
+</footer>
+
+<!-- Booking modal -->
+<div id="booking" class="modal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle" hidden>
+  <div class="modal-backdrop" data-close-booking></div>
+  <div class="modal-panel">
+    <div class="sticky top-0 z-10 bg-white/95 backdrop-blur px-6 sm:px-8 pt-6 pb-5 border-b hair">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="label !text-[.68rem]">White32 Dental</p>
+          <h2 id="bookingTitle" class="text-2xl sm:text-3xl font-extrabold mt-1">Schedule your appointment</h2>
+        </div>
+        <button class="w-10 h-10 rounded-[10px] border hair grid place-items-center hover:border-cyan shrink-0" id="bookingClose" data-close-booking aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="mt-5 flex items-center gap-2" aria-hidden="true">
+        <span class="step-dot on" data-bdot="1">1</span><span class="step-line"></span><span class="step-dot" data-bdot="2">2</span><span class="step-line"></span><span class="step-dot" data-bdot="3">3</span>
+      </div>
+    </div>
+    <form id="bookingForm" class="px-6 sm:px-8 py-6" novalidate>
+      <div data-b="1">
+        <p class="font-display font-bold text-lg">What brings you in?</p>
+        <div class="mt-4 grid sm:grid-cols-2 gap-3" id="visitOpts"></div>
+        <p class="err" id="visitErr" hidden>Choose a visit type.</p>
+      </div>
+      <div data-b="2" hidden>
+        <div class="flex items-center justify-between gap-3">
+          <p class="font-display font-bold text-lg">Pick a day</p>
+          <div class="flex gap-2">
+            <button type="button" id="dayPrev" class="w-9 h-9 rounded-lg border hair grid place-items-center" aria-label="Earlier days"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button type="button" id="dayNext" class="w-9 h-9 rounded-lg border hair grid place-items-center" aria-label="Later days"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+        <div id="dayStrip" class="mt-4 grid grid-cols-5 gap-2"></div>
+        <p class="font-display font-bold text-lg mt-6">Preferred time</p>
+        <div id="timeSlots" class="mt-3 grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+        <p class="err" id="slotErr" hidden>Choose a day and a time.</p>
+        <p class="mt-4 text-xs text-navy/50">We’ll confirm your exact time by phone.</p>
+      </div>
+      <div data-b="3" hidden>
+        <div class="rounded-xl bg-mist border hair p-4 text-sm flex gap-3"><i data-lucide="calendar-check" class="w-5 h-5 text-cyan shrink-0"></i><p id="bookRecap"></p></div>
+        <div class="mt-5 grid gap-4">
+          <div><label for="bName" class="text-sm font-semibold">Full name</label><input id="bName" class="field mt-1.5" autocomplete="name" placeholder="Taylor Brooks"><p class="err" hidden>Enter your name.</p></div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div><label for="bPhone" class="text-sm font-semibold">Phone</label><input id="bPhone" type="tel" class="field mt-1.5" autocomplete="tel" placeholder="(202) 555-0123"><p class="err" hidden>Enter a 10-digit phone number.</p></div>
+            <div><label for="bEmail" class="text-sm font-semibold">Email</label><input id="bEmail" type="email" class="field mt-1.5" autocomplete="email" placeholder="you@email.com"><p class="err" hidden>Enter a valid email address.</p></div>
+          </div>
+          <div><label for="bNotes" class="text-sm font-semibold">Anything we should know? <span class="font-normal text-navy/45">(optional)</span></label><textarea id="bNotes" rows="2" class="field mt-1.5" placeholder="e.g. Sensitive upper left molar"></textarea></div>
+        </div>
+      </div>
+      <div data-b="done" hidden class="text-center py-4">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-navy text-white grid place-items-center"><i data-lucide="calendar-heart" class="w-8 h-8"></i></div>
+        <h3 class="mt-5 text-3xl font-extrabold">Thank you, <span id="bFirst"></span>.</h3>
+        <p class="mt-2 text-navy/60 max-w-sm mx-auto">Here’s your request. Our team will call to confirm your appointment.</p>
+        <!-- demo:note -->
+        <dl id="bookSummary" class="mt-5 text-left text-sm bg-mist border hair rounded-2xl p-5 grid gap-2"></dl>
+        <p class="mt-4 text-xs text-navy/50">3301 New Mexico Avenue NW, Suite 323</p>
+        <button type="button" class="btn btn-navy px-7 py-3 mt-6" data-close-booking>Done</button>
+      </div>
+      <div class="mt-7 flex items-center justify-between gap-3" id="bookNav">
+        <button type="button" id="bookBack" class="btn btn-line px-5 py-3" hidden><i data-lucide="arrow-left" class="w-4 h-4"></i>Back</button>
+        <span class="text-xs text-navy/45" id="bookCount">Step 1 of 3</span>
+        <button type="button" id="bookNext" class="btn btn-cyan px-6 py-3">Continue<i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Mobile action bar -->
+<div class="sm:hidden fixed inset-x-0 bottom-0 z-40 glass border-t hair" style="padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))">
+  <div class="grid grid-cols-[auto_1fr] gap-2">
+    <a href="tel:+12025197410" class="btn btn-line px-5 py-3.5" aria-label="Call (202) 519-7410"><i data-lucide="phone" class="w-4 h-4"></i>Call</a>
+    <button class="btn btn-cyan py-3.5" data-open-booking><i data-lucide="calendar-check" class="w-4 h-4"></i>Schedule Appointment</button>
+  </div>
+</div>
+<div class="sm:hidden h-[78px] bg-navy" aria-hidden="true"></div>
+
+<div id="toast" class="bg-navy text-white text-sm rounded-xl px-5 py-3 shadow-soft" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+  document.documentElement.classList.add('js');
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const U = (id, w = 1200) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+  const icons = () => window.lucide && window.lucide.createIcons();
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  let toastTimer;
+  const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2500); };
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-copy]'); if (!b) return;
+    const v = b.dataset.copy;
+    if (navigator.clipboard) navigator.clipboard.writeText(v).then(() => toast('Copied'), () => toast(v)); else toast(v);
+  });
+
+  /* 32-tooth arch: two rows of 16, lit one by one */
+  (function arch() {
+    const svg = $('#arch'); let html = '';
+    for (let row = 0; row < 2; row++) for (let i = 0; i < 16; i++) {
+      const a = Math.PI * (0.06 + 0.88 * i / 15);
+      const rx = row ? 46 : 52, ry = row ? 26 : 32;
+      const x = 60 - Math.cos(a) * rx, y = (row ? 66 : 62) - Math.sin(a) * ry;
+      const w = (i > 4 && i < 11) ? 5.2 : 6.6;
+      html += `<rect class="t" x="${(x - w / 2).toFixed(1)}" y="${(y - 3.3).toFixed(1)}" width="${w}" height="6.6" rx="2" transform="rotate(${(90 - a * 180 / Math.PI).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
+    }
+    svg.innerHTML = html;
+    const teeth = $$('.t', svg);
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { teeth.forEach(t => t.classList.add('lit')); return; }
+    teeth.forEach((t, i) => setTimeout(() => t.classList.add('lit'), 300 + i * 45));
+  })();
+
+  /* Nav */
+  const navbar = $('#navbar');
+  const onScroll = () => navbar.classList.toggle('scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  const menuBtn = $('#menuBtn'), menu = $('#mobileMenu');
+  function setMenu(open) { menu.hidden = !open; menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}" class="w-5 h-5"></i>`; icons(); }
+  menuBtn.addEventListener('click', () => setMenu(menu.hidden));
+  $$('.mobile-link').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  if ('IntersectionObserver' in window) {
+    const links = $$('.nav-link');
+    const spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-45% 0px -50% 0px' });
+    ['services', 'smile-gallery', 'reviews', 'location', 'consult-funnel'].forEach(id => spy.observe(document.getElementById(id)));
+    const rev = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.remove('pre'); rev.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    $$('.reveal').forEach(el => { if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('pre'); rev.observe(el); } });
+  }
+
+  /* Smile gallery */
+  const CASES = [
+    { tab: 'Porcelain Veneers', img: '1531123897727-8f129e1688ce', service: 'Cosmetic consultation', title: 'Eight hand-layered porcelain veneers',
+      body: 'Worn, uneven front teeth and old bonding replaced with veneers shaped to the patient’s face. A digital mock-up was approved before any preparation began.',
+      stats: [['Visits', '3'], ['Timeline', '3 weeks'], ['Veneers', '8 upper']] },
+    { tab: 'Teens & Adult Whitening', img: '1494790108377-be9c29b29330', service: 'Teeth whitening', title: 'In-office whitening plus take-home trays',
+      body: 'Coffee and tea staining lifted in one in-office session, then maintained with custom trays. Strength was tuned to keep sensitivity low.',
+      stats: [['Visits', '1'], ['Chair time', '90 min'], ['Shade lift', '6+ shades']] },
+    { tab: 'Crowns & Bridges', img: '1500648767791-00dcc994a43e', service: 'Crown & bridge consultation', title: 'Two crowns and a three-unit bridge',
+      body: 'A cracked molar and a missing premolar restored with ceramic crowns and a bridge, color-matched so the work disappears into the smile.',
+      stats: [['Visits', '2'], ['Timeline', '2 weeks'], ['Units', '5 ceramic']] }
+  ];
+  const ba = $('#ba'), range = $('#baRange');
+  const setPos = v => { ba.style.setProperty('--pos', v + '%'); range.value = v; };
+  $('#caseTabs').innerHTML = CASES.map((c, i) => `<button type="button" role="tab" class="tab" aria-selected="${i === 0}" data-case="${i}">${c.tab}</button>`).join('');
+  function showCase(i) {
+    const c = CASES[i];
+    $$('[data-case]').forEach(b => b.setAttribute('aria-selected', String(+b.dataset.case === i)));
+    ['#baAfter', '#baBefore'].forEach(s => { const im = $(s); im.hidden = false; im.src = U(c.img, 1400); });
+    $('#baBeforeLayer').classList.remove('no-img');
+    $('#baAfter').alt = `${c.tab}, after`; $('#baBefore').alt = `${c.tab}, before`;
+    $('#caseInfo').innerHTML = `
+      <p class="text-xs font-bold uppercase tracking-[.16em] text-cyan-deep">Case · ${c.tab}</p>
+      <h3 class="mt-2 text-2xl sm:text-3xl font-extrabold">${c.title}</h3>
+      <p class="mt-3 text-navy/60 leading-relaxed">${c.body}</p>
+      <dl class="mt-6 grid grid-cols-3 border-y hair divide-x divide-navy/10">${c.stats.map(([k, v]) => `<div class="py-3 px-3 first:pl-0"><dt class="text-[.68rem] font-semibold uppercase tracking-[.1em] text-navy/45">${k}</dt><dd class="mt-0.5 font-display font-extrabold">${v}</dd></div>`).join('')}</dl>
+      <div class="mt-auto pt-7"><button type="button" class="btn btn-navy w-full py-3.5" data-open-booking data-service="${c.service}"><i data-lucide="calendar-check" class="w-4 h-4"></i>Book a ${c.tab.toLowerCase()} consult</button></div>`;
+    icons(); setPos(50);
+  }
+  $('#caseTabs').addEventListener('click', e => { const b = e.target.closest('[data-case]'); if (b) showCase(+b.dataset.case); });
+  range.addEventListener('input', () => setPos(range.value));
+  let drag = false;
+  const at = e => { const r = ba.getBoundingClientRect(); return Math.max(0, Math.min(100, (e.clientX - r.left) / r.width * 100)); };
+  ba.addEventListener('pointerdown', e => { drag = true; setPos(at(e)); });
+  addEventListener('pointermove', e => { if (drag) setPos(at(e)); });
+  addEventListener('pointerup', () => { drag = false; });
+  showCase(0);
+
+  /* Services */
+  const SERVICES = [
+    { icon: 'gem', name: 'Porcelain Veneers & Smile Makeovers', text: 'Custom veneers designed around your face, lip line and shade goals, previewed digitally before treatment.', service: 'Cosmetic consultation', gold: true },
+    { icon: 'crown', name: 'Crowns & Bridge Restorations', text: 'Ceramic crowns and bridges that restore strength and blend seamlessly with your natural teeth.', service: 'Crown & bridge consultation' },
+    { icon: 'sun', name: 'Professional Teeth Whitening', text: 'In-office whitening or custom take-home trays for a brighter smile with minimal sensitivity.', service: 'Teeth whitening' },
+    { icon: 'scissors', name: 'Expert Wisdom Teeth & Extractions', text: 'Careful, comfortable removal of wisdom teeth and damaged teeth, with clear aftercare guidance.', service: 'Wisdom teeth / extraction' },
+    { icon: 'activity', name: 'Root Canal Treatments & Endodontics', text: 'Gentle, modern root canal therapy that relieves pain and saves the natural tooth.', service: 'Tooth pain / root canal' },
+    { icon: 'moon', name: 'TMJ Relief & Custom Nightguards', text: 'Evaluation for jaw pain, clicking and grinding, with custom-fitted nightguards to protect your teeth.', service: 'TMJ evaluation' }
+  ];
+  $('#serviceGrid').innerHTML = SERVICES.map((s, i) => `
+    <article class="lift group rounded-[1.4rem] bg-white border hair p-6 sm:p-7 flex flex-col">
+      <div class="flex items-start justify-between gap-3">
+        <span class="lift-icon w-12 h-12 rounded-xl ${s.gold ? 'bg-gold-soft text-gold' : 'bg-cyan-soft text-cyan-deep'} grid place-items-center"><i data-lucide="${s.icon}" class="w-6 h-6"></i></span>
+        <span class="font-display text-sm font-bold text-navy/25 tabular-nums">${String(i + 1).padStart(2, '0')}</span>
+      </div>
+      <h3 class="mt-5 text-xl font-extrabold leading-snug">${s.name}</h3>
+      <p class="mt-2 text-sm text-navy/60 leading-relaxed flex-1">${s.text}</p>
+      <button type="button" class="mt-6 self-start inline-flex items-center gap-1.5 text-sm font-bold text-cyan-deep group-hover:gap-2.5 transition-all" data-open-booking data-service="${s.service}">Book this service <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+    </article>`).join('');
+
+  /* Helpers */
+  const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+  const phoneOk = v => v.replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '').length === 10;
+  function check(input, ok) { const err = input.parentElement.querySelector('.err'); input.classList.toggle('invalid', !ok); input.setAttribute('aria-invalid', String(!ok)); if (err) err.hidden = ok; return ok; }
+  const row = (k, v) => `<div class="flex justify-between gap-4"><dt class="text-navy/55 shrink-0">${k}</dt><dd class="font-semibold text-right min-w-0 break-words">${esc(v)}</dd></div>`;
+
+  /* Funnel */
+  const GOALS = [
+    { id: 'Veneers', icon: 'gem', sub: 'Reshape & perfect your smile', service: 'Cosmetic consultation' },
+    { id: 'Whitening', icon: 'sun', sub: 'Several shades brighter', service: 'Teeth whitening' },
+    { id: 'Pain Relief / Emergency', icon: 'siren', sub: 'Toothache, swelling, broken tooth', service: 'Tooth pain / root canal' },
+    { id: 'Implants', icon: 'anchor', sub: 'Single implants or All-on-4', service: 'All-on-4 implant consultation' },
+    { id: 'Routine Cleaning', icon: 'sparkles', sub: 'Exam, X-rays & cleaning', service: 'Cleaning & exam' }
+  ];
+  const fn = { step: 1, goal: null, photo: '' };
+  $('#goalOpts').innerHTML = GOALS.map((g, i) => `<button type="button" class="opt ${i === 4 ? 'sm:col-span-2' : ''}" data-goal="${i}" aria-pressed="false"><i data-lucide="${g.icon}" class="w-6 h-6 ${g.id.startsWith('Pain') ? 'text-red-600' : 'text-cyan-deep'}"></i><span class="block mt-3 font-display font-bold">${g.id}</span><span class="block text-sm text-navy/55 mt-0.5">${g.sub}</span></button>`).join('');
+  $('#goalOpts').addEventListener('click', e => { const b = e.target.closest('[data-goal]'); if (!b) return; fn.goal = +b.dataset.goal; $$('[data-goal]').forEach(x => { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', String(x === b)); }); $('#goalErr').hidden = true; setTimeout(() => fGo(2), 220); });
+  function loadPhoto(file) {
+    if (!file || !file.type.startsWith('image/')) { toast('Please choose an image file'); return; }
+    fn.photo = file.name;
+    const r = new FileReader();
+    r.onload = () => { $('#photoPreview').innerHTML = `<img src="${r.result}" alt="Your smile photo" class="w-full h-full object-cover">`; };
+    r.readAsDataURL(file);
+    $('#photoName').textContent = file.name;
+  }
+  $('#smilePhoto').addEventListener('change', e => loadPhoto(e.target.files[0]));
+  const dz = $('#dropZone');
+  ['dragover', 'dragenter'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('border-cyan'); }));
+  ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('border-cyan'); }));
+  dz.addEventListener('drop', e => loadPhoto(e.dataTransfer.files[0]));
+  $('#skipPhoto').addEventListener('click', () => fGo(3));
+  function fGo(step) {
+    fn.step = step;
+    $$('[data-f]').forEach(s => { s.hidden = s.dataset.f !== String(step); });
+    $$('[data-side]').forEach(d => d.classList.toggle('on', step === 'done' || +d.dataset.side <= step));
+    $('#fNav').hidden = step === 'done'; $('#fBack').hidden = step === 1;
+    $('#fNext').innerHTML = step === 3 ? 'Request my callback<i data-lucide="phone-call" class="w-4 h-4"></i>' : 'Continue<i data-lucide="arrow-right" class="w-4 h-4"></i>';
+    icons();
+  }
+  $('#fNext').addEventListener('click', () => {
+    if (fn.step === 1) { if (fn.goal === null) { $('#goalErr').hidden = false; return; } return fGo(2); }
+    if (fn.step === 2) return fGo(3);
+    const a = check($('#fName'), $('#fName').value.trim().length > 1);
+    const c = $('#fContact').value; const b = check($('#fContact'), emailOk(c) || phoneOk(c));
+    if (!(a && b)) { $('#funnel .invalid').focus(); return; }
+    const p = { goal: GOALS[fn.goal].id, photo: fn.photo || 'Not added', name: $('#fName').value.trim(), contact: c.trim() };
+    submitRequest('assessment', p);
+    $('#fFirst').textContent = p.name.split(' ')[0];
+    $('#fSummary').innerHTML = row('Goal', p.goal) + row('Smile photo', p.photo) + row('Call back at', p.contact);
+    fGo('done');
+  });
+  $('#fBack').addEventListener('click', () => fGo(fn.step - 1));
+  $('#fBook').addEventListener('click', () => openBooking(GOALS[fn.goal].service, { name: $('#fName').value, contact: $('#fContact').value }));
+  $('#fReset').addEventListener('click', () => { Object.assign(fn, { goal: null, photo: '' }); $('#funnel').reset(); $$('#goalOpts .is-on').forEach(x => x.classList.remove('is-on')); $('#photoPreview').innerHTML = '<i data-lucide="camera" class="w-8 h-8 text-cyan"></i>'; $('#photoName').textContent = 'Tap to upload or drop a photo'; fGo(1); });
+  ['#fName', '#fContact'].forEach(s => $(s).addEventListener('input', e => { if (e.target.classList.contains('invalid')) check(e.target, true); }));
+
+  /* Reviews (sample text for the concept) */
+  const REVIEWS = [
+    { name: 'Sample: Alexis M.', area: 'Spring Valley', tag: 'Welcoming team', text: 'From the front desk to the hygienist, everyone made me feel like a guest, not a chart number. I actually look forward to my visits now.' },
+    { name: 'Sample: Jordan P.', area: 'Tenleytown', tag: 'Spotless office', text: 'The office is immaculate and calm. You can tell they care about every detail, from sterilization to the music in the waiting room.' },
+    { name: 'Sample: Renee W.', area: 'Foggy Bottom', tag: 'Gentle cleanings', text: 'Most gentle cleaning I’ve ever had. My gums are sensitive and they checked in with me the whole time.' },
+    { name: 'Sample: Marcus L.', area: 'Georgetown', tag: 'Clear explanations', text: 'They showed me my X-rays, explained every option and the cost, and never pushed. I left knowing exactly what I needed and why.' }
+  ];
+  $('#revTrack').innerHTML = REVIEWS.map(r => `
+    <div class="slide px-2.5">
+      <figure class="h-full rounded-[1.4rem] bg-white border hair p-7 flex flex-col">
+        <div class="flex items-center justify-between gap-3">
+          <span class="text-gold text-lg tracking-[.15em]" aria-label="5 out of 5 stars">★★★★★</span>
+          <span class="rounded-md bg-cyan-soft text-cyan-deep text-xs font-bold px-2.5 py-1">${r.tag}</span>
+        </div>
+        <blockquote class="mt-5 font-display text-lg sm:text-xl font-semibold leading-snug flex-1">“${r.text}”</blockquote>
+        <figcaption class="mt-6 pt-5 border-t hair flex items-center gap-3">
+          <span class="w-11 h-11 rounded-full bg-navy text-white grid place-items-center font-display font-bold text-sm">${r.name.replace('Sample: ', '').split(' ').map(w => w[0]).join('')}</span>
+          <span><span class="block font-semibold">${r.name}</span><span class="block text-xs text-navy/50">${r.area}, DC</span></span>
+        </figcaption>
+      </figure>
+    </div>`).join('');
+  let rv = 0, rvTimer;
+  const per = () => innerWidth >= 1100 ? 3 : innerWidth >= 768 ? 2 : 1;
+  const maxRv = () => Math.max(0, REVIEWS.length - per());
+  function goRv(i) {
+    rv = (i + maxRv() + 1) % (maxRv() + 1);
+    $('#revTrack').style.transform = `translateX(-${rv * 100 / per()}%)`;
+    $('#revDots').innerHTML = Array.from({ length: maxRv() + 1 }, (_, k) => `<button type="button" class="dot${k === rv ? ' on' : ''}" data-dot="${k}" aria-label="Show review ${k + 1}"></button>`).join('');
+  }
+  const restart = () => { clearInterval(rvTimer); if (!matchMedia('(prefers-reduced-motion: reduce)').matches) rvTimer = setInterval(() => goRv(rv + 1), 6000); };
+  $('#revNext').addEventListener('click', () => { goRv(rv + 1); restart(); });
+  $('#revPrev').addEventListener('click', () => { goRv(rv - 1); restart(); });
+  $('#revDots').addEventListener('click', e => { const d = e.target.closest('[data-dot]'); if (d) { goRv(+d.dataset.dot); restart(); } });
+  const vp = $('#revViewport'); let tx = null;
+  vp.addEventListener('mouseenter', () => clearInterval(rvTimer)); vp.addEventListener('mouseleave', restart);
+  vp.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  vp.addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) { goRv(rv + (dx < 0 ? 1 : -1)); restart(); } tx = null; });
+  addEventListener('resize', () => goRv(Math.min(rv, maxRv())));
+  goRv(0); restart();
+
+  /* Booking modal */
+  const VISITS = [
+    { id: 'Cosmetic consultation', icon: 'gem', meta: 'Veneers & smile makeovers' },
+    { id: 'Cleaning & exam', icon: 'sparkles', meta: 'New & returning patients' },
+    { id: 'Tooth pain / root canal', icon: 'siren', meta: 'Fast relief' },
+    { id: 'Teeth whitening', icon: 'sun', meta: 'In-office or take-home' },
+    { id: 'Crown & bridge consultation', icon: 'crown', meta: 'Restore damaged teeth' },
+    { id: 'Wisdom teeth / extraction', icon: 'scissors', meta: 'Consult & removal' },
+    { id: 'TMJ evaluation', icon: 'moon', meta: 'Jaw pain & grinding' },
+    { id: 'All-on-4 implant consultation', icon: 'anchor', meta: 'Full-arch replacement' }
+  ];
+  const TIMES = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+  const bk = { step: 1, visit: '', day: null, time: '', off: 0 };
+  const modal = $('#booking'); let lastFocus = null;
+  $('#visitOpts').innerHTML = VISITS.map(v => `
+    <button type="button" class="opt flex items-center gap-3" data-visit-opt="${v.id}">
+      <span class="w-10 h-10 shrink-0 rounded-lg ${v.icon === 'siren' ? 'bg-red-50 text-red-600' : 'bg-cyan-soft text-cyan-deep'} grid place-items-center"><i data-lucide="${v.icon}" class="w-5 h-5"></i></span>
+      <span class="min-w-0"><span class="block font-display font-bold text-sm">${v.id}</span><span class="block text-xs text-navy/50">${v.meta}</span></span>
+    </button>`).join('');
+  const DAYS = (() => { const out = [], d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + 1); while (out.length < 20) { if (d.getDay() && d.getDay() !== 6) out.push(new Date(d)); d.setDate(d.getDate() + 1); } return out; })();
+  const fmtDay = d => d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  const taken = (d, t) => ((d.getDate() * 3 + TIMES.indexOf(t) * 5) % 4) === 0;
+  function renderDays() {
+    $('#dayStrip').innerHTML = DAYS.slice(bk.off, bk.off + 5).map(d => { const on = bk.day && d.getTime() === bk.day.getTime();
+      return `<button type="button" data-day="${d.getTime()}" aria-pressed="${on}" class="rounded-xl border py-2.5 text-center transition ${on ? 'bg-navy border-navy text-white' : 'bg-white hair hover:border-cyan'}">
+        <span class="block text-[.68rem] font-semibold uppercase ${on ? 'text-white/70' : 'text-navy/45'}">${d.toLocaleDateString('en-US', { weekday: 'short' })}</span>
+        <span class="block font-display text-xl font-extrabold">${d.getDate()}</span>
+        <span class="block text-[.68rem] ${on ? 'text-white/70' : 'text-navy/45'}">${d.toLocaleDateString('en-US', { month: 'short' })}</span></button>`; }).join('');
+    $('#dayPrev').disabled = bk.off === 0; $('#dayPrev').classList.toggle('opacity-40', bk.off === 0);
+    const end = bk.off + 5 >= DAYS.length; $('#dayNext').disabled = end; $('#dayNext').classList.toggle('opacity-40', end);
+    renderTimes();
+  }
+  function renderTimes() {
+    $('#timeSlots').innerHTML = TIMES.map(t => { const off = !bk.day || taken(bk.day, t); const on = bk.time === t && !off;
+      return `<button type="button" data-time="${t}" ${off ? 'disabled' : ''} class="rounded-lg border py-2.5 text-sm font-semibold transition ${on ? 'bg-cyan text-white border-cyan' : off ? 'bg-mist border-transparent text-navy/25 line-through cursor-not-allowed' : 'bg-white hair hover:border-cyan'}">${t}</button>`; }).join('');
+  }
+  $('#dayStrip').addEventListener('click', e => { const b = e.target.closest('[data-day]'); if (!b) return; bk.day = new Date(+b.dataset.day); if (bk.time && taken(bk.day, bk.time)) bk.time = ''; $('#slotErr').hidden = true; renderDays(); });
+  $('#timeSlots').addEventListener('click', e => { const b = e.target.closest('[data-time]'); if (!b || b.disabled) return; bk.time = b.dataset.time; $('#slotErr').hidden = true; renderTimes(); });
+  $('#dayPrev').addEventListener('click', () => { bk.off = Math.max(0, bk.off - 5); renderDays(); });
+  $('#dayNext').addEventListener('click', () => { bk.off = Math.min(DAYS.length - 5, bk.off + 5); renderDays(); });
+  function selectVisit(id) { bk.visit = id; $$('[data-visit-opt]').forEach(b => b.classList.toggle('is-on', b.dataset.visitOpt === id)); $('#visitErr').hidden = true; }
+  $('#visitOpts').addEventListener('click', e => { const b = e.target.closest('[data-visit-opt]'); if (!b) return; selectVisit(b.dataset.visitOpt); setTimeout(() => { bk.step = 2; renderBooking(); }, 200); });
+  function renderBooking() {
+    $$('[data-b]').forEach(s => { s.hidden = s.dataset.b !== String(bk.step); });
+    $$('[data-bdot]').forEach(d => d.classList.toggle('on', bk.step === 'done' || +d.dataset.bdot <= bk.step));
+    $('#bookNav').hidden = bk.step === 'done'; $('#bookBack').hidden = bk.step === 1;
+    $('#bookCount').textContent = `Step ${bk.step} of 3`;
+    $('#bookNext').innerHTML = bk.step === 3 ? 'Request appointment<i data-lucide="check" class="w-4 h-4"></i>' : 'Continue<i data-lucide="arrow-right" class="w-4 h-4"></i>';
+    if (bk.step === 2) renderDays();
+    if (bk.step === 3) $('#bookRecap').innerHTML = `<strong>${esc(bk.visit)}</strong><br>${fmtDay(bk.day)} at ${bk.time}`;
+    icons(); $('.modal-panel').scrollTop = 0;
+  }
+  function formatPhone(input) { input.addEventListener('input', () => { const d = input.value.replace(/\D/g, '').slice(0, 10); input.value = d.length > 6 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : d.length > 3 ? `(${d.slice(0, 3)}) ${d.slice(3)}` : d; }); }
+  formatPhone($('#bPhone'));
+  $('#bookNext').addEventListener('click', () => {
+    if (bk.step === 1) { if (!bk.visit) { $('#visitErr').hidden = false; return; } bk.step = 2; return renderBooking(); }
+    if (bk.step === 2) { if (!(bk.day && bk.time)) { $('#slotErr').hidden = false; return; } bk.step = 3; return renderBooking(); }
+    const a = check($('#bName'), $('#bName').value.trim().length > 1);
+    const b = check($('#bPhone'), phoneOk($('#bPhone').value));
+    const c = check($('#bEmail'), emailOk($('#bEmail').value));
+    if (!(a && b && c)) { $('#bookingForm .invalid').focus(); return; }
+    const p = { visit: bk.visit, when: `${fmtDay(bk.day)}, ${bk.time}`, name: $('#bName').value.trim(), phone: $('#bPhone').value.trim(), email: $('#bEmail').value.trim(), notes: $('#bNotes').value.trim() };
+    submitRequest('booking', p);
+    $('#bFirst').textContent = p.name.split(' ')[0];
+    $('#bookSummary').innerHTML = row('Visit', p.visit) + row('When', p.when) + row('Phone', p.phone) + row('Email', p.email);
+    bk.step = 'done'; renderBooking();
+  });
+  $('#bookBack').addEventListener('click', () => { bk.step--; renderBooking(); });
+  ['#bName', '#bPhone', '#bEmail'].forEach(s => $(s).addEventListener('input', e => { if (e.target.classList.contains('invalid')) check(e.target, true); }));
+
+  function openBooking(preset, prefill = {}) {
+    lastFocus = document.activeElement;
+    if (bk.step === 'done' || preset) {
+      if (bk.step === 'done') { $('#bookingForm').reset(); $$('#bookingForm .invalid').forEach(i => check(i, true)); }
+      Object.assign(bk, { step: 1, visit: '', day: null, time: '', off: 0 });
+      $$('[data-visit-opt]').forEach(b => b.classList.remove('is-on'));
+    }
+    if (preset) { selectVisit(preset); bk.step = 2; }
+    if (prefill.name) $('#bName').value = prefill.name;
+    if (prefill.contact) { if (emailOk(prefill.contact)) $('#bEmail').value = prefill.contact.trim(); else if (phoneOk(prefill.contact)) $('#bPhone').value = prefill.contact.trim(); }
+    renderBooking();
+    modal.hidden = false; document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => { modal.classList.add('open'); $('#bookingClose').focus(); });
+    if (!menu.hidden) setMenu(false);
+  }
+  function closeBooking() { modal.classList.remove('open'); document.body.style.overflow = ''; setTimeout(() => { modal.hidden = true; }, 300); if (lastFocus) lastFocus.focus(); }
+  document.addEventListener('click', e => {
+    const o = e.target.closest('[data-open-booking]'); if (o) { e.preventDefault(); openBooking(o.dataset.service); return; }
+    if (e.target.closest('[data-close-booking]')) closeBooking();
+  });
+  document.addEventListener('keydown', e => {
+    if (modal.hidden) return;
+    if (e.key === 'Escape') closeBooking();
+    if (e.key === 'Tab') {
+      const f = $$('button:not([disabled]), input, textarea, a[href]', modal).filter(el => el.offsetParent !== null);
+      if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    }
+  });
+  $$('form').forEach(f => f.addEventListener('submit', e => e.preventDefault()));
+
+  /* Integration point: connect the practice's scheduler, CRM or a form endpoint here. */
+  function submitRequest(kind, payload) { window.dispatchEvent(new CustomEvent('w32:request', { detail: { kind, payload } })); }
+
+  $('#year').textContent = new Date().getFullYear();
+  icons();
+})();
+</script>
+</body>
+</html>
